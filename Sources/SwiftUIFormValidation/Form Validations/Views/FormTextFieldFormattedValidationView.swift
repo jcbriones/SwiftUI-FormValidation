@@ -12,6 +12,19 @@ import Combine
 @available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormTextFieldFormattedValidationView<F>: FormValidationView where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<F.FormatInput?> = .constant(nil), formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+        self.header = header
+        self.leftFooterMessage = leftFooterMessage
+        self.rightFooterMessage = rightFooterMessage
+        self.isRequired = isRequired
+        self._value = value
+        self.formatter = formatter
+        self.imageName = imageName
+        self.placeholder = placeholder
+        self.trigger = trigger
+        self.validators = validators
+    }
+    
 
     // MARK: - Private Properties
 

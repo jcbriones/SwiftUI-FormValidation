@@ -12,6 +12,21 @@ import Combine
 @available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormTextViewValidationView: FormValidationView {
+    
+    // MARK: - Initializer
+    
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+        self.header = header
+        self.leftFooterMessage = leftFooterMessage
+        self.rightFooterMessage = rightFooterMessage
+        self.isRequired = isRequired
+        self._value = value
+        self.placeholder = placeholder
+        self.maxCharCount = maxCharCount
+        self.trigger = trigger
+        self.validators = validators
+    }
+    
 
     // MARK: - Private Properties
 

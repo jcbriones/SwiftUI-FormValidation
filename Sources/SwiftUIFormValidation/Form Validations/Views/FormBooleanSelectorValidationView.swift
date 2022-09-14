@@ -12,6 +12,20 @@ import Combine
 @available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormBooleanSelectorValidationView: FormValidationView {
+    
+    // MARK: - Initializer
+    
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Bool>, enabledText: String, disabledText: String, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+        self.header = header
+        self.leftFooterMessage = leftFooterMessage
+        self.rightFooterMessage = rightFooterMessage
+        self.isRequired = isRequired
+        self._value = value
+        self.enabledText = enabledText
+        self.disabledText = disabledText
+        self.trigger = trigger
+        self.validators = validators
+    }
 
     // MARK: - Private Properties
 

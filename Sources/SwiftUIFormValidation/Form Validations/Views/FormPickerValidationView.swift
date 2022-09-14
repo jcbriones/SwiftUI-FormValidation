@@ -12,6 +12,23 @@ import Combine
 @available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
+    
+    // MARK: - Initializer
+    
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?> = nil, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+        self.isEnabled = isEnabled
+        self.focused = focused
+        self.validationResult = validationResult
+        self.header = header
+        self.leftFooterMessage = leftFooterMessage
+        self.rightFooterMessage = rightFooterMessage
+        self.isRequired = isRequired
+        self._value = value
+        self.placeholder = placeholder
+        self.collection = collection
+        self.trigger = trigger
+        self.validators = validators
+    }
 
     // MARK: - Private Properties
 
