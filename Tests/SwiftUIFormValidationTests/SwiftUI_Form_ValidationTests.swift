@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftUI_Form_Validation
+@testable import SwiftUIFormValidation
 
 final class SwiftUI_Form_ValidationTests: XCTestCase {
     func testExample() throws {

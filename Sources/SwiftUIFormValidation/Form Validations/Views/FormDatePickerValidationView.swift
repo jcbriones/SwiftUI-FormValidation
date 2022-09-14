@@ -26,8 +26,8 @@ public struct FormDatePickerValidationView: FormValidationView {
     public var isRequired: Bool = false
     @Binding public var value: Date
 
-    var imageName: String?
-    var placeholder: LocalizedStringKey = ""
+    public var imageName: String?
+    public var placeholder: LocalizedStringKey = ""
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []

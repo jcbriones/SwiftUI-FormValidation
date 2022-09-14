@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormTextFieldFormattedValidationView<F>: FormValidationView where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
 
@@ -26,9 +27,9 @@ public struct FormTextFieldFormattedValidationView<F>: FormValidationView where 
     public var isRequired: Bool = false
     @Binding public var value: F.FormatInput?
 
-    var formatter: F
-    var imageName: String?
-    var placeholder: LocalizedStringKey = ""
+    public var formatter: F
+    public var imageName: String?
+    public var placeholder: LocalizedStringKey = ""
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []

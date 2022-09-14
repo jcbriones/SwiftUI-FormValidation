@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormPhotoValidationView: FormValidationView {
 
@@ -74,6 +75,7 @@ public struct FormPhotoValidationView: FormValidationView {
 }
 
 #if DEBUG
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormPhotoValidationView_Previews: PreviewProvider {
     @State private static var image: Image?

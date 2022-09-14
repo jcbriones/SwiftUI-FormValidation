@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
 
@@ -26,8 +27,8 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
     public var isRequired: Bool = false
     @Binding public var value: Item?
 
-    var placeholder: LocalizedStringKey
-    var collection: [Item]
+    public var placeholder: LocalizedStringKey
+    public var collection: [Item]
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []

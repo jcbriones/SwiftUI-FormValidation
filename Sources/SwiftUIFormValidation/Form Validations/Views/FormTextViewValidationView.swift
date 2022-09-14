@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormTextViewValidationView: FormValidationView {
 

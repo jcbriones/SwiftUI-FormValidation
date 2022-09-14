@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormTextFieldValidationView: FormValidationView {
 
@@ -26,8 +27,8 @@ public struct FormTextFieldValidationView: FormValidationView {
     public var isRequired: Bool = false
     @Binding public var value: String
 
-    var imageName: String?
-    var placeholder: LocalizedStringKey = ""
+    public var imageName: String?
+    public var placeholder: LocalizedStringKey = ""
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
@@ -38,7 +39,7 @@ public struct FormTextFieldValidationView: FormValidationView {
         createView(innerBody)
     }
 
-    var innerBody: some View {
+    public var innerBody: some View {
         HStack(spacing: 0) {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)

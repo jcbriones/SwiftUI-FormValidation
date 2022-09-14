@@ -25,7 +25,7 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
     public var isRequired: Bool = false
     @Binding public var value: [Item]
 
-    var collection: [Item]
+    public var collection: [Item]
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []

@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormBooleanSelectorValidationView: FormValidationView {
 
@@ -26,8 +27,8 @@ public struct FormBooleanSelectorValidationView: FormValidationView {
     public var isRequired: Bool = false
     @Binding public var value: Bool
 
-    var enabledText: String
-    var disabledText: String
+    public var enabledText: String
+    public var disabledText: String
 
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []

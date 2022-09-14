@@ -48,7 +48,38 @@ class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable 
 
     func validate(_ value: any Equatable) -> FormValidationResult {
         guard let value = value as? Number else { return .valid }
-
+        if let minWarning = minWarning, let maxWarning = maxWarning, let minError = minError, let maxError = maxError {
+            switch value {
+            case (...minError):
+                return .warning(message: "\(value) is less than \(minError).")
+            case (maxError...):
+                return .warning(message: "\(value) is greater than \(maxError).")
+            case (...minWarning):
+                return .warning(message: "\(value) is less than \(minWarning).")
+            case (maxWarning...):
+                return .warning(message: "\(value) is greater than \(maxWarning).")
+            default:
+                return .valid
+            }
+        } else if let minWarning = minWarning, let maxWarning = maxWarning {
+            switch value {
+            case (...minWarning):
+                return .warning(message: "\(value) is less than \(minWarning).")
+            case (maxWarning...):
+                return .warning(message: "\(value) is greater than \(maxWarning).")
+            default:
+                return .valid
+            }
+        } else if let minError = minError, let maxError = maxError {
+            switch value {
+            case (...minError):
+                return .warning(message: "\(value) is less than \(minError).")
+            case (maxError...):
+                return .warning(message: "\(value) is greater than \(maxError).")
+            default:
+                return .valid
+            }
+        }
         return .valid
     }
 }
