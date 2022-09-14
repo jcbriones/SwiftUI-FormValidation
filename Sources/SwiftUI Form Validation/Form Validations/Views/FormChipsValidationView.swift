@@ -9,30 +9,30 @@
 import SwiftUI
 import Combine
 
-struct FormChipValidationView<Item>: FormValidationView where Item: AnyChip {
+public struct FormChipValidationView<Item>: FormValidationView where Item: AnyChip {
 
     // MARK: - Private Properties
 
-    @Environment(\.isEnabled) var isEnabled: Bool
-    @State var focused: Bool = false
-    @State var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) public var isEnabled: Bool
+    @State public var focused: Bool = false
+    @State public var validationResult: FormValidationResult = .valid
     @State private var totalHeight = CGFloat.zero // Use .infinity if used in VStack
 
     // MARK: - Public Properties
-    let header: String
-    var leftFooterMessage: String = ""
-    var rightFooterMessage: String = ""
-    var isRequired: Bool = false
-    @Binding var value: [Item]
+    public let header: String
+    public var leftFooterMessage: String = ""
+    public var rightFooterMessage: String = ""
+    public var isRequired: Bool = false
+    @Binding public var value: [Item]
 
     var collection: [Item]
 
-    var trigger: AnyPublisher<Void, Never>?
-    var validators: [FormValidator] = []
+    public var trigger: AnyPublisher<Void, Never>?
+    public var validators: [FormValidator] = []
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         createView(innerBody)
     }
 
@@ -132,7 +132,7 @@ struct FormChipValidationView<Item>: FormValidationView where Item: AnyChip {
 
     // MARK: - Validator
 
-    func validate() {
+    public func validate() {
         validationResult = validators.validate(value)
     }
 

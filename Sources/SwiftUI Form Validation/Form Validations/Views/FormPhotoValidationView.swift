@@ -10,29 +10,29 @@ import SwiftUI
 import Combine
 
 @available(iOS 15.0, *)
-struct FormPhotoValidationView: FormValidationView {
+public struct FormPhotoValidationView: FormValidationView {
 
     // MARK: - Private Properties
 
-    @Environment(\.isEnabled) var isEnabled: Bool
-    @FocusState var focused: Bool
-    @State var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) public var isEnabled: Bool
+    @FocusState public var focused: Bool
+    @State public var validationResult: FormValidationResult = .valid
     @State private var showPicker: Bool = false
 
     // MARK: - Public Properties
 
-    let header: String
-    var leftFooterMessage: String = ""
-    var rightFooterMessage: String = ""
-    var isRequired: Bool = false
-    @Binding var value: Image?
+    public let header: String
+    public var leftFooterMessage: String = ""
+    public var rightFooterMessage: String = ""
+    public var isRequired: Bool = false
+    @Binding public var value: Image?
 
-    var trigger: AnyPublisher<Void, Never>?
-    var validators: [FormValidator] = []
+    public var trigger: AnyPublisher<Void, Never>?
+    public var validators: [FormValidator] = []
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         createView(innerBody)
     }
 
@@ -67,16 +67,18 @@ struct FormPhotoValidationView: FormValidationView {
 
     // MARK: - Validator
 
-    func validate() {
+    public func validate() {
         validationResult = validators.validate(value)
     }
 
 }
 
+#if DEBUG
 @available(iOS 15.0, *)
-struct FormPhotoValidationView_Previews: PreviewProvider {
+public struct FormPhotoValidationView_Previews: PreviewProvider {
     @State private static var image: Image?
-    static var previews: some View {
+    static public var previews: some View {
         FormPhotoValidationView(header: "Photos", value: $image)
     }
 }
+#endif

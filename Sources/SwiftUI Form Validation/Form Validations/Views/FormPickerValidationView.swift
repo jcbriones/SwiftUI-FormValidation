@@ -10,31 +10,31 @@ import SwiftUI
 import Combine
 
 @available(iOS 15.0, *)
-struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
+public struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
 
     // MARK: - Private Properties
 
-    @Environment(\.isEnabled) var isEnabled: Bool
-    @FocusState var focused: Bool
-    @State var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) public var isEnabled: Bool
+    @FocusState public var focused: Bool
+    @State public var validationResult: FormValidationResult = .valid
 
     // MARK: - Public Properties
 
-    let header: String
-    var leftFooterMessage: String = ""
-    var rightFooterMessage: String = ""
-    var isRequired: Bool = false
-    @Binding var value: Item?
+    public let header: String
+    public var leftFooterMessage: String = ""
+    public var rightFooterMessage: String = ""
+    public var isRequired: Bool = false
+    @Binding public var value: Item?
 
     var placeholder: LocalizedStringKey
     var collection: [Item]
 
-    var trigger: AnyPublisher<Void, Never>?
-    var validators: [FormValidator] = []
+    public var trigger: AnyPublisher<Void, Never>?
+    public var validators: [FormValidator] = []
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         createView(innerBody)
     }
 
@@ -81,7 +81,7 @@ struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
 
     // MARK: - Validator
 
-    func validate() {
+    public func validate() {
         validationResult = validators.validate(value)
     }
 

@@ -10,36 +10,36 @@ import SwiftUI
 import Combine
 
 @available(iOS 15.0, *)
-struct FormTextFieldFormattedValidationView<F>: FormValidationView where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+public struct FormTextFieldFormattedValidationView<F>: FormValidationView where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
 
     // MARK: - Private Properties
 
-    @Environment(\.isEnabled) var isEnabled: Bool
-    @FocusState var focused: Bool
-    @State var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) public var isEnabled: Bool
+    @FocusState public var focused: Bool
+    @State public var validationResult: FormValidationResult = .valid
 
     // MARK: - Public Properties
 
-    let header: String
-    var leftFooterMessage: String = ""
-    var rightFooterMessage: String = ""
-    var isRequired: Bool = false
-    @Binding var value: F.FormatInput?
+    public let header: String
+    public var leftFooterMessage: String = ""
+    public var rightFooterMessage: String = ""
+    public var isRequired: Bool = false
+    @Binding public var value: F.FormatInput?
 
     var formatter: F
     var imageName: String?
     var placeholder: LocalizedStringKey = ""
 
-    var trigger: AnyPublisher<Void, Never>?
-    var validators: [FormValidator] = []
+    public var trigger: AnyPublisher<Void, Never>?
+    public var validators: [FormValidator] = []
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         createView(innerBody)
     }
 
-    var innerBody: some View {
+    public var innerBody: some View {
         HStack(spacing: 0) {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
@@ -62,7 +62,7 @@ struct FormTextFieldFormattedValidationView<F>: FormValidationView where F: Pars
 
     // MARK: - Validator
 
-    func validate() {
+    public func validate() {
         validationResult = validators.validate(value)
     }
 

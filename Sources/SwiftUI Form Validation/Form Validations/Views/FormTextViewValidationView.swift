@@ -10,35 +10,35 @@ import SwiftUI
 import Combine
 
 @available(iOS 15.0, *)
-struct FormTextViewValidationView: FormValidationView {
+public struct FormTextViewValidationView: FormValidationView {
 
     // MARK: - Private Properties
 
-    @Environment(\.isEnabled) var isEnabled: Bool
-    @FocusState var focused: Bool
-    @State var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) public var isEnabled: Bool
+    @FocusState public var focused: Bool
+    @State public var validationResult: FormValidationResult = .valid
 
     // MARK: - Public Properties
 
-    let header: String
-    var leftFooterMessage: String = ""
-    var rightFooterMessage: String = ""
-    var isRequired: Bool = false
-    @Binding var value: String
+    public let header: String
+    public var leftFooterMessage: String = ""
+    public var rightFooterMessage: String = ""
+    public var isRequired: Bool = false
+    @Binding public var value: String
 
-    var placeholder: String = ""
-    var maxCharCount: Int?
+    public var placeholder: String = ""
+    public var maxCharCount: Int?
 
-    var trigger: AnyPublisher<Void, Never>?
-    var validators: [FormValidator] = []
+    public var trigger: AnyPublisher<Void, Never>?
+    public var validators: [FormValidator] = []
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         createView(innerBody)
     }
 
-    var innerBody: some View {
+    public var innerBody: some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
             .focused($focused)
@@ -76,7 +76,7 @@ struct FormTextViewValidationView: FormValidationView {
 
     // MARK: - Validator
 
-    func validate() {
+    public func validate() {
         validationResult = validators.validate(value)
     }
 
