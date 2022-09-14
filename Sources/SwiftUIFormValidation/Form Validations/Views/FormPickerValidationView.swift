@@ -15,10 +15,7 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?> = nil, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
-        self.isEnabled = isEnabled
-        self.focused = focused
-        self.validationResult = validationResult
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
