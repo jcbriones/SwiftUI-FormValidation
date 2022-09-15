@@ -62,13 +62,13 @@ public struct FormBooleanSelectorValidationView: FormValidationView {
                 withAnimation {
                     value = true
                 }
-            }.buttonStyle(FormPickerCapsuleButtonStyle())
+            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
                 .disabled(value)
             Button(disabledText) {
                 withAnimation {
                     value = false
                 }
-            }.buttonStyle(FormPickerCapsuleButtonStyle())
+            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
                 .disabled(!value)
         }.padding(.vertical, 5)
             .padding(.horizontal, 10)

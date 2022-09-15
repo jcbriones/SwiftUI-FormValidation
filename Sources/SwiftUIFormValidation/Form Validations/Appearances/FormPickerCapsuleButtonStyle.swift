@@ -9,13 +9,23 @@
 import SwiftUI
 
 struct FormPickerCapsuleButtonStyle: ButtonStyle {
+    internal init(appearance: FormValidationViewAppearanceProtocol? = nil) {
+        enabledFont = appearance?.titleHeaderFont ?? .body
+        disabledFont = appearance?.titleHeaderFont ?? .body
+        enabledForegroundColor = appearance?.inactiveTitleHeaderColor ?? .primary
+        enabledBorderColor = appearance?.inactiveBorderColor ?? .primary
+        disabledForegroundColor = .white
+        disabledBackgroundColor = appearance?.accentBackgroundColor ?? .accentColor
+    }
+    
     @Environment(\.isEnabled) private var isEnabled: Bool
-    var enabledFont: Font = .body
-    var disabledFont: Font = .body
-    var enabledForegroundColor: Color = .primary
-    var enabledBorderColor: Color = .primary
-    var disabledForegroundColor: Color = .white
-    var disabledBackgroundColor: Color = .accentColor
+    private let enabledFont: Font
+    private let disabledFont: Font
+    private let enabledForegroundColor: Color
+    private let enabledBorderColor: Color
+    private let disabledForegroundColor: Color
+    private let disabledBackgroundColor: Color
+    
     func makeBody(configuration: Configuration) -> some View {
         if isEnabled {
             configuration.label

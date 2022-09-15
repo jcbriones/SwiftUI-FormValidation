@@ -9,6 +9,8 @@
 import SwiftUI
 
 public struct FormValidationViewAppearance: FormValidationViewAppearanceProtocol {
+    public var accentBackgroundColor: Color { .accentColor }
+    
     public var enabledBackgroundColor: Color { .white }
     
     public var disabledBackgroundColor: Color { .gray.opacity(0.5) }

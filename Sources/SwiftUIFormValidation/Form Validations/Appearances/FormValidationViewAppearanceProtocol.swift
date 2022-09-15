@@ -12,6 +12,7 @@ public protocol FormValidationViewAppearanceProtocol {
     
     // MARK: - Colors
     
+    var accentBackgroundColor: Color { get }
     var enabledBackgroundColor: Color { get }
     var disabledBackgroundColor: Color { get }
     var activeTitleHeaderColor: Color { get }

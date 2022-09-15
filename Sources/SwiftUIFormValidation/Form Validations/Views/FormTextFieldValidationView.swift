@@ -63,7 +63,7 @@ public struct FormTextFieldValidationView: FormValidationView {
             }
             TextField(placeholder, text: $value)
                 .focused($focused)
-                .textFieldStyle(LandingTextFieldStyle())
+                .textFieldStyle(LandingTextFieldStyle(appearance: appearance))
                 .disabled(!isEnabled)
         }
         .overlay(alignment: .bottom) {
