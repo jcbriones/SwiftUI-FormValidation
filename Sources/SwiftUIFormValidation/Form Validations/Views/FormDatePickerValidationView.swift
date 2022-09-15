@@ -9,12 +9,13 @@
 import SwiftUI
 import Combine
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 public struct FormDatePickerValidationView: FormValidationView {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -24,34 +25,37 @@ public struct FormDatePickerValidationView: FormValidationView {
         self.placeholder = placeholder
         self.trigger = trigger
         self.validators = validators
+        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
-
+    
     @Environment(\.isEnabled) public var isEnabled: Bool
     @FocusState public var focused: Bool
     @State public var validationResult: FormValidationResult = .valid
-
+    
     // MARK: - Public Properties
-
+    
     public let header: String
     public var leftFooterMessage: String = ""
     public var rightFooterMessage: String = ""
     public var isRequired: Bool = false
     @Binding public var value: Date
-
+    
     public var imageName: String?
     public var placeholder: LocalizedStringKey = ""
-
+    
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
-
+    
+    public var appearance: FormValidationViewAppearanceProtocol
+    
     // MARK: - Body
-
+    
     public var body: some View {
         createView(innerBody)
     }
-
+    
     var innerBody: some View {
         HStack(spacing: 0) {
             if let imageName = imageName {
@@ -64,11 +68,11 @@ public struct FormDatePickerValidationView: FormValidationView {
                 .disabled(!isEnabled)
         }
     }
-
+    
     // MARK: - Validator
-
+    
     public func validate() {
         validationResult = validators.validate(value)
     }
-
+    
 }

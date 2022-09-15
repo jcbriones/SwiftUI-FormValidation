@@ -15,7 +15,7 @@ public struct FormTextViewValidationView: FormValidationView {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -25,35 +25,37 @@ public struct FormTextViewValidationView: FormValidationView {
         self.maxCharCount = maxCharCount
         self.trigger = trigger
         self.validators = validators
+        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
-
     // MARK: - Private Properties
-
+    
     @Environment(\.isEnabled) public var isEnabled: Bool
     @FocusState public var focused: Bool
     @State public var validationResult: FormValidationResult = .valid
-
+    
     // MARK: - Public Properties
-
+    
     public let header: String
     public var leftFooterMessage: String = ""
     public var rightFooterMessage: String = ""
     public var isRequired: Bool = false
     @Binding public var value: String
-
+    
     public var placeholder: String = ""
     public var maxCharCount: Int?
-
+    
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
-
+    
+    public var appearance: FormValidationViewAppearanceProtocol
+    
     // MARK: - Body
-
+    
     public var body: some View {
         createView(innerBody)
     }
-
+    
     public var innerBody: some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
@@ -89,11 +91,11 @@ public struct FormTextViewValidationView: FormValidationView {
                 UITextView.appearance().backgroundColor = .clear
             }
     }
-
+    
     // MARK: - Validator
-
+    
     public func validate() {
         validationResult = validators.validate(value)
     }
-
+    
 }

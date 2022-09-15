@@ -9,8 +9,6 @@
 import SwiftUI
 
 public struct FormValidationViewAppearance: FormValidationViewAppearanceProtocol {
-    static var shared  = FormValidationViewAppearance()
-    
     public var enabledBackgroundColor: Color { .white }
     
     public var disabledBackgroundColor: Color { .gray.opacity(0.5) }

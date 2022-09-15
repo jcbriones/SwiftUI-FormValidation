@@ -15,7 +15,7 @@ public struct FormPhotoValidationView: FormValidationView {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Image?>, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Image?>, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -23,32 +23,35 @@ public struct FormPhotoValidationView: FormValidationView {
         self._value = value
         self.trigger = trigger
         self.validators = validators
+        self.appearance = appearance ?? FormValidationViewAppearance()
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.isEnabled) public var isEnabled: Bool
     @FocusState public var focused: Bool
     @State public var validationResult: FormValidationResult = .valid
     @State private var showPicker: Bool = false
-
+    
     // MARK: - Public Properties
-
+    
     public let header: String
     public var leftFooterMessage: String = ""
     public var rightFooterMessage: String = ""
     public var isRequired: Bool = false
     @Binding public var value: Image?
-
+    
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
-
+    
+    public var appearance: FormValidationViewAppearanceProtocol
+    
     // MARK: - Body
-
+    
     public var body: some View {
         createView(innerBody)
     }
-
+    
     var innerBody: some View {
         Button {
             showPicker.toggle()
@@ -77,13 +80,13 @@ public struct FormPhotoValidationView: FormValidationView {
             ImagePicker(sourceType: .photoLibrary, selectedImage: self.$value)
         }
     }
-
+    
     // MARK: - Validator
-
+    
     public func validate() {
         validationResult = validators.validate(value)
     }
-
+    
 }
 
 #if DEBUG

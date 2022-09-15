@@ -15,7 +15,7 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -25,34 +25,37 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
         self.collection = collection
         self.trigger = trigger
         self.validators = validators
+        self.appearance = appearance ?? FormValidationViewAppearance()
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.isEnabled) public var isEnabled: Bool
     @FocusState public var focused: Bool
     @State public var validationResult: FormValidationResult = .valid
-
+    
     // MARK: - Public Properties
-
+    
     public let header: String
     public var leftFooterMessage: String = ""
     public var rightFooterMessage: String = ""
     public var isRequired: Bool = false
     @Binding public var value: Item?
-
+    
     public var placeholder: LocalizedStringKey
     public var collection: [Item]
-
+    
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
-
+    
+    public var appearance: FormValidationViewAppearanceProtocol
+    
     // MARK: - Body
-
+    
     public var body: some View {
         createView(innerBody)
     }
-
+    
     var innerBody: some View {
         Menu {
             ForEach(collection, id: \.id) { item in
@@ -93,11 +96,11 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
             }
         }
     }
-
+    
     // MARK: - Validator
-
+    
     public func validate() {
         validationResult = validators.validate(value)
     }
-
+    
 }

@@ -34,9 +34,6 @@ extension FormValidationView {
 
     public var requireFontColor: Color { .red }
     public var requireSymbol: String { " *" }
-    public var appearance: FormValidationViewAppearanceProtocol {
-        FormValidationViewAppearance()
-    }
 
     // MARK: - Public API
 

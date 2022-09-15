@@ -10,10 +10,10 @@ import SwiftUI
 import Combine
 
 public struct FormChipValidationView<Item>: FormValidationView where Item: AnyChip {
-
+    
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<[Item]>, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<[Item]>, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -22,33 +22,36 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
         self.collection = collection
         self.trigger = trigger
         self.validators = validators
+        self.appearance = appearance ?? FormValidationViewAppearance()
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.isEnabled) public var isEnabled: Bool
     @State public var focused: Bool = false
     @State public var validationResult: FormValidationResult = .valid
     @State private var totalHeight = CGFloat.zero // Use .infinity if used in VStack
-
+    
     // MARK: - Public Properties
     public let header: String
     public var leftFooterMessage: String = ""
     public var rightFooterMessage: String = ""
     public var isRequired: Bool = false
     @Binding public var value: [Item]
-
+    
     public var collection: [Item]
-
+    
     public var trigger: AnyPublisher<Void, Never>?
     public var validators: [FormValidator] = []
-
+    
+    public var appearance: FormValidationViewAppearanceProtocol
+    
     // MARK: - Body
-
+    
     public var body: some View {
         createView(innerBody)
     }
-
+    
     var innerBody: some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
@@ -68,7 +71,7 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
                                          width = 0
                                          height -= dimension.height
                                      }
-
+                                     
                                      let result = width
                                      if chip.id == value.last!.id && !isEnabled {
                                          width = 0
@@ -93,7 +96,7 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
                                     width = 0
                                     height -= dimension.height
                                 }
-
+                                
                                 let result = width
                                 width = 0
                                 return result
@@ -118,9 +121,9 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
                     .animation(.spring(), value: validationResult)
             )
     }
-
+    
     // MARK: - Private API
-
+    
     private func updateCorrectViewHeight(_ binding: Binding<CGFloat>) -> some View {
         return GeometryReader { geometry -> Color in
             let rect = geometry.frame(in: .local)
@@ -130,25 +133,25 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
             return .clear
         }
     }
-
+    
     private func addChip() {
-
+        
     }
-
+    
     // MARK: - Public API
-
+    
     private func remove(_ id: Item.ID) {
         withAnimation {
             value.removeAll { $0.id == id }
         }
     }
-
+    
     // MARK: - Validator
-
+    
     public func validate() {
         validationResult = validators.validate(value)
     }
-
+    
 }
 
 #if DEBUG
@@ -159,7 +162,7 @@ enum NumberChip: Int, CaseIterable, AnyChip {
     case fourth
     case fifth
     case sixth
-
+    
     var id: Int {
         rawValue
     }
