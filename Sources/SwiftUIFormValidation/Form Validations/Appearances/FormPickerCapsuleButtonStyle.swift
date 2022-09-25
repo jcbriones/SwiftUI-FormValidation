@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FormPickerCapsuleButtonStyle: ButtonStyle {
-    internal init(appearance: FormValidationViewAppearanceProtocol? = nil) {
+    internal init(appearance: FormValidationViewAppearance? = nil) {
         enabledFont = appearance?.titleHeaderFont ?? .body
         disabledFont = appearance?.titleHeaderFont ?? .body
         enabledForegroundColor = appearance?.inactiveTitleHeaderColor ?? .primary

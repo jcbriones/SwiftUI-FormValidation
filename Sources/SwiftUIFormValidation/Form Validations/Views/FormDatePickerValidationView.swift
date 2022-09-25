@@ -9,13 +9,11 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormDatePickerValidationView: FormValidationView {
+public struct FormDatePickerValidationView: FormValidationProtocol {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -25,38 +23,34 @@ public struct FormDatePickerValidationView: FormValidationView {
         self.placeholder = placeholder
         self.trigger = trigger
         self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
+    @Binding private var value: Date
     
-    // MARK: - Public Properties
+    private let imageName: String?
+    private let placeholder: LocalizedStringKey
     
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
-    @Binding public var value: Date
+    // MARK: - FormValidationProtocol Properties
     
-    public var imageName: String?
-    public var placeholder: LocalizedStringKey = ""
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let header: String
+    private let leftFooterMessage: String
+    private let rightFooterMessage: String
+    private let isRequired: Bool
+    private let trigger: AnyPublisher<Void, Never>?
+    private let validators: [FormValidator]
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
+        FormValidationView(header: header, leftFooterMessage: leftFooterMessage, rightFooterMessage: rightFooterMessage, isRequired: isRequired, value: $value, trigger: trigger, validators: validators, content: content)
     }
     
-    var innerBody: some View {
+    public func content(_ appearance: FormValidationViewAppearance) -> some View {
         HStack(spacing: 0) {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
@@ -67,12 +61,6 @@ public struct FormDatePickerValidationView: FormValidationView {
                 .focused($focused)
                 .disabled(!isEnabled)
         }
-    }
-    
-    // MARK: - Validator
-    
-    public func validate() {
-        validationResult = validators.validate(value)
     }
     
 }

@@ -95,14 +95,14 @@ struct DemoValidation: View {
                         .disabled(viewModel.textView1.isEmpty == true)
                     }
                     VStack(spacing: 8) {
-                        FormTextViewValidationView(header: "Text View example with validation",
+                        FormTextEditorValidationView(header: "Text View example with validation",
                                                    value: $viewModel.textView1,
                                                    placeholder: "Type in \"textview\" to throw error",
                                                    maxCharCount: 150,
                                                    trigger: viewModel.validatorGroup2.eraseToAnyPublisher(),
                                                    validators: [])
                         .disabled(!viewModel.textView2.isEmpty)
-                        FormTextViewValidationView(header: "Text View example with validation based on other field",
+                        FormTextEditorValidationView(header: "Text View example with validation based on other field",
                                                    value: $viewModel.textView2,
                                                    placeholder: "Type in \"uh-oh\" on the text field above and \"hello\" on this field to throw error",
                                                    trigger: viewModel.validatorGroup2.eraseToAnyPublisher())

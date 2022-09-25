@@ -9,11 +9,11 @@
 import SwiftUI
 import Combine
 
-public struct FormChipValidationView<Item>: FormValidationView where Item: AnyChip {
+public struct FormChipValidationView<Item>: FormValidationProtocol where Item: AnyChip {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<[Item]>, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<[Item]>, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -22,37 +22,34 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
         self.collection = collection
         self.trigger = trigger
         self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @State public var focused: Bool = false
-    @State public var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @State private var focused: Bool = false
+    @State private var validationResult: FormValidationResult = .valid
     @State private var totalHeight = CGFloat.zero // Use .infinity if used in VStack
+    @Binding private var value: [Item]
     
-    // MARK: - Public Properties
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
-    @Binding public var value: [Item]
+    private var collection: [Item]
     
-    public var collection: [Item]
+    // MARK: - FormValidationProtocol Properties
     
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let header: String
+    private let leftFooterMessage: String
+    private let rightFooterMessage: String
+    private let isRequired: Bool
+    private let trigger: AnyPublisher<Void, Never>?
+    private let validators: [FormValidator]
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
+        FormValidationView(header: header, leftFooterMessage: leftFooterMessage, rightFooterMessage: rightFooterMessage, isRequired: isRequired, value: $value, trigger: trigger, validators: validators, content: content)
     }
     
-    var innerBody: some View {
+    public func content(_ appearance: FormValidationViewAppearance) -> some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
         return VStack {
@@ -138,18 +135,10 @@ public struct FormChipValidationView<Item>: FormValidationView where Item: AnyCh
         
     }
     
-    // MARK: - Public API
-    
     private func remove(_ id: Item.ID) {
         withAnimation {
             value.removeAll { $0.id == id }
         }
-    }
-    
-    // MARK: - Validator
-    
-    public func validate() {
-        validationResult = validators.validate(value)
     }
     
 }

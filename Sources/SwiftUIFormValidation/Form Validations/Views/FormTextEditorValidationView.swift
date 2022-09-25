@@ -1,5 +1,5 @@
 //
-//  FormTextViewValidationView.swift
+//  FormTextEditorValidationView.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/27/22.
@@ -9,13 +9,11 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormTextViewValidationView: FormValidationView {
+public struct FormTextEditorValidationView: FormValidationProtocol {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -25,38 +23,34 @@ public struct FormTextViewValidationView: FormValidationView {
         self.maxCharCount = maxCharCount
         self.trigger = trigger
         self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
+    @Binding private var value: String
     
-    // MARK: - Public Properties
+    private let placeholder: String
+    private let maxCharCount: Int?
     
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
-    @Binding public var value: String
+    // MARK: - FormValidationProtocol Properties
     
-    public var placeholder: String = ""
-    public var maxCharCount: Int?
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let header: String
+    private let leftFooterMessage: String
+    private let rightFooterMessage: String
+    private let isRequired: Bool
+    private let trigger: AnyPublisher<Void, Never>?
+    private let validators: [FormValidator]
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
+        FormValidationView(header: header, leftFooterMessage: leftFooterMessage, rightFooterMessage: rightFooterMessage, isRequired: isRequired, value: $value, trigger: trigger, validators: validators, content: content)
     }
     
-    public var innerBody: some View {
+    public func content(_ appearance: FormValidationViewAppearance) -> some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
             .focused($focused)
@@ -90,12 +84,6 @@ public struct FormTextViewValidationView: FormValidationView {
             .onAppear {
                 UITextView.appearance().backgroundColor = .clear
             }
-    }
-    
-    // MARK: - Validator
-    
-    public func validate() {
-        validationResult = validators.validate(value)
     }
     
 }

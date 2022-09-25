@@ -1,5 +1,5 @@
 //
-//  FormValidationViewAppearanceProtocol.swift
+//  FormValidationViewAppearance.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 9/13/22.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public protocol FormValidationViewAppearanceProtocol {
+public protocol FormValidationViewAppearance {
     
     // MARK: - Colors
     
@@ -43,4 +43,12 @@ public protocol FormValidationViewAppearanceProtocol {
     var titleHeaderFont: Font { get }
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }
+}
+
+extension FormValidationViewAppearance where Self == DefaultFormValidationViewAppearance {
+    
+    /// The default style for the form view.
+    public static var `default`: DefaultFormValidationViewAppearance {
+        DefaultFormValidationViewAppearance()
+    }
 }

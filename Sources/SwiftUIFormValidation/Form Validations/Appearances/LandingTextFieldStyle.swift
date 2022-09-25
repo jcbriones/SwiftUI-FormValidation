@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct LandingTextFieldStyle: TextFieldStyle {
-    init(appearance: FormValidationViewAppearanceProtocol? = nil) {
+    init(appearance: FormValidationViewAppearance? = nil) {
         font = appearance?.textFieldFont ?? .body
     }
     

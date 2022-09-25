@@ -9,13 +9,11 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
+public struct FormPickerValidationView<Item>: FormValidationProtocol where Item: AnyChip {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
+    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
         self.header = header
         self.leftFooterMessage = leftFooterMessage
         self.rightFooterMessage = rightFooterMessage
@@ -25,38 +23,34 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
         self.collection = collection
         self.trigger = trigger
         self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
+    @Binding private var value: Item?
     
-    // MARK: - Public Properties
+    private let placeholder: LocalizedStringKey
+    private let collection: [Item]
     
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
-    @Binding public var value: Item?
+    // MARK: - FormValidationProtocol Properties
     
-    public var placeholder: LocalizedStringKey
-    public var collection: [Item]
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let header: String
+    private let leftFooterMessage: String
+    private let rightFooterMessage: String
+    private let isRequired: Bool
+    private let trigger: AnyPublisher<Void, Never>?
+    private let validators: [FormValidator]
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
+        FormValidationView(header: header, leftFooterMessage: leftFooterMessage, rightFooterMessage: rightFooterMessage, isRequired: isRequired, value: $value, trigger: trigger, validators: validators, content: content)
     }
     
-    var innerBody: some View {
+    public func content(_ appearance: FormValidationViewAppearance) -> some View {
         Menu {
             ForEach(collection, id: \.id) { item in
                 Button {
@@ -95,12 +89,6 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
                     .padding(.trailing, 10)
             }
         }
-    }
-    
-    // MARK: - Validator
-    
-    public func validate() {
-        validationResult = validators.validate(value)
     }
     
 }
