@@ -15,13 +15,11 @@ public protocol FormValidation {
     var isRequired: Bool { get set }
     var appearance: FormValidationViewAppearance { get set }
     
-    associatedtype ContentBody: View
+    associatedtype ContentBody: FormValidationContent
     var content: ContentBody { get }
 }
 
 extension FormValidation {
-
-    public var requireFontColor: Color { .red }
+    public var requireFontColor: Color { appearance.requiredFieldSymbolTextColor }
     public var requireSymbol: String { " *" }
-    
 }

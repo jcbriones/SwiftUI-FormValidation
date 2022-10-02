@@ -9,47 +9,29 @@
 import SwiftUI
 import Combine
 
-public struct FormChipValidationView<Item>: FormValidationProtocol where Item: AnyChip {
+public struct FormChipValidationView<Item>: FormValidationContent where Item: AnyChip {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<[Item]>, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = []) {
-        self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
-        self.isRequired = isRequired
+    public init(value: Binding<[Item]>, collection: [Item]) {
         self._value = value
         self.collection = collection
-        self.trigger = trigger
-        self.validators = validators
     }
     
     // MARK: - Private Properties
     
+    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.isEnabled) private var isEnabled: Bool
     @State private var focused: Bool = false
     @State private var validationResult: FormValidationResult = .valid
     @State private var totalHeight = CGFloat.zero // Use .infinity if used in VStack
-    @Binding private var value: [Item]
+    @Binding public var value: [Item]
     
     private var collection: [Item]
-    
-    // MARK: - FormValidationProtocol Properties
-    
-    private let header: String
-    private let leftFooterMessage: String
-    private let rightFooterMessage: String
-    private let isRequired: Bool
-    private let trigger: AnyPublisher<Void, Never>?
-    private let validators: [FormValidator]
     
     // MARK: - Body
     
     public var body: some View {
-        FormValidationView(header: header, leftFooterMessage: leftFooterMessage, rightFooterMessage: rightFooterMessage, isRequired: isRequired, value: $value, trigger: trigger, validators: validators, content: content)
-    }
-    
-    public func content(_ appearance: FormValidationViewAppearance) -> some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
         return VStack {
@@ -112,7 +94,7 @@ public struct FormChipValidationView<Item>: FormValidationProtocol where Item: A
         }.frame(maxWidth: .infinity, minHeight: totalHeight, alignment: .leading)
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .stroke(appearance.formValidationColor(focused: focused, validationResult: validationResult), lineWidth: focused ? 2 : 1.5)
+                    .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult), lineWidth: focused ? 2 : 1.5)
                     .background((isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor).cornerRadius(10))
                     .animation(.spring(), value: focused)
                     .animation(.spring(), value: validationResult)
@@ -176,7 +158,6 @@ enum NumberChip: Int, CaseIterable, AnyChip {
     }
 }
 
-@available(iOS 14.0, *)
 struct FormChipValidationView_Previews: PreviewProvider {
     @State static var currentValues: [NumberChip] = [.first, .second, .third, .fourth, .fifth, .fourth, .third, .second]
     static var previews: some View {
@@ -187,8 +168,7 @@ struct FormChipValidationView_Previews: PreviewProvider {
                         .font(.system(size: 18, weight: .light))
                         .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
                     VStack(spacing: 8) {
-                        FormChipValidationView(header: "Sample Chip Set",
-                                               value: $currentValues,
+                        FormChipValidationView(value: $currentValues,
                                                collection: NumberChip.allCases)
                     }.padding(.horizontal, 10)
                 }

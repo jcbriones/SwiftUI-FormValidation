@@ -20,10 +20,10 @@ public protocol FormValidationViewAppearance {
     var activeBorderColor: Color { get }
     var inactiveBorderColor: Color { get }
     var disabledBorderColor: Color { get }
-    var validBorderColor: Color { get }
     var infoBorderColor: Color { get }
     var warningBorderColor: Color { get }
     var errorBorderColor: Color { get }
+    var validDescriptionTextColor: Color { get }
     var infoDescriptionTextColor: Color { get }
     var warningDescriptionTextColor: Color { get }
     var errorDescriptionTextColor: Color { get }
@@ -34,8 +34,8 @@ public protocol FormValidationViewAppearance {
     var requiredFieldSymbolTextColor: Color { get }
     var imageIconColor: Color { get }
     
-    func validatedBorderColor(_ result: FormValidationResult) -> Color
-    func formValidationColor(focused: Bool, validationResult: FormValidationResult) -> Color
+    func formValidationBorderColor(focused: Bool, validationResult: FormValidationResult) -> Color
+    func formValidationDescriptionTextColor(validationResult: FormValidationResult) -> Color
     func formTextColor(focused: Bool, isEnabled: Bool) -> Color
     
     // MARK: - Font Styles

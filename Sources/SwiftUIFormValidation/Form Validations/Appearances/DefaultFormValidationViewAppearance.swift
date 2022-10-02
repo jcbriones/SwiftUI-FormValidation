@@ -25,13 +25,13 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
     
     public let disabledBorderColor: Color = .gray
     
-    public let validBorderColor: Color = .gray
-    
     public let infoBorderColor: Color = .blue
     
     public let warningBorderColor: Color = .yellow
     
     public let errorBorderColor: Color = .red
+    
+    public let validDescriptionTextColor: Color = .gray
     
     public let infoDescriptionTextColor: Color = .blue
     
@@ -51,10 +51,10 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
     
     public let imageIconColor: Color = .gray.opacity(0.8)
     
-    public func validatedBorderColor(_ result: FormValidationResult) -> Color {
-        switch result {
+    public func formValidationBorderColor(focused: Bool = false, validationResult: FormValidationResult = .valid) -> Color {
+        switch validationResult {
         case .valid:
-            return validBorderColor
+            return focused ? activeBorderColor : inactiveBorderColor
         case .info:
             return infoBorderColor
         case .warning:
@@ -64,9 +64,19 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
         }
     }
     
-    public func formValidationColor(focused: Bool = false, validationResult: FormValidationResult = .valid) -> Color {
-        validationResult != .valid ? validatedBorderColor(validationResult) : (focused ? activeBorderColor : inactiveBorderColor)
+    public func formValidationDescriptionTextColor(validationResult: FormValidationResult = .valid) -> Color {
+        switch validationResult {
+        case .valid:
+            return validDescriptionTextColor
+        case .info:
+            return infoDescriptionTextColor
+        case .warning:
+            return warningDescriptionTextColor
+        case .error:
+            return errorDescriptionTextColor
+        }
     }
+    
     public func formTextColor(focused: Bool = false, isEnabled: Bool = true) -> Color {
         focused ? activeTextColor : isEnabled ? inactiveTextColor : disabledTextColor
     }

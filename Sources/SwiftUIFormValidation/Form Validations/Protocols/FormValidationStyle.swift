@@ -13,6 +13,9 @@ public protocol FormValidationStyle {
     /// The type of view representing the body.
     associatedtype Body : View
     
+    /// The type of view representing the body.
+    associatedtype Content : FormValidationContent
+    
     /// Creates a view that represents the body of a type of form validation view.
     ///
     /// The system calls this method for each ``FormValidationView`` instance

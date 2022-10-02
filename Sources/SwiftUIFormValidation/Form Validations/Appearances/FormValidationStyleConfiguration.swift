@@ -8,29 +8,36 @@
 import SwiftUI
 import Combine
 
-public struct FormValidationStyleConfiguration : FormValidation {
+public struct FormValidationStyleConfiguration {
     
-    public typealias Appearance = FormValidationViewAppearance
+    public struct Content : FormValidationContent {
+        public typealias Value = Never
+        public var value: Never
+        
+        /// The type of view representing the body of this view.
+        ///
+        /// When you create a custom view, Swift infers this type from your
+        /// implementation of the required ``View/body-swift.property`` property.
+        public typealias Body = Never
+        public var body: Never
+    }
     
-    public typealias Body = any View
-    
-    public var isRequired: Bool
+    /// A view that describes the effect of pressing the button.
+    public let content: FormValidationStyleConfiguration.Content
 
-    public let content: some View
-    
-    public var appearance: Appearance
+    public var appearance: FormValidationViewAppearance
     
 }
 
 public struct DefaultFormValidationStyle : FormValidationStyle {
     
-    /// Creates a plain button style.
+    /// Creates a plain form validation style style.
     public init() { }
 
     /// Creates a view that represents the body of a form validation view.
     ///
-    /// The system calls this method for each ``FormValidationView`` instance in a view
-    /// hierarchy where this style is the current button style.
+    /// The system calls this method for each ``FormValidationView`` instance
+    /// in a view hierarchy where this style is the current form validation style.
     ///
     /// - Parameter configuration : The properties of the button.
     public func makeBody(configuration: DefaultFormValidationStyle.Configuration) -> some View {
@@ -52,21 +59,21 @@ public struct DefaultFormValidationStyle : FormValidationStyle {
                         .animation(.easeInOut(duration: 0.5), value: configuration.content.focused)
                 }
             }.accessibilityAddTraits([.isHeader])
-            AnyView(configuration.content)
+            configuration.content
                 .padding(.vertical, 3)
             HStack {
                 switch configuration.content.validationResult {
                 case .valid:
                     Text(configuration.content.leftFooterMessage)
                         .font(configuration.appearance.validatedDescriptionFont)
-                        .foregroundColor(configuration.appearance.formValidationColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
+                        .foregroundColor(configuration.appearance.formValidationBorderColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
                         .frame(minHeight: 15)
                         .animation(.easeInOut(duration: 0.5), value: configuration.content.validationResult)
                         .accessibilityHidden(configuration.content.leftFooterMessage.isEmpty)
                 case .info(let message), .warning(let message), .error(let message):
                     Text(message)
                         .font(configuration.appearance.validatedDescriptionFont)
-                        .foregroundColor(configuration.appearance.formValidationColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
+                        .foregroundColor(configuration.appearance.formValidationBorderColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
                         .frame(minHeight: 15)
                         .animation(.easeInOut(duration: 0.5), value: configuration.content.validationResult)
                 }
@@ -74,7 +81,7 @@ public struct DefaultFormValidationStyle : FormValidationStyle {
                 if !configuration.content.rightFooterMessage.isEmpty {
                     Text(configuration.content.rightFooterMessage)
                         .font(configuration.appearance.validatedDescriptionFont)
-                        .foregroundColor(configuration.appearance.formValidationColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
+                        .foregroundColor(configuration.appearance.formValidationBorderColor(focused: configuration.content.focused, validationResult: configuration.content.validationResult))
                         .frame(minHeight: 15)
                         .animation(.easeInOut(duration: 0.5), value: configuration.content.validationResult)
                 }
