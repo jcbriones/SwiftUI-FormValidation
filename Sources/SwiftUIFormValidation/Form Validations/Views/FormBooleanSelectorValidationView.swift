@@ -47,3 +47,11 @@ public struct FormBooleanSelectorValidationView: FormValidationContent {
             .padding(.horizontal, 10)
     }
 }
+
+extension FormValidationContent where Self == FormBooleanSelectorValidationView {
+    
+    /// New boolean form
+    public static func boolean(value: Binding<Bool>, enabledText: String, disabledText: String) -> FormBooleanSelectorValidationView {
+        FormBooleanSelectorValidationView(value: value, enabledText: enabledText, disabledText: disabledText)
+    }
+}

@@ -44,11 +44,3 @@ public protocol FormValidationViewAppearance {
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }
 }
-
-extension FormValidationViewAppearance where Self == DefaultFormValidationViewAppearance {
-    
-    /// The default style for the form view.
-    public static var `default`: DefaultFormValidationViewAppearance {
-        DefaultFormValidationViewAppearance()
-    }
-}

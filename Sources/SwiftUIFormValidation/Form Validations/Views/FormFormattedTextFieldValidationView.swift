@@ -1,5 +1,5 @@
 //
-//  FormTextFieldFormattedValidationView.swift
+//  FormFormattedTextFieldValidationView.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/25/22.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-public struct FormTextFieldFormattedValidationView<F>: FormValidationContent where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+public struct FormFormattedTextFieldValidationView<F>: FormValidationContent where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
     
     // MARK: - Initializer
     
@@ -40,8 +40,11 @@ public struct FormTextFieldFormattedValidationView<F>: FormValidationContent whe
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
             }
             TextField(placeholder, value: $value, format: formatter)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                .multilineTextAlignment(.leading)
+                .padding(5)
                 .focused($focused)
-                .textFieldStyle(LandingTextFieldStyle())
                 .disabled(!isEnabled)
         }
         .overlay(alignment: .bottom) {
@@ -55,4 +58,18 @@ public struct FormTextFieldFormattedValidationView<F>: FormValidationContent whe
         }
     }
     
+}
+
+extension FormValidationContent where Self == FormFormattedTextFieldValidationView<Value> {
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - formatter: <#formatter description#>
+    ///   - imageName: <#imageName description#>
+    ///   - placeholder: <#placeholder description#>
+    /// - Returns: <#description#>
+    public static func formattedTextField<F>(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable{
+        FormFormattedTextFieldValidationView(value: value, formatter: formatter, imageName: imageName, placeholder: placeholder)
+    }
 }

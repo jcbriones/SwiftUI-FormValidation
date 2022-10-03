@@ -38,8 +38,11 @@ public struct FormTextFieldValidationView: FormValidationContent {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
             }
             TextField(placeholder, text: $value)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                .multilineTextAlignment(.leading)
+                .padding(5)
                 .focused($focused)
-                .textFieldStyle(LandingTextFieldStyle(appearance: appearance))
                 .disabled(!isEnabled)
         }
         .overlay(alignment: .bottom) {
@@ -51,4 +54,17 @@ public struct FormTextFieldValidationView: FormValidationContent {
         }
     }
     
+}
+
+extension FormValidationContent where Self == FormTextFieldValidationView {
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - imageName: <#imageName description#>
+    ///   - placeholder: <#placeholder description#>
+    /// - Returns: <#description#>
+    public static func textField(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormTextFieldValidationView {
+        FormTextFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
+    }
 }

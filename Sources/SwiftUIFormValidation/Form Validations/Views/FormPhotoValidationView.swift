@@ -68,3 +68,11 @@ public struct FormPhotoValidationView_Previews: PreviewProvider {
     }
 }
 #endif
+
+extension FormValidationContent where Self == FormPhotoValidationView {
+    
+    /// New boolean form
+    public static func photo(value: Binding<Image?>) -> FormPhotoValidationView {
+        FormPhotoValidationView(value: value)
+    }
+}

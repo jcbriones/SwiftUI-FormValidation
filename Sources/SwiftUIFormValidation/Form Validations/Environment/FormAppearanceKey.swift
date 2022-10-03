@@ -17,9 +17,3 @@ extension EnvironmentValues {
         set { self[FormAppearanceKey.self] = newValue }
     }
 }
-
-extension View where Self : FormValidationContent {
-    func formAppearance(_ appearance: FormValidationViewAppearance) -> some View {
-        environment(\.formAppearance, appearance)
-    }
-}

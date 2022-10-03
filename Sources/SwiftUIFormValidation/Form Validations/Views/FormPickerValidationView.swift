@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-public struct FormPickerValidationView<Item>: FormValidationContent where Item: AnyChip {
+public struct FormPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
     
     // MARK: - Initializer
     
@@ -73,4 +73,17 @@ public struct FormPickerValidationView<Item>: FormValidationContent where Item: 
         }
     }
     
+}
+
+extension FormValidationContent where Self == FormPickerValidationView<Value> {
+    
+    /// A single item picker. An Item should be a valid member of the collection.
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   - collection: The set of items.
+    /// - Returns: <#description#>
+    public static func itemPicker<Item : AnyItem>(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) -> FormPickerValidationView<Item> {
+        FormPickerValidationView(value: value, placeholder: placeholder, collection: collection)
+    }
 }

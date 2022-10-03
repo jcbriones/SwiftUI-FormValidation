@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-public struct FormChipValidationView<Item>: FormValidationContent where Item: AnyChip {
+public struct FormChipValidationView<Item>: FormValidationContent where Item: AnyItem {
     
     // MARK: - Initializer
     
@@ -126,7 +126,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
 }
 
 #if DEBUG
-enum NumberChip: Int, CaseIterable, AnyChip {
+enum NumberChip: Int, CaseIterable, AnyItem {
     case first
     case second
     case third
@@ -177,3 +177,11 @@ struct FormChipValidationView_Previews: PreviewProvider {
     }
 }
 #endif
+
+extension FormValidationContent where Self == FormChipValidationView<Value> {
+    
+    /// New boolean form
+    public static func chip<Item : AnyItem>(value: Binding<[Item]>, collection: [Item]) -> FormChipValidationView<Item> {
+        FormChipValidationView(value: value, collection: collection)
+    }
+}
