@@ -9,54 +9,30 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormDatePickerValidationView: FormValidationView {
+public struct FormDatePickerValidationView: FormValidationContent {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "", trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
-        self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
-        self.isRequired = isRequired
+    public init(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
         self._value = value
         self.imageName = imageName
         self.placeholder = placeholder
-        self.trigger = trigger
-        self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
-    
-    // MARK: - Public Properties
-    
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
+    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: Date
     
-    public var imageName: String?
-    public var placeholder: LocalizedStringKey = ""
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let imageName: String?
+    private let placeholder: LocalizedStringKey
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
-    }
-    
-    var innerBody: some View {
         HStack(spacing: 0) {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
@@ -69,10 +45,12 @@ public struct FormDatePickerValidationView: FormValidationView {
         }
     }
     
-    // MARK: - Validator
+}
+
+extension FormValidationContent where Self == FormDatePickerValidationView {
     
-    public func validate() {
-        validationResult = validators.validate(value)
+    /// New boolean form
+    public static func datePicker(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormDatePickerValidationView {
+        FormDatePickerValidationView(value: value, imageName: imageName, placeholder: placeholder)
     }
-    
 }

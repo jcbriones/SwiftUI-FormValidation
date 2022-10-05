@@ -1,5 +1,5 @@
 //
-//  FormTextViewValidationView.swift
+//  FormTextEditorValidationView.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/27/22.
@@ -9,54 +9,30 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormTextViewValidationView: FormValidationView {
+public struct FormTextEditorValidationView: FormValidationContent {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
-        self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
-        self.isRequired = isRequired
+    public init(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) {
         self._value = value
         self.placeholder = placeholder
         self.maxCharCount = maxCharCount
-        self.trigger = trigger
-        self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
-    
-    // MARK: - Public Properties
-    
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
+    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: String
     
-    public var placeholder: String = ""
-    public var maxCharCount: Int?
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let placeholder: String
+    private let maxCharCount: Int?
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
-    }
-    
-    public var innerBody: some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
             .focused($focused)
@@ -70,7 +46,7 @@ public struct FormTextViewValidationView: FormValidationView {
             .keyboardType(.asciiCapable)
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .stroke(appearance.formValidationColor(focused: focused, validationResult: validationResult))
+                    .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                     .background((isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor).cornerRadius(10))
                     .animation(.spring(), value: focused)
                     .animation(.spring(), value: validationResult)
@@ -92,10 +68,17 @@ public struct FormTextViewValidationView: FormValidationView {
             }
     }
     
-    // MARK: - Validator
+}
+
+extension FormValidationContent where Self == FormTextEditorValidationView {
     
-    public func validate() {
-        validationResult = validators.validate(value)
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result. Set to `nil` to disable checking
+    /// - Returns: <#description#>
+    public static func textEditor(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(value: value, placeholder: placeholder, maxCharCount: maxCharCount)
     }
-    
 }

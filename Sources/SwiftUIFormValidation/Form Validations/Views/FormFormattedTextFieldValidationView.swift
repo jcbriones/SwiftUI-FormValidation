@@ -1,20 +1,21 @@
 //
-//  FormTextFieldValidationView.swift
+//  FormFormattedTextFieldValidationView.swift
 //  Recomdy
 //
-//  Created by Jc Briones on 8/27/22.
+//  Created by Jc Briones on 8/25/22.
 //  Copyright © 2022 Recomdy, LLC. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 
-public struct FormTextFieldValidationView: FormValidationContent {
-
+public struct FormFormattedTextFieldValidationView<F>: FormValidationContent where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+    
     // MARK: - Initializer
     
-    public init(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
+    public init(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
         self._value = value
+        self.formatter = formatter
         self.imageName = imageName
         self.placeholder = placeholder
     }
@@ -25,8 +26,9 @@ public struct FormTextFieldValidationView: FormValidationContent {
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @State private var validationResult: FormValidationResult = .valid
-    @Binding public var value: String
+    @Binding public var value: F.FormatInput?
     
+    private let formatter: F
     private let imageName: String?
     private let placeholder: LocalizedStringKey
     
@@ -37,7 +39,7 @@ public struct FormTextFieldValidationView: FormValidationContent {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
             }
-            TextField(placeholder, text: $value)
+            TextField(placeholder, value: $value, format: formatter)
                 .font(appearance.textFieldFont)
                 .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                 .multilineTextAlignment(.leading)
@@ -46,25 +48,28 @@ public struct FormTextFieldValidationView: FormValidationContent {
                 .disabled(!isEnabled)
         }
         .overlay(alignment: .bottom) {
-            Divider()
-                .frame(height: focused ? 2 : 1.5)
-                .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
-                .animation(.spring(), value: focused)
-                .animation(.spring(), value: validationResult)
+            if isEnabled {
+                Divider()
+                    .frame(height: focused ? 2 : 1.5)
+                    .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
+                    .animation(.spring(), value: focused)
+                    .animation(.spring(), value: validationResult)
+            }
         }
     }
     
 }
 
-extension FormValidationContent where Self == FormTextFieldValidationView {
+extension FormValidationContent where Value : ParseableFormatStyle, Value.FormatOutput == String, Value.FormatInput: Equatable {
     
     /// <#Description#>
     /// - Parameters:
     ///   - value: <#value description#>
+    ///   - formatter: <#formatter description#>
     ///   - imageName: <#imageName description#>
     ///   - placeholder: <#placeholder description#>
     /// - Returns: <#description#>
-    public static func textField(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
+    public static func formattedTextField<F>(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable{
+        FormFormattedTextFieldValidationView(value: value, formatter: formatter, imageName: imageName, placeholder: placeholder)
     }
 }

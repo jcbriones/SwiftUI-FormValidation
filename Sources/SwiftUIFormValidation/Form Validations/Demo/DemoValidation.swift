@@ -10,9 +10,8 @@ import SwiftUI
 import Combine
 
 #if DEBUG
-@available(iOS 15.0, *)
 struct DemoValidation: View {
-
+    
     @StateObject private var viewModel = DemoValidationViewModel()
     
     var body: some View {
@@ -23,97 +22,98 @@ struct DemoValidation: View {
                         .font(.headline)
                         .padding(.vertical, 20)
                     VStack(spacing: 8) {
-                        FormPickerValidationView(header: "Picker",
-                                                 value: $viewModel.selectedItem,
-                                                 placeholder: "Select",
-                                                 collection: NumberChip.allCases)
+                        FormValidationView(header: "Item Picker",
+                                           FormItemPickerValidationView(value: $viewModel.selectedItem,
+                                                       placeholder: "Select",
+                                                       collection: NumberChip.allCases))
                         .disabled(viewModel.textView2.isEmpty)
-                        FormDatePickerValidationView(header: "Date Picker",
-                                                     isRequired: true,
-                                                     value: $viewModel.date1,
-                                                     placeholder: "Pick a date and time")
+                        FormValidationView(header: "Date Picker",
+                                           .datePicker(value: $viewModel.date1,
+                                                       imageName: nil,
+                                                       placeholder: "Pick a date and time"))
+                        .disabled(viewModel.textView2.isEmpty)
                     }
                     VStack(spacing: 8) {
-                        FormBooleanSelectorValidationView(header: "Boolean Selector",
-                                                          isRequired: false,
-                                                          value: $viewModel.boolean,
-                                                          enabledText: "If True",
-                                                          disabledText: "If False")
-                        FormTextFieldFormattedValidationView(header: "Date Formatted Required",
-                                                             isRequired: true,
-                                                             value: $viewModel.date2,
-                                                             formatter: .dateTime,
-                                                             placeholder: "Write a text and remove it")
+                        FormValidationView(header: "Boolean Selector",
+                                           isRequired: false,
+                                           .boolean(value: $viewModel.boolean,
+                                                    enabledText: "If True",
+                                                    disabledText: "If False"))
+                        FormValidationView(header: "Date Formatted Required",
+                                           isRequired: true,
+                                           FormFormattedTextFieldValidationView(value: $viewModel.date2,
+                                                               formatter: .dateTime,
+                                                               placeholder: "Write a text and remove it"))
                         HStack(alignment: .top, spacing: 8) {
-                            FormTextFieldFormattedValidationView(header: "Number Formatted Required",
-                                                                 isRequired: true,
-                                                                 value: $viewModel.text1,
-                                                                 formatter: .number,
-                                                                 placeholder: "Write a text and remove it")
+                            FormValidationView(header: "Number Formatted Required",
+                                               isRequired: true,
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text1,
+                                                                   formatter: .number,
+                                                                   placeholder: "Write a text and remove it"))
                             .disabled(viewModel.textView2.isEmpty)
                             if #available(iOS 16.0, *) {
-                                FormTextFieldFormattedValidationView(header: "URL Formatted Required",
-                                                                     isRequired: true,
-                                                                     value: $viewModel.text3,
-                                                                     formatter: .url,
-                                                                     placeholder: "Write a text and remove it")
+                                FormValidationView(header: "URL Formatted Required",
+                                                   isRequired: true,
+                                                   FormFormattedTextFieldValidationView(value: $viewModel.text3,
+                                                                       formatter: .url,
+                                                                       placeholder: "Write a text and remove it"))
                             }
                         }
                         HStack(alignment: .top, spacing: 8) {
-                            FormTextFieldFormattedValidationView(header: "Monetary (Fixed)",
-                                                                 leftFooterMessage: "Valid: 1 - 1000",
-                                                                 value: $viewModel.minMax1,
-                                                                 formatter: .currency(code: "USD").precision(.fractionLength(0)),
-                                                                 placeholder: "$",
-                                                                 trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
-                                                                 validators: [])
-                            FormTextFieldFormattedValidationView(header: "Monetary (2 Digit Fraction)",
-                                                                 leftFooterMessage: "Valid: 100 - 800",
-                                                                 value: $viewModel.minMax2,
-                                                                 formatter: .currency(code: "USD").precision(.fractionLength(2)),
-                                                                 placeholder: "$",
-                                                                 trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
-                                                                 validators: [])
+                            FormValidationView(header: "Monetary (Fixed)",
+                                               footerMessage: "Valid: 1 - 1000",
+                                               trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
+                                               validators: [],
+                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax1,
+                                                                   formatter: .currency(code: "USD").precision(.fractionLength(0)),
+                                                                   placeholder: "$"))
+                            FormValidationView(header: "Monetary (2 Digit Fraction)",
+                                               footerMessage: "Valid: 100 - 800",
+                                               trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
+                                               validators: [],
+                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax2,
+                                                                   formatter: .currency(code: "USD").precision(.fractionLength(2)),
+                                                                   placeholder: "$"))
                         }
                         HStack(alignment: .top, spacing: 8) {
-                            FormTextFieldFormattedValidationView(header: "Percentage",
-                                                                 leftFooterMessage: "No Limit Range",
-                                                                 value: $viewModel.text5,
-                                                                 formatter: .percent,
-                                                                 placeholder: "%")
-                            FormTextFieldFormattedValidationView(header: "Percentage (2 Decimal Places)",
-                                                                 leftFooterMessage: "Enter from 0.0 to 100.0",
-                                                                 value: $viewModel.text5,
-                                                                 formatter: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
-                                                                 placeholder: "%")
+                            FormValidationView(header: "Percentage",
+                                               footerMessage: "No Limit Range",
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
+                                                                   formatter: .percent,
+                                                                   placeholder: "%"))
+                            FormValidationView(header: "Percentage (2 Decimal Places)",
+                                               footerMessage: "Enter from 0.0 to 100.0",
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
+                                                                   formatter: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
+                                                                   placeholder: "%"))
                         }
                     }
                     VStack(spacing: 8) {
-                        FormChipValidationView(header: "Sample Chip Set",
-                                               value: $viewModel.selectedChips,
-                                               collection: NumberChip.allCases)
+                        FormValidationView(header: "Sample Chip Set",
+                                           FormChipValidationView(value: $viewModel.selectedChips,
+                                                 collection: NumberChip.allCases))
                         .disabled(viewModel.textView1.isEmpty == true)
                     }
                     VStack(spacing: 8) {
-                        FormTextViewValidationView(header: "Text View example with validation",
-                                                   value: $viewModel.textView1,
-                                                   placeholder: "Type in \"textview\" to throw error",
-                                                   maxCharCount: 150,
-                                                   trigger: viewModel.validatorGroup2.eraseToAnyPublisher(),
-                                                   validators: [])
+                        FormValidationView(header: "Text View example with validation",
+                                           trigger: viewModel.validatorGroup2.eraseToAnyPublisher(),
+                                           validators: [],
+                                           .textEditor(value: $viewModel.textView1,
+                                                       placeholder: "Type in \"textview\" to throw error",
+                                                       maxCharCount: 150))
                         .disabled(!viewModel.textView2.isEmpty)
-                        FormTextViewValidationView(header: "Text View example with validation based on other field",
-                                                   value: $viewModel.textView2,
-                                                   placeholder: "Type in \"uh-oh\" on the text field above and \"hello\" on this field to throw error",
-                                                   trigger: viewModel.validatorGroup2.eraseToAnyPublisher())
+                        FormValidationView(header: "Text View example with validation based on other field",
+                                           trigger: viewModel.validatorGroup2.eraseToAnyPublisher(),
+                                           .textEditor(value: $viewModel.textView2,
+                                                       placeholder: "Type in \"uh-oh\" on the text field above and \"hello\" on this field to throw error"))
                         .disabled(!viewModel.textView1.isEmpty)
                     }
                 }
                 .padding(.horizontal, 20)
             }
         }
-            .navigationBarTitle("Validations")
-            .background(Color.white)
+        .navigationBarTitle("Validations")
+        .background(Color.white)
     }
 }
 
@@ -142,7 +142,7 @@ class DemoValidationViewModel: ObservableObject {
             validatorGroup2.send()
         }
     }
-
+    
     @State var date1: Date = Date()
     @State var date2: Date? = Date()
     @State var text1: Double? = 0
@@ -154,7 +154,6 @@ class DemoValidationViewModel: ObservableObject {
     @State var boolean: Bool = false
 }
 
-@available(iOS 15.0, *)
 struct DemoValidation_Previews: PreviewProvider {
     static var previews: some View {
         DemoValidation()

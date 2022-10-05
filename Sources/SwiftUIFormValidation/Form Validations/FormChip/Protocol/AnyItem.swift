@@ -1,5 +1,5 @@
 //
-//  AnyChip.swift
+//  AnyItem.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/27/22.
@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-public protocol AnyChip: Identifiable, Equatable {
+public protocol AnyItem: Identifiable, Equatable {
     var systemImage: String? { get }
     var titleKey: LocalizedStringKey { get }
 }

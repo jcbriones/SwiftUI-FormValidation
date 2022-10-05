@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 public struct ChipView: View {
-    var appearance: FormValidationViewAppearanceProtocol
+    var appearance: FormValidationViewAppearance
 
     @Environment(\.isFocused) private var isFocused: Bool
     @Environment(\.isEnabled) private var isEnabled: Bool

@@ -1,5 +1,5 @@
 //
-//  FormPickerValidationView.swift
+//  FormItemPickerValidationView.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/27/22.
@@ -9,54 +9,30 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormPickerValidationView<Item>: FormValidationView where Item: AnyChip {
+public struct FormItemPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item], trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
-        self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
-        self.isRequired = isRequired
+    public init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
         self._value = value
         self.placeholder = placeholder
         self.collection = collection
-        self.trigger = trigger
-        self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
-    
-    // MARK: - Public Properties
-    
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
+    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    @Environment(\.isEnabled) private var isEnabled: Bool
+    @FocusState private var focused: Bool
+    @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: Item?
     
-    public var placeholder: LocalizedStringKey
-    public var collection: [Item]
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let placeholder: LocalizedStringKey
+    private let collection: [Item]
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
-    }
-    
-    var innerBody: some View {
         Menu {
             ForEach(collection, id: \.id) { item in
                 Button {
@@ -82,7 +58,7 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
             if isEnabled {
                 Divider()
                     .frame(height: focused ? 2 : 1.5)
-                    .background(appearance.formValidationColor(focused: focused, validationResult: validationResult))
+                    .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                     .animation(.spring(), value: focused)
                     .animation(.spring(), value: validationResult)
             }
@@ -97,10 +73,17 @@ public struct FormPickerValidationView<Item>: FormValidationView where Item: Any
         }
     }
     
-    // MARK: - Validator
+}
+
+extension FormValidationContent where Value : AnyItem {
     
-    public func validate() {
-        validationResult = validators.validate(value)
+    /// A single item picker. An Item should be a valid member of the collection.
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   - collection: The set of items.
+    /// - Returns: <#description#>
+    public static func itemPicker<Item : AnyItem>(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) -> FormItemPickerValidationView<Item> {
+        FormItemPickerValidationView(value: value, placeholder: placeholder, collection: collection)
     }
-    
 }

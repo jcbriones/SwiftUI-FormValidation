@@ -23,13 +23,10 @@ class RequiredFieldValidator: FormValidator {
     // MARK: - FormValidator Protocol
 
     func validate(_ value: any Equatable) -> FormValidationResult {
-        if let value = value as? String, value.count == 0 {
+        if let value = value as? String?, (value ?? "").count == 0 {
             return .error(message: "\(fieldName) is required.")
         }
         if let value = value as? [Any], value.count == 0 {
-            return .error(message: "\(fieldName) is required.")
-        }
-        if value == nil { // TODO: For formatted form text field
             return .error(message: "\(fieldName) is required.")
         }
         return .valid

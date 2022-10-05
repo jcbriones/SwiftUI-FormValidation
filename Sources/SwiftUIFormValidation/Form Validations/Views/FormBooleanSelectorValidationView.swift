@@ -9,54 +9,27 @@
 import SwiftUI
 import Combine
 
-@available(macOS 12.0, *)
-@available(iOS 15.0, *)
-public struct FormBooleanSelectorValidationView: FormValidationView {
+public struct FormBooleanSelectorValidationView: FormValidationContent {
     
     // MARK: - Initializer
     
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, value: Binding<Bool>, enabledText: String, disabledText: String, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], appearance: FormValidationViewAppearanceProtocol? = nil) {
-        self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
-        self.isRequired = isRequired
+    public init(value: Binding<Bool>, enabledText: String, disabledText: String) {
         self._value = value
         self.enabledText = enabledText
         self.disabledText = disabledText
-        self.trigger = trigger
-        self.validators = validators
-        self.appearance = appearance ?? FormValidationViewAppearance()
     }
     
     // MARK: - Private Properties
     
-    @Environment(\.isEnabled) public var isEnabled: Bool
-    @FocusState public var focused: Bool
-    @State public var validationResult: FormValidationResult = .valid
-    
-    // MARK: - Public Properties
-    
-    public let header: String
-    public var leftFooterMessage: String = ""
-    public var rightFooterMessage: String = ""
-    public var isRequired: Bool = false
+    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Binding public var value: Bool
     
-    public var enabledText: String
-    public var disabledText: String
-    
-    public var trigger: AnyPublisher<Void, Never>?
-    public var validators: [FormValidator] = []
-    
-    public var appearance: FormValidationViewAppearanceProtocol
+    private let enabledText: String
+    private let disabledText: String
     
     // MARK: - Body
     
     public var body: some View {
-        createView(innerBody)
-    }
-    
-    var innerBody: some View {
         HStack {
             Button(enabledText) {
                 withAnimation {
@@ -73,11 +46,12 @@ public struct FormBooleanSelectorValidationView: FormValidationView {
         }.padding(.vertical, 5)
             .padding(.horizontal, 10)
     }
+}
+
+extension FormValidationContent where Self == FormBooleanSelectorValidationView {
     
-    // MARK: - Validator
-    
-    public func validate() {
-        validationResult = validators.validate(value)
+    /// New boolean form
+    public static func boolean(value: Binding<Bool>, enabledText: String, disabledText: String) -> FormBooleanSelectorValidationView {
+        FormBooleanSelectorValidationView(value: value, enabledText: enabledText, disabledText: disabledText)
     }
-    
 }
