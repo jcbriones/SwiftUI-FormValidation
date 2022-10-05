@@ -11,10 +11,9 @@ import Combine
 public struct FormValidationView<Content> : View where Content : FormValidationContent {
     
     // MARK: - Initializer
-    public init(header: String, leftFooterMessage: String = "", rightFooterMessage: String = "", isRequired: Bool = false, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], _ contentType: Content) {
+    public init(header: String, footerMessage: String = "", isRequired: Bool = false, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], _ contentType: Content) {
         self.header = header
-        self.leftFooterMessage = leftFooterMessage
-        self.rightFooterMessage = rightFooterMessage
+        self.footerMessage = footerMessage
         self.isRequired = isRequired
         self.trigger = trigger
         self.validators = validators
@@ -33,8 +32,8 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
     // MARK: - Form Validation Properties
 
     private var header: String
-    private var leftFooterMessage: String
-    private var rightFooterMessage: String
+    private var footerMessage: String
+    @State private var trailingFooter: String = ""
     private var isRequired: Bool
 
     private var trigger: AnyPublisher<Void, Never>?
@@ -67,12 +66,12 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
             HStack {
                 switch validationResult {
                 case .valid:
-                    Text(leftFooterMessage)
+                    Text(footerMessage)
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)
                         .animation(.easeInOut(duration: 0.5), value: validationResult)
-                        .accessibilityHidden(leftFooterMessage.isEmpty)
+                        .accessibilityHidden(footerMessage.isEmpty)
                 case .info(let message), .warning(let message), .error(let message):
                     Text(message)
                         .font(appearance.validatedDescriptionFont)
@@ -81,8 +80,8 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
                         .animation(.easeInOut(duration: 0.5), value: validationResult)
                 }
                 Spacer()
-                if !rightFooterMessage.isEmpty {
-                    Text(rightFooterMessage)
+                if !trailingFooter.isEmpty {
+                    Text(trailingFooter)
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)

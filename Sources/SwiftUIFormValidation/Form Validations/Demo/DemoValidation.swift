@@ -23,7 +23,7 @@ struct DemoValidation: View {
                         .padding(.vertical, 20)
                     VStack(spacing: 8) {
                         FormValidationView(header: "Item Picker",
-                                           .itemPicker(value: $viewModel.selectedItem,
+                                           FormItemPickerValidationView(value: $viewModel.selectedItem,
                                                        placeholder: "Select",
                                                        collection: NumberChip.allCases))
                         .disabled(viewModel.textView2.isEmpty)
@@ -41,56 +41,56 @@ struct DemoValidation: View {
                                                     disabledText: "If False"))
                         FormValidationView(header: "Date Formatted Required",
                                            isRequired: true,
-                                           .formattedTextField(value: $viewModel.date2,
+                                           FormFormattedTextFieldValidationView(value: $viewModel.date2,
                                                                formatter: .dateTime,
                                                                placeholder: "Write a text and remove it"))
                         HStack(alignment: .top, spacing: 8) {
                             FormValidationView(header: "Number Formatted Required",
                                                isRequired: true,
-                                               .formattedTextField(value: $viewModel.text1,
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text1,
                                                                    formatter: .number,
                                                                    placeholder: "Write a text and remove it"))
                             .disabled(viewModel.textView2.isEmpty)
                             if #available(iOS 16.0, *) {
                                 FormValidationView(header: "URL Formatted Required",
                                                    isRequired: true,
-                                                   .formattedTextField(value: $viewModel.text3,
+                                                   FormFormattedTextFieldValidationView(value: $viewModel.text3,
                                                                        formatter: .url,
                                                                        placeholder: "Write a text and remove it"))
                             }
                         }
                         HStack(alignment: .top, spacing: 8) {
                             FormValidationView(header: "Monetary (Fixed)",
-                                               leftFooterMessage: "Valid: 1 - 1000",
+                                               footerMessage: "Valid: 1 - 1000",
                                                trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
                                                validators: [],
-                                               .formattedTextField(value: $viewModel.minMax1,
+                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax1,
                                                                    formatter: .currency(code: "USD").precision(.fractionLength(0)),
                                                                    placeholder: "$"))
                             FormValidationView(header: "Monetary (2 Digit Fraction)",
-                                               leftFooterMessage: "Valid: 100 - 800",
+                                               footerMessage: "Valid: 100 - 800",
                                                trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
                                                validators: [],
-                                               .formattedTextField(value: $viewModel.minMax2,
+                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax2,
                                                                    formatter: .currency(code: "USD").precision(.fractionLength(2)),
                                                                    placeholder: "$"))
                         }
                         HStack(alignment: .top, spacing: 8) {
                             FormValidationView(header: "Percentage",
-                                               leftFooterMessage: "No Limit Range",
-                                               .formattedTextField(value: $viewModel.text5,
+                                               footerMessage: "No Limit Range",
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
                                                                    formatter: .percent,
                                                                    placeholder: "%"))
                             FormValidationView(header: "Percentage (2 Decimal Places)",
-                                               leftFooterMessage: "Enter from 0.0 to 100.0",
-                                               .formattedTextField(value: $viewModel.text5,
+                                               footerMessage: "Enter from 0.0 to 100.0",
+                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
                                                                    formatter: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
                                                                    placeholder: "%"))
                         }
                     }
                     VStack(spacing: 8) {
                         FormValidationView(header: "Sample Chip Set",
-                                           .chip(value: $viewModel.selectedChips,
+                                           FormChipValidationView(value: $viewModel.selectedChips,
                                                  collection: NumberChip.allCases))
                         .disabled(viewModel.textView1.isEmpty == true)
                     }

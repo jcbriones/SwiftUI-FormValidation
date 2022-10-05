@@ -1,5 +1,5 @@
 //
-//  FormPickerValidationView.swift
+//  FormItemPickerValidationView.swift
 //  Recomdy
 //
 //  Created by Jc Briones on 8/27/22.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-public struct FormPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
+public struct FormItemPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
     
     // MARK: - Initializer
     
@@ -75,7 +75,7 @@ public struct FormPickerValidationView<Item>: FormValidationContent where Item: 
     
 }
 
-extension FormValidationContent where Self == FormPickerValidationView<Value> {
+extension FormValidationContent where Value : AnyItem {
     
     /// A single item picker. An Item should be a valid member of the collection.
     /// - Parameters:
@@ -83,7 +83,7 @@ extension FormValidationContent where Self == FormPickerValidationView<Value> {
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - collection: The set of items.
     /// - Returns: <#description#>
-    public static func itemPicker<Item : AnyItem>(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) -> FormPickerValidationView<Item> {
-        FormPickerValidationView(value: value, placeholder: placeholder, collection: collection)
+    public static func itemPicker<Item : AnyItem>(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) -> FormItemPickerValidationView<Item> {
+        FormItemPickerValidationView(value: value, placeholder: placeholder, collection: collection)
     }
 }

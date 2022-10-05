@@ -60,7 +60,7 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
     
 }
 
-extension FormValidationContent where Self == FormFormattedTextFieldValidationView<Value> {
+extension FormValidationContent where Value : ParseableFormatStyle, Value.FormatOutput == String, Value.FormatInput: Equatable {
     
     /// <#Description#>
     /// - Parameters:

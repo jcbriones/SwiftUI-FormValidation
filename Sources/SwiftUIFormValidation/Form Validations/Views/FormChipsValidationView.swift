@@ -178,7 +178,7 @@ struct FormChipValidationView_Previews: PreviewProvider {
 }
 #endif
 
-extension FormValidationContent where Self == FormChipValidationView<Value> {
+extension FormValidationContent where Value : AnyItem {
     
     /// New boolean form
     public static func chip<Item : AnyItem>(value: Binding<[Item]>, collection: [Item]) -> FormChipValidationView<Item> {
