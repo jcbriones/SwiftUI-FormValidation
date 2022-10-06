@@ -11,8 +11,8 @@ public struct FormAppearanceKey: EnvironmentKey {
     public static let defaultValue: FormValidationViewAppearance = .default
 }
 
-extension EnvironmentValues {
-    public var formAppearance: FormValidationViewAppearance {
+public extension EnvironmentValues {
+    var formAppearance: FormValidationViewAppearance {
         get { self[FormAppearanceKey.self] }
         set { self[FormAppearanceKey.self] = newValue }
     }

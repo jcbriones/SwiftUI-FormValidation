@@ -70,15 +70,14 @@ public struct FormTextEditorValidationView: FormValidationContent {
     
 }
 
-extension FormValidationContent where Self == FormTextEditorValidationView {
+public extension FormValidationContent where Self == FormTextEditorValidationView {
     
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
-    ///   - value: <#value description#>
+    ///   - value: The text to display
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result. Set to `nil` to disable checking
-    /// - Returns: <#description#>
-    public static func textEditor(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
+    static func textEditor(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
         FormTextEditorValidationView(value: value, placeholder: placeholder, maxCharCount: maxCharCount)
     }
 }

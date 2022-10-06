@@ -60,16 +60,15 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
     
 }
 
-extension FormValidationContent where Value : ParseableFormatStyle, Value.FormatOutput == String, Value.FormatInput: Equatable {
+public extension FormValidationContent {
     
-    /// <#Description#>
+    /// Allows to format the text of the text field after resigning from responder.
     /// - Parameters:
-    ///   - value: <#value description#>
-    ///   - formatter: <#formatter description#>
-    ///   - imageName: <#imageName description#>
-    ///   - placeholder: <#placeholder description#>
-    /// - Returns: <#description#>
-    public static func formattedTextField<F>(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable{
+    ///   - value: The text to display
+    ///   - formatter: The formatter to use to format the text.
+    ///   - imageName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    static func formattedTextField<F>(value: Binding<Value>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable, Value == F.FormatInput?, Self == FormFormattedTextFieldValidationView<F> {
         FormFormattedTextFieldValidationView(value: value, formatter: formatter, imageName: imageName, placeholder: placeholder)
     }
 }

@@ -27,8 +27,8 @@ public enum FormValidationResult: Equatable {
     }
 }
 
-extension FormValidationResult {
-    public var isValid: Bool {
+public extension FormValidationResult {
+    var isValid: Bool {
         (self ~== .valid) || (self ~== .info(message: "")) || (self ~== .warning(message: ""))
     }
 }

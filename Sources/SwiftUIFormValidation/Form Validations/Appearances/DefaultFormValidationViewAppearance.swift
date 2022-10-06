@@ -90,10 +90,10 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
     public init() { }
 }
 
-extension FormValidationViewAppearance where Self == DefaultFormValidationViewAppearance {
+public extension FormValidationViewAppearance where Self == DefaultFormValidationViewAppearance {
     
     /// The default style for the form view.
-    public static var `default`: DefaultFormValidationViewAppearance {
+    static var `default`: DefaultFormValidationViewAppearance {
         DefaultFormValidationViewAppearance()
     }
 }

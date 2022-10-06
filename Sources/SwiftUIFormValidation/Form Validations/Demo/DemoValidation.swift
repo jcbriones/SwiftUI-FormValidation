@@ -23,7 +23,7 @@ struct DemoValidation: View {
                         .padding(.vertical, 20)
                     VStack(spacing: 8) {
                         FormValidationView(header: "Item Picker",
-                                           FormItemPickerValidationView(value: $viewModel.selectedItem,
+                                           .itemPicker(value: $viewModel.selectedItem,
                                                        placeholder: "Select",
                                                        collection: NumberChip.allCases))
                         .disabled(viewModel.textView2.isEmpty)
@@ -41,20 +41,20 @@ struct DemoValidation: View {
                                                     disabledText: "If False"))
                         FormValidationView(header: "Date Formatted Required",
                                            isRequired: true,
-                                           FormFormattedTextFieldValidationView(value: $viewModel.date2,
+                                           .formattedTextField(value: $viewModel.date2,
                                                                formatter: .dateTime,
                                                                placeholder: "Write a text and remove it"))
                         HStack(alignment: .top, spacing: 8) {
                             FormValidationView(header: "Number Formatted Required",
                                                isRequired: true,
-                                               FormFormattedTextFieldValidationView(value: $viewModel.text1,
+                                               .formattedTextField(value: $viewModel.text1,
                                                                    formatter: .number,
                                                                    placeholder: "Write a text and remove it"))
                             .disabled(viewModel.textView2.isEmpty)
                             if #available(iOS 16.0, *) {
                                 FormValidationView(header: "URL Formatted Required",
                                                    isRequired: true,
-                                                   FormFormattedTextFieldValidationView(value: $viewModel.text3,
+                                                   .formattedTextField(value: $viewModel.text3,
                                                                        formatter: .url,
                                                                        placeholder: "Write a text and remove it"))
                             }
@@ -64,33 +64,33 @@ struct DemoValidation: View {
                                                footerMessage: "Valid: 1 - 1000",
                                                trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
                                                validators: [],
-                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax1,
+                                               .formattedTextField(value: $viewModel.minMax1,
                                                                    formatter: .currency(code: "USD").precision(.fractionLength(0)),
                                                                    placeholder: "$"))
                             FormValidationView(header: "Monetary (2 Digit Fraction)",
                                                footerMessage: "Valid: 100 - 800",
                                                trigger: viewModel.validatorGroup1.eraseToAnyPublisher(),
                                                validators: [],
-                                               FormFormattedTextFieldValidationView(value: $viewModel.minMax2,
+                                               .formattedTextField(value: $viewModel.minMax2,
                                                                    formatter: .currency(code: "USD").precision(.fractionLength(2)),
                                                                    placeholder: "$"))
                         }
                         HStack(alignment: .top, spacing: 8) {
                             FormValidationView(header: "Percentage",
                                                footerMessage: "No Limit Range",
-                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
+                                               .formattedTextField(value: $viewModel.text5,
                                                                    formatter: .percent,
                                                                    placeholder: "%"))
                             FormValidationView(header: "Percentage (2 Decimal Places)",
                                                footerMessage: "Enter from 0.0 to 100.0",
-                                               FormFormattedTextFieldValidationView(value: $viewModel.text5,
+                                               .formattedTextField(value: $viewModel.text5,
                                                                    formatter: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
                                                                    placeholder: "%"))
                         }
                     }
                     VStack(spacing: 8) {
                         FormValidationView(header: "Sample Chip Set",
-                                           FormChipValidationView(value: $viewModel.selectedChips,
+                                           .chip(value: $viewModel.selectedChips,
                                                  collection: NumberChip.allCases))
                         .disabled(viewModel.textView1.isEmpty == true)
                     }

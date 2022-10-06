@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-extension View {
+public extension View {
     func formAppearance(_ appearance: FormValidationViewAppearance) -> some View {
         environment(\.formAppearance, appearance)
     }

@@ -75,15 +75,14 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
     
 }
 
-extension FormValidationContent where Value : AnyItem {
+public extension FormValidationContent {
     
     /// A single item picker. An Item should be a valid member of the collection.
     /// - Parameters:
-    ///   - value: <#value description#>
+    ///   - value: Any item inside the collection.
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - collection: The set of items.
-    /// - Returns: <#description#>
-    public static func itemPicker<Item : AnyItem>(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) -> FormItemPickerValidationView<Item> {
+    static func itemPicker<Item>(value: Binding<Value>, placeholder: LocalizedStringKey, collection: [Item]) -> FormItemPickerValidationView<Item> where Item : AnyItem, Value == Item?, Self == FormItemPickerValidationView<Item> {
         FormItemPickerValidationView(value: value, placeholder: placeholder, collection: collection)
     }
 }

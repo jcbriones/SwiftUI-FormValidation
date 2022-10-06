@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-extension UIApplication {
-    func endEditing() {
+public extension UIApplication {
+    func resignFirstResponder() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

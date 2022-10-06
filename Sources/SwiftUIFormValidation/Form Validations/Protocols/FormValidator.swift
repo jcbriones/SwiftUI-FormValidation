@@ -16,7 +16,7 @@ public protocol FormValidator: AnyObject {
     func validate(_ value: any Equatable) -> FormValidationResult
 }
 
-extension Array where Element == any FormValidator {
+public extension Array where Element == any FormValidator {
     /// Allows to validate multiple form validators from the value passed in the form field and receives a validation result of one the cases: `valid`, `info`, `warning` or `error`.
     /// - Parameter value: A value that conforms to any `Equatable` object that will be used to validate.
     /// - Returns: The first non-valid validation result. If there are no non-valid result, valid will be returned.

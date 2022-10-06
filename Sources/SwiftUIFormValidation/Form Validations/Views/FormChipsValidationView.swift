@@ -178,10 +178,13 @@ struct FormChipValidationView_Previews: PreviewProvider {
 }
 #endif
 
-extension FormValidationContent where Value : AnyItem {
+public extension FormValidationContent {
     
-    /// New boolean form
-    public static func chip<Item : AnyItem>(value: Binding<[Item]>, collection: [Item]) -> FormChipValidationView<Item> {
+    /// A chip container that displays a selected set of items as part of the collection.
+    /// - Parameters:
+    ///   - value: The set of selected items from the collection
+    ///   - collection: The collection of items
+    static func chip<Item : AnyItem>(value: Binding<Value>, collection: Value) -> FormChipValidationView<Item> where Value == [Item], Self == FormChipValidationView<Item> {
         FormChipValidationView(value: value, collection: collection)
     }
 }

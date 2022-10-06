@@ -48,10 +48,14 @@ public struct FormBooleanSelectorValidationView: FormValidationContent {
     }
 }
 
-extension FormValidationContent where Self == FormBooleanSelectorValidationView {
+public extension FormValidationContent where Self == FormBooleanSelectorValidationView {
     
-    /// New boolean form
-    public static func boolean(value: Binding<Bool>, enabledText: String, disabledText: String) -> FormBooleanSelectorValidationView {
+    /// A form validation that supports a boolean value.
+    /// - Parameters:
+    ///   - value: If set to true, the true button is selected. Otherwise, the false button is selected.
+    ///   - enabledText: The text to display on the button where the value is set to true.
+    ///   - disabledText: The text to display on the button where the value is set to false.
+    static func boolean(value: Binding<Bool>, enabledText: String, disabledText: String) -> FormBooleanSelectorValidationView {
         FormBooleanSelectorValidationView(value: value, enabledText: enabledText, disabledText: disabledText)
     }
 }

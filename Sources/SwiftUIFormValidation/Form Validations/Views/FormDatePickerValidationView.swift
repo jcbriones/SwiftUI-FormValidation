@@ -47,10 +47,10 @@ public struct FormDatePickerValidationView: FormValidationContent {
     
 }
 
-extension FormValidationContent where Self == FormDatePickerValidationView {
+public extension FormValidationContent where Self == FormDatePickerValidationView {
     
     /// New boolean form
-    public static func datePicker(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormDatePickerValidationView {
+    static func datePicker(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormDatePickerValidationView {
         FormDatePickerValidationView(value: value, imageName: imageName, placeholder: placeholder)
     }
 }
