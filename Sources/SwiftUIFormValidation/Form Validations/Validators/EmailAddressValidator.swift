@@ -22,9 +22,9 @@ public class EmailAddressValidator: FormValidator {
         //let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         if emailPredicate.evaluate(with: value) {
-            return .error(message: "Not a valid email address.")
-        } else {
             return .valid
+        } else {
+            return .error(message: "Not a valid email address.")
         }
     }
 }
