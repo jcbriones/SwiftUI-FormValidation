@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CharacterLimitValidator: FormValidator {
+public class CharacterLimitValidator: FormValidator {
 
     // MARK: - Initializer
 
@@ -22,12 +22,18 @@ class CharacterLimitValidator: FormValidator {
 
     // MARK: - FormValidator Protocol
 
-    func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable) -> FormValidationResult {
         guard let value = value as? String else { return .valid }
         if value.count > characterLimit {
             return .error(message: "Character Limit: \(value.count) / \(characterLimit)")
         } else {
             return .valid
         }
+    }
+}
+
+public extension FormValidator where Self == CharacterLimitValidator {
+    static func characterLimit(characterLimit: Int) -> FormValidator {
+        CharacterLimitValidator(characterLimit: characterLimit)
     }
 }

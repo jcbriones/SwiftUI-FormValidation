@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RequiredFieldValidator: FormValidator {
+public class RequiredFieldValidator: FormValidator {
 
     // MARK: - Initializer
 
@@ -22,7 +22,7 @@ class RequiredFieldValidator: FormValidator {
 
     // MARK: - FormValidator Protocol
 
-    func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable) -> FormValidationResult {
         if let value = value as? String?, (value ?? "").count == 0 {
             return .error(message: "\(fieldName) is required.")
         }
@@ -30,5 +30,11 @@ class RequiredFieldValidator: FormValidator {
             return .error(message: "\(fieldName) is required.")
         }
         return .valid
+    }
+}
+
+public extension FormValidator where Self == RequiredFieldValidator {
+    static func requiredField(fieldName: String) -> FormValidator {
+        RequiredFieldValidator(fieldName: fieldName)
     }
 }

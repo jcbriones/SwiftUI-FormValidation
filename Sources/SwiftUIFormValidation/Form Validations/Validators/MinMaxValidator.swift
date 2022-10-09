@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
+public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
 
     // MARK: - Initializer
 
@@ -46,7 +46,7 @@ class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable 
 
     // MARK: - FormValidator Protocol
 
-    func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable) -> FormValidationResult {
         guard let value = value as? Number else { return .valid }
         if let minWarning = minWarning, let maxWarning = maxWarning, let minError = minError, let maxError = maxError {
             switch value {
@@ -81,5 +81,17 @@ class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable 
             }
         }
         return .valid
+    }
+}
+
+public extension FormValidator {
+    static func minMaxValidator<Number>(minWarning: Number, maxWarning: Number) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minWarning: minWarning, maxWarning: maxWarning)
+    }
+    static func minMaxValidator<Number>(minError: Number, maxError: Number) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minError: minError, maxError: maxError)
+    }
+    static func minMaxValidator<Number>(minWarning: Number, maxWarning: Number, minError: Number, maxError: Number) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minWarning: minWarning, maxWarning: maxWarning, minError: minError, maxError: maxError)
     }
 }
