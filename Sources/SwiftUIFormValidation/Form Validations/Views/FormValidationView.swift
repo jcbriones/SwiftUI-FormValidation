@@ -11,13 +11,15 @@ import Combine
 public struct FormValidationView<Content> : View where Content : FormValidationContent {
     
     // MARK: - Initializer
-    public init(header: String, footerMessage: String = "", isRequired: Bool = false, trigger: AnyPublisher<Void, Never>? = nil, validators: [FormValidator] = [], _ contentType: Content) {
+    public init(header: String,
+                footerMessage: String = "",
+                isRequired: Bool = false,
+                validators: [FormValidator] = [],
+                _ contentType: Content) {
         self.header = header
         self.footerMessage = footerMessage
         self.isRequired = isRequired
-        self.trigger = trigger
         self.validators = validators
-
         self.contentType = contentType
     }
 
@@ -27,7 +29,7 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @State private var validationResult: FormValidationResult = .valid
-    private var contentType: Content
+    private var trigger: AnyPublisher<Void, Never>?
 
     // MARK: - Form Validation Properties
 
@@ -35,9 +37,8 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
     private var footerMessage: String
     @State private var trailingFooter: String = ""
     private var isRequired: Bool
-
-    private var trigger: AnyPublisher<Void, Never>?
     private var validators: [FormValidator]
+    private var contentType: Content
 
     // MARK: - Body
 

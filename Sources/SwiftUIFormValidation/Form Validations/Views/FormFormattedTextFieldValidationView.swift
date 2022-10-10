@@ -46,6 +46,7 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
                 .padding(5)
                 .focused($focused)
                 .disabled(!isEnabled)
+                .keyboardType(keyboardTypeFromFormatInput)
         }
         .overlay(alignment: .bottom) {
             if isEnabled {
@@ -55,6 +56,15 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
                     .animation(.spring(), value: focused)
                     .animation(.spring(), value: validationResult)
             }
+        }
+    }
+    
+    private var keyboardTypeFromFormatInput: UIKeyboardType {
+        switch F.FormatInput.self {
+        case is any Numeric:
+            return .numberPad
+        default:
+            return .default
         }
     }
     

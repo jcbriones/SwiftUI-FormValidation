@@ -47,7 +47,7 @@ public struct ChipView: View {
             .background(isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor)
             .clipShape(Capsule())
             .overlay(
-                Capsule().stroke(appearance.activeBorderColor, lineWidth: 1)
+                Capsule().stroke(appearance.inactiveBorderColor, lineWidth: 1)
             )
     }
 

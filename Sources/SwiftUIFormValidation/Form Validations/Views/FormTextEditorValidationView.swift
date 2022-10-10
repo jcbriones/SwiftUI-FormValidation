@@ -44,6 +44,7 @@ public struct FormTextEditorValidationView: FormValidationContent {
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)
             .keyboardType(.asciiCapable)
+            .border(.clear, width: 0)
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))

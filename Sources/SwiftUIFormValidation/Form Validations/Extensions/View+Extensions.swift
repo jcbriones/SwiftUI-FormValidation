@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
-
+import Combine
 
 public extension View {
     func formAppearance(_ appearance: FormValidationViewAppearance) -> some View {
         environment(\.formAppearance, appearance)
+    }
+    
+    func formTrigger(_ value: AnyPublisher<Void, Never>) -> some View {
+        environment(\.formTrigger, value)
     }
     
     func onFormValidityChanged(isValid: @escaping (Bool) -> Void) -> some View {
