@@ -53,12 +53,12 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
                      Text(" *")
                         .font(appearance.titleHeaderFont)
                         .foregroundColor(appearance.requiredFieldSymbolTextColor))
-                    .animation(.easeInOut(duration: 0.5), value: focused)
+                    .animation(appearance.animation, value: focused)
                 } else {
                     Text(header)
                         .font(appearance.titleHeaderFont)
                         .foregroundColor(focused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor)
-                        .animation(.easeInOut(duration: 0.5), value: focused)
+                        .animation(appearance.animation, value: focused)
                 }
             }.accessibilityAddTraits([.isHeader])
             contentType
@@ -71,14 +71,14 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)
-                        .animation(.easeInOut(duration: 0.5), value: validationResult)
+                        .animation(appearance.animation, value: validationResult)
                         .accessibilityHidden(footerMessage.isEmpty)
                 case .info(let message), .warning(let message), .error(let message):
                     Text(message)
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)
-                        .animation(.easeInOut(duration: 0.5), value: validationResult)
+                        .animation(appearance.animation, value: validationResult)
                 }
                 Spacer()
                 if !trailingFooter.isEmpty {
@@ -86,7 +86,7 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)
-                        .animation(.easeInOut(duration: 0.5), value: validationResult)
+                        .animation(appearance.animation, value: validationResult)
                 }
             }
         }

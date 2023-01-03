@@ -50,6 +50,8 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
     public let requiredFieldSymbolTextColor: Color = .red
     
     public let imageIconColor: Color = .gray.opacity(0.8)
+
+    public let animation: Animation = .default
     
     public func formValidationBorderColor(focused: Bool = false, validationResult: FormValidationResult = .valid) -> Color {
         switch validationResult {

@@ -33,6 +33,7 @@ public protocol FormValidationViewAppearance {
     var placeholderTextColor: Color { get }
     var requiredFieldSymbolTextColor: Color { get }
     var imageIconColor: Color { get }
+    var animation: Animation { get }
     
     func formValidationBorderColor(focused: Bool, validationResult: FormValidationResult) -> Color
     func formValidationDescriptionTextColor(validationResult: FormValidationResult) -> Color

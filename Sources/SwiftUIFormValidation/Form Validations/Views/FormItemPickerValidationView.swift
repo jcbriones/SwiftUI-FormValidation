@@ -60,15 +60,15 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
                 Divider()
                     .frame(height: focused ? 2 : 1.5)
                     .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
-                    .animation(.spring(), value: focused)
-                    .animation(.spring(), value: validationResult)
+                    .animation(appearance.animation, value: focused)
+                    .animation(appearance.animation, value: validationResult)
             }
         }
         .overlay(alignment: .trailing) {
             if isEnabled {
                 Image(systemName: focused ? "chevron.up" : "chevron.down")
                     .foregroundColor(focused ? appearance.activeBorderColor : appearance.inactiveBorderColor)
-                    .animation(.spring(), value: focused)
+                    .animation(appearance.animation, value: focused)
                     .padding(.trailing, 10)
             }
         }

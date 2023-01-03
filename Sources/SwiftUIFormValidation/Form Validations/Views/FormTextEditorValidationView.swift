@@ -49,8 +49,8 @@ public struct FormTextEditorValidationView: FormValidationContent {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult), lineWidth: focused ? 2 : 1.5)
                     .background((isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor).cornerRadius(10))
-                    .animation(.spring(), value: focused)
-                    .animation(.spring(), value: validationResult)
+                    .animation(appearance.animation, value: focused)
+                    .animation(appearance.animation, value: validationResult)
             )
             .overlay(alignment: .topLeading) {
                 if value.isEmpty && !focused {

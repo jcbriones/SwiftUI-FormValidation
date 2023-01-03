@@ -96,8 +96,8 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult), lineWidth: focused ? 2 : 1.5)
                     .background((isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor).cornerRadius(10))
-                    .animation(.spring(), value: focused)
-                    .animation(.spring(), value: validationResult)
+                    .animation(appearance.animation, value: focused)
+                    .animation(appearance.animation, value: validationResult)
             )
     }
     
@@ -118,7 +118,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
     }
     
     private func remove(_ id: Item.ID) {
-        withAnimation {
+        withAnimation(appearance.animation) {
             value.removeAll { $0.id == id }
         }
     }

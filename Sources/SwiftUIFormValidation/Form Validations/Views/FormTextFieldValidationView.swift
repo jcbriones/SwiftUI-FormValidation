@@ -49,8 +49,8 @@ public struct FormTextFieldValidationView: FormValidationContent {
             Divider()
                 .frame(height: focused ? 2 : 1.5)
                 .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
-                .animation(.spring(), value: focused)
-                .animation(.spring(), value: validationResult)
+                .animation(appearance.animation, value: focused)
+                .animation(appearance.animation, value: validationResult)
         }
     }
     

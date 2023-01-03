@@ -32,17 +32,15 @@ public struct FormBooleanSelectorValidationView: FormValidationContent {
     public var body: some View {
         HStack {
             Button(enabledText) {
-                withAnimation {
-                    value = true
-                }
+                value = true
             }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
                 .disabled(value)
+                .animation(appearance.animation, value: value)
             Button(disabledText) {
-                withAnimation {
-                    value = false
-                }
+                value = false
             }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
                 .disabled(!value)
+                .animation(appearance.animation, value: value)
         }.padding(.vertical, 5)
             .padding(.horizontal, 10)
     }
