@@ -35,20 +35,20 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
     // MARK: - Body
     
     public var body: some View {
-        HStack(spacing: 0) {
-            if let imageName = imageName {
-                Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                if let imageName = imageName {
+                    Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
+                }
+                TextField(placeholder, value: $value, format: formatter)
+                    .font(appearance.textFieldFont)
+                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                    .multilineTextAlignment(.leading)
+                    .padding(5)
+                    .focused($focused)
+                    .disabled(!isEnabled)
+                    .keyboardType(keyboardTypeFromFormatInput)
             }
-            TextField(placeholder, value: $value, format: formatter)
-                .font(appearance.textFieldFont)
-                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
-                .multilineTextAlignment(.leading)
-                .padding(5)
-                .focused($focused)
-                .disabled(!isEnabled)
-                .keyboardType(keyboardTypeFromFormatInput)
-        }
-        .overlay(alignment: .bottom) {
             if isEnabled {
                 Divider()
                     .frame(height: focused ? 2 : 1.5)

@@ -33,28 +33,29 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
     // MARK: - Body
     
     public var body: some View {
-        Menu {
-            ForEach(collection, id: \.id) { item in
-                Button {
-                    value = item
-                } label: {
-                    Text(item.titleKey)
-                        .frame(maxWidth: .infinity)
-                        .font(appearance.textFieldFont)
-                        .multilineTextAlignment(.leading)
+
+        VStack(spacing: 0) {
+            Menu {
+                ForEach(collection, id: \.id) { item in
+                    Button {
+                        value = item
+                    } label: {
+                        Text(item.titleKey)
+                            .frame(maxWidth: .infinity)
+                            .font(appearance.textFieldFont)
+                            .multilineTextAlignment(.leading)
+                    }
                 }
+            } label: {
+                Text(value?.titleKey ?? placeholder)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(appearance.textFieldFont)
+                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: value != nil))
+                    .multilineTextAlignment(.leading)
             }
-        } label: {
-            Text(value?.titleKey ?? placeholder)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(appearance.textFieldFont)
-                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: value != nil))
-                .multilineTextAlignment(.leading)
-        }
-        .focused($focused)
-        .padding(10)
-        .disabled(!isEnabled)
-        .overlay(alignment: .bottom) {
+            .focused($focused)
+            .padding(10)
+            .disabled(!isEnabled)
             if isEnabled {
                 Divider()
                     .frame(height: focused ? 2 : 1.5)

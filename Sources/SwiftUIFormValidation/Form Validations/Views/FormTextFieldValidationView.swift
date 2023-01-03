@@ -33,19 +33,19 @@ public struct FormTextFieldValidationView: FormValidationContent {
     // MARK: - Body
     
     public var body: some View {
-        HStack(spacing: 0) {
-            if let imageName = imageName {
-                Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                if let imageName = imageName {
+                    Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
+                }
+                TextField(placeholder, text: $value)
+                    .font(appearance.textFieldFont)
+                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                    .multilineTextAlignment(.leading)
+                    .padding(5)
+                    .focused($focused)
+                    .disabled(!isEnabled)
             }
-            TextField(placeholder, text: $value)
-                .font(appearance.textFieldFont)
-                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
-                .multilineTextAlignment(.leading)
-                .padding(5)
-                .focused($focused)
-                .disabled(!isEnabled)
-        }
-        .overlay(alignment: .bottom) {
             Divider()
                 .frame(height: focused ? 2 : 1.5)
                 .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
