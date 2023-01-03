@@ -11,8 +11,8 @@ import Combine
 public struct FormValidationView<Content> : View where Content : FormValidationContent {
     
     // MARK: - Initializer
-    public init(header: String,
-                footerMessage: String = "",
+    public init(header: LocalizedStringKey,
+                footerMessage: LocalizedStringKey? = nil,
                 isRequired: Bool = false,
                 validators: [FormValidator] = [],
                 _ contentType: Content) {
@@ -33,8 +33,8 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
 
     // MARK: - Form Validation Properties
 
-    private var header: String
-    private var footerMessage: String
+    private var header: LocalizedStringKey
+    private var footerMessage: LocalizedStringKey?
     @State private var trailingFooter: String = ""
     private var isRequired: Bool
     private var validators: [FormValidator]
@@ -67,12 +67,12 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
             HStack {
                 switch validationResult {
                 case .valid:
-                    Text(footerMessage)
+                    Text(footerMessage ?? "")
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
                         .frame(minHeight: 15)
                         .animation(appearance.animation, value: validationResult)
-                        .accessibilityHidden(footerMessage.isEmpty)
+                        .accessibilityHidden(footerMessage == nil)
                 case .info(let message), .warning(let message), .error(let message):
                     Text(message)
                         .font(appearance.validatedDescriptionFont)
