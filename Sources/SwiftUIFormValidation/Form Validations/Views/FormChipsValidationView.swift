@@ -13,7 +13,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
     
     // MARK: - Initializer
     
-    public init(value: Binding<[Item]>, collection: [Item]) {
+    init(value: Binding<[Item]>, collection: [Item]) {
         self._value = value
         self.collection = collection
     }
@@ -179,7 +179,6 @@ struct FormChipValidationView_Previews: PreviewProvider {
 #endif
 
 public extension FormValidationContent {
-    
     /// A chip container that displays a selected set of items as part of the collection.
     /// - Parameters:
     ///   - value: The set of selected items from the collection

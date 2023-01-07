@@ -13,7 +13,7 @@ public struct FormTextFieldValidationView: FormValidationContent {
 
     // MARK: - Initializer
     
-    public init(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
+    init(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
         self._value = value
         self.imageName = imageName
         self.placeholder = placeholder
@@ -57,7 +57,6 @@ public struct FormTextFieldValidationView: FormValidationContent {
 }
 
 public extension FormValidationContent where Self == FormTextFieldValidationView {
-    
     /// The text field 
     /// - Parameters:
     ///   - value: The text to display
@@ -65,5 +64,14 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - placeholder: The text placeholder
     static func textField(value: Binding<String>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
+    }
+
+    /// The text field
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - imageName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    static func textField(value: Binding<String>, imageName: String? = nil, placeholder: String = "") -> FormTextFieldValidationView {
+        FormTextFieldValidationView(value: value, imageName: imageName, placeholder: .init(placeholder))
     }
 }

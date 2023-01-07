@@ -70,7 +70,6 @@ public struct FormPhotoValidationView_Previews: PreviewProvider {
 #endif
 
 public extension FormValidationContent where Self == FormPhotoValidationView {
-    
     /// A form validation that allows to select a photo from the photo library or taken from the camera.
     /// - Parameter value: The image selected.
     static func photo(value: Binding<Image?>) -> FormPhotoValidationView {

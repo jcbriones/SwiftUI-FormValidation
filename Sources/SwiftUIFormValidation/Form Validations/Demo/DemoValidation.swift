@@ -44,13 +44,12 @@ struct DemoValidation: View {
         VStack(spacing: 8) {
             FormValidationView(header: "Item Picker",
                                .itemPicker(value: $viewModel.selectedItem,
-                                           placeholder: LocalizedStringKey("Select"),
+                                           placeholder: "Select",
                                            collection: NumberChip.allCases))
             .disabled(viewModel.textView2.isEmpty)
             FormValidationView(header: "Date Picker",
                                .datePicker(value: $viewModel.date1,
-                                           imageName: nil,
-                                           placeholder: LocalizedStringKey("Pick a date and time")))
+                                           imageName: nil))
             .disabled(viewModel.textView2.isEmpty)
         }
     }
@@ -66,13 +65,13 @@ struct DemoValidation: View {
                                validators: [.requiredField(fieldName: "Date formatter")],
                                .formattedTextField(value: $viewModel.date2,
                                                    formatter: .dateTime,
-                                                   placeholder: LocalizedStringKey("Write a text and remove it")))
+                                                   placeholder: "Write a text and remove it"))
             FormValidationView(header: "Number Formatted Required",
                                isRequired: true,
                                validators: [.requiredField(fieldName: "Number formatter")],
                                .formattedTextField(value: $viewModel.text1,
                                                    formatter: .number,
-                                                   placeholder: LocalizedStringKey("Write a text and remove it")))
+                                                   placeholder: "Write a text and remove it"))
             .disabled(viewModel.textView2.isEmpty)
             if #available(iOS 16.0, *) {
                 FormValidationView(header: "URL Formatted Required",
@@ -80,31 +79,31 @@ struct DemoValidation: View {
                                    validators: [.requiredField(fieldName: "URL formatter")],
                                    .formattedTextField(value: $viewModel.text3,
                                                        formatter: .url,
-                                                       placeholder: LocalizedStringKey("Write a text and remove it")))
+                                                       placeholder: "Write a text and remove it"))
             }
             FormValidationView(header: "Monetary (Fixed)",
                                footerMessage: "Valid: 1 - 1000",
                                validators: [.characterLimit(characterLimit: 10), .minMaxValidator(minError: 1.0, maxError: 1000.0)],
                                .formattedTextField(value: $viewModel.minMax1,
                                                    formatter: .currency(code: "USD").precision(.fractionLength(0)),
-                                                   placeholder: LocalizedStringKey("$")))
+                                                   placeholder: "$"))
             FormValidationView(header: "Monetary (2 Digit Fraction)",
                                footerMessage: "Valid: 100 - 800",
                                validators: [.characterLimit(characterLimit: 10), .minMaxValidator(minWarning: 100.0, maxWarning: 800.0)],
                                .formattedTextField(value: $viewModel.minMax2,
                                                    formatter: .currency(code: "USD").precision(.fractionLength(2)),
-                                                   placeholder: LocalizedStringKey("$")))
+                                                   placeholder: "$"))
             FormValidationView(header: "Percentage",
                                footerMessage: "No Limit Range",
                                .formattedTextField(value: $viewModel.text5,
                                                    formatter: .percent,
-                                                   placeholder: LocalizedStringKey("%")))
+                                                   placeholder: "%"))
             FormValidationView(header: "Percentage (2 Decimal Places)",
                                footerMessage: "Enter from 0.0 to 100.0",
                                validators: [.characterLimit(characterLimit: 10), .minMaxValidator(minWarning: 0.0, maxWarning: 100.0)],
                                .formattedTextField(value: $viewModel.text5,
                                                    formatter: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
-                                                   placeholder: LocalizedStringKey("%")))
+                                                   placeholder: "%"))
         }.formTrigger(viewModel.validatorGroup1.eraseToAnyPublisher())
     }
     private var textEditors: some View {

@@ -13,10 +13,11 @@ public struct FormDatePickerValidationView: FormValidationContent {
     
     // MARK: - Initializer
     
-    public init(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
+    init(value: Binding<Date>, imageName: String? = nil, in range: ClosedRange<Date>? = nil, displayedComponents: DatePickerComponents? = nil) {
         self._value = value
         self.imageName = imageName
-        self.placeholder = placeholder
+        self.range = range
+        self.displayedComponents = displayedComponents
     }
     
     // MARK: - Private Properties
@@ -28,7 +29,8 @@ public struct FormDatePickerValidationView: FormValidationContent {
     @Binding public var value: Date
     
     private let imageName: String?
-    private let placeholder: LocalizedStringKey
+    private let range: ClosedRange<Date>?
+    private let displayedComponents: DatePickerComponents?
     
     // MARK: - Body
     
@@ -37,7 +39,17 @@ public struct FormDatePickerValidationView: FormValidationContent {
             if let imageName = imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27).foregroundColor(appearance.imageIconColor)
             }
-            DatePicker("", selection: $value, in: PartialRangeFrom(.now))
+            Group {
+                if let range, let displayedComponents {
+                    DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)
+                } else if let range {
+                    DatePicker("", selection: $value, in: range)
+                } else if let displayedComponents {
+                    DatePicker("", selection: $value, displayedComponents: displayedComponents)
+                } else {
+                    DatePicker("", selection: $value)
+                }
+            }
                 .labelsHidden()
                 .datePickerStyle(.compact)
                 .focused($focused)
@@ -48,9 +60,13 @@ public struct FormDatePickerValidationView: FormValidationContent {
 }
 
 public extension FormValidationContent where Self == FormDatePickerValidationView {
-    
-    /// New boolean form
-    static func datePicker(value: Binding<Date>, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormDatePickerValidationView {
-        FormDatePickerValidationView(value: value, imageName: imageName, placeholder: placeholder)
+    /// Simple date picker that allows user to select date based on an optional range and displayed components.
+    /// - Parameters:
+    ///   - value: The selected date
+    ///   - imageName: An optional icon to display beside the date picker
+    ///   - range: The range from, to, or in between dates.
+    ///   - displayedComponents: The components to be displayed such as date or time or even both
+    static func datePicker(value: Binding<Date>, imageName: String? = nil, in range: ClosedRange<Date>? = nil, displayedComponents: DatePickerComponents? = nil) -> FormDatePickerValidationView {
+        FormDatePickerValidationView(value: value, imageName: imageName, in: range, displayedComponents: displayedComponents)
     }
 }

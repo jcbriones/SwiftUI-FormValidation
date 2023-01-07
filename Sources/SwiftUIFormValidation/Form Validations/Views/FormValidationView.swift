@@ -23,6 +23,18 @@ public struct FormValidationView<Content> : View where Content : FormValidationC
         self.contentType = contentType
     }
 
+    public init(header: String,
+                footerMessage: String? = nil,
+                isRequired: Bool = false,
+                validators: [FormValidator] = [],
+                _ contentType: Content) {
+        self.header = .init(header)
+        self.footerMessage = footerMessage != nil ? .init(footerMessage!) : nil
+        self.isRequired = isRequired
+        self.validators = validators
+        self.contentType = contentType
+    }
+
     // MARK: - View Binding Properties
 
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance

@@ -13,7 +13,7 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
     
     // MARK: - Initializer
     
-    public init(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
+    init(value: Binding<F.FormatInput?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
         self._value = value
         self.formatter = formatter
         self.imageName = imageName
@@ -71,7 +71,6 @@ public struct FormFormattedTextFieldValidationView<F>: FormValidationContent whe
 }
 
 public extension FormValidationContent {
-    
     /// Allows to format the text of the text field after resigning from responder.
     /// - Parameters:
     ///   - value: The text to display
@@ -80,5 +79,15 @@ public extension FormValidationContent {
     ///   - placeholder: The text placeholder
     static func formattedTextField<F>(value: Binding<Value>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable, Value == F.FormatInput?, Self == FormFormattedTextFieldValidationView<F> {
         FormFormattedTextFieldValidationView(value: value, formatter: formatter, imageName: imageName, placeholder: placeholder)
+    }
+
+    /// Allows to format the text of the text field after resigning from responder.
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - formatter: The formatter to use to format the text.
+    ///   - imageName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    static func formattedTextField<F>(value: Binding<Value>, formatter: F, imageName: String? = nil, placeholder: String = "") -> FormFormattedTextFieldValidationView<F> where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable, Value == F.FormatInput?, Self == FormFormattedTextFieldValidationView<F> {
+        FormFormattedTextFieldValidationView(value: value, formatter: formatter, imageName: imageName, placeholder: .init(placeholder))
     }
 }

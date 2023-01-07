@@ -13,7 +13,7 @@ public struct FormTextEditorValidationView: FormValidationContent {
     
     // MARK: - Initializer
     
-    public init(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) {
+    init(value: Binding<String>, placeholder: LocalizedStringKey = "", maxCharCount: Int? = nil) {
         self._value = value
         self.placeholder = placeholder
         self.maxCharCount = maxCharCount
@@ -27,7 +27,7 @@ public struct FormTextEditorValidationView: FormValidationContent {
     @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: String
     
-    private let placeholder: String
+    private let placeholder: LocalizedStringKey
     private let maxCharCount: Int?
     
     // MARK: - Body
@@ -72,13 +72,21 @@ public struct FormTextEditorValidationView: FormValidationContent {
 }
 
 public extension FormValidationContent where Self == FormTextEditorValidationView {
-    
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result. Set to `nil` to disable checking
+    static func textEditor(value: Binding<String>, placeholder: LocalizedStringKey = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(value: value, placeholder: placeholder, maxCharCount: maxCharCount)
+    }
+
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
     ///   - value: The text to display
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result. Set to `nil` to disable checking
     static func textEditor(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
-        FormTextEditorValidationView(value: value, placeholder: placeholder, maxCharCount: maxCharCount)
+        FormTextEditorValidationView(value: value, placeholder: .init(placeholder), maxCharCount: maxCharCount)
     }
 }

@@ -13,7 +13,7 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
     
     // MARK: - Initializer
     
-    public init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
+    init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
         self._value = value
         self.placeholder = placeholder
         self.collection = collection
@@ -77,7 +77,6 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
 }
 
 public extension FormValidationContent {
-    
     /// A single item picker. An Item should be a valid member of the collection.
     /// - Parameters:
     ///   - value: Any item inside the collection.
@@ -85,5 +84,14 @@ public extension FormValidationContent {
     ///   - collection: The set of items.
     static func itemPicker<Item>(value: Binding<Value>, placeholder: LocalizedStringKey, collection: [Item]) -> FormItemPickerValidationView<Item> where Item : AnyItem, Value == Item?, Self == FormItemPickerValidationView<Item> {
         FormItemPickerValidationView(value: value, placeholder: placeholder, collection: collection)
+    }
+
+    /// A single item picker. An Item should be a valid member of the collection.
+    /// - Parameters:
+    ///   - value: Any item inside the collection.
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   - collection: The set of items.
+    static func itemPicker<Item>(value: Binding<Value>, placeholder: String, collection: [Item]) -> FormItemPickerValidationView<Item> where Item : AnyItem, Value == Item?, Self == FormItemPickerValidationView<Item> {
+        FormItemPickerValidationView(value: value, placeholder: LocalizedStringKey(placeholder), collection: collection)
     }
 }
