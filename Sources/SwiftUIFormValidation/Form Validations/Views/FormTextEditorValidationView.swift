@@ -10,28 +10,26 @@ import SwiftUI
 import Combine
 
 public struct FormTextEditorValidationView: FormValidationContent {
-    
+
     // MARK: - Initializer
-    
-    public init(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) {
+
+    init(value: Binding<String>, placeholder: LocalizedStringKey = "") {
         self._value = value
         self.placeholder = placeholder
-        self.maxCharCount = maxCharCount
     }
-    
+
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
-    @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: String
-    
-    private let placeholder: String
-    private let maxCharCount: Int?
-    
+
+    private let placeholder: LocalizedStringKey
+
     // MARK: - Body
-    
+
     public var body: some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
@@ -44,12 +42,24 @@ public struct FormTextEditorValidationView: FormValidationContent {
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)
             .keyboardType(.asciiCapable)
+            .border(.clear, width: 0)
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .stroke(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
-                    .background((isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor).cornerRadius(10))
-                    .animation(.spring(), value: focused)
-                    .animation(.spring(), value: validationResult)
+                    .stroke(
+                        appearance.formValidationBorderColor(
+                            focused: focused,
+                            validationResult: validationResult
+                        ),
+                        lineWidth: focused ? 2 : 1.5
+                    )
+                    .background(
+                        (
+                            isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
+                        )
+                        .cornerRadius(10)
+                    )
+                    .animation(appearance.animation, value: focused)
+                    .animation(appearance.animation, value: validationResult)
             )
             .overlay(alignment: .topLeading) {
                 if value.isEmpty && !focused {
@@ -67,18 +77,73 @@ public struct FormTextEditorValidationView: FormValidationContent {
                 UITextView.appearance().backgroundColor = .clear
             }
     }
-    
+
 }
 
-extension FormValidationContent where Self == FormTextEditorValidationView {
-    
+public extension FormValidationContent where Self == FormTextEditorValidationView {
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
-    ///   - value: <#value description#>
+    ///   - value: The text to display
     ///   - placeholder: Placeholder string if the value is `nil`
-    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result. Set to `nil` to disable checking
-    /// - Returns: <#description#>
-    public static func textEditor(value: Binding<String>, placeholder: String = "", maxCharCount: Int? = nil) -> FormTextEditorValidationView {
-        FormTextEditorValidationView(value: value, placeholder: placeholder, maxCharCount: maxCharCount)
+    ///   Set to `nil` to disable checking
+    static func textEditor(
+        value: Binding<String>,
+        placeholder: LocalizedStringKey = ""
+    ) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(value: value, placeholder: placeholder)
+    }
+
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   Set to `nil` to disable checking
+    static func textEditor(
+        value: Binding<String>,
+        placeholder: String = ""
+    ) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(value: value, placeholder: .init(placeholder))
+    }
+
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   Set to `nil` to disable checking
+    static func textEditor(
+        value: Binding<String?>,
+        placeholder: LocalizedStringKey = ""
+    ) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(
+            value: Binding(
+                get: { value.wrappedValue ?? "" },
+                set: {
+                    let newValue = $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                    value.wrappedValue = newValue.isEmpty ? nil : $0
+                }
+            ),
+            placeholder: placeholder
+        )
+    }
+
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   Set to `nil` to disable checking
+    static func textEditor(
+        value: Binding<String?>,
+        placeholder: String = ""
+    ) -> FormTextEditorValidationView {
+        FormTextEditorValidationView(
+            value: Binding(
+                get: { value.wrappedValue ?? "" },
+                set: {
+                    let newValue = $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                    value.wrappedValue = newValue.isEmpty ? nil : $0
+                }
+            ),
+            placeholder: .init(placeholder)
+        )
     }
 }

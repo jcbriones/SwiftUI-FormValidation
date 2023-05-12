@@ -25,7 +25,7 @@ public struct ChipView: View {
 
     public var body: some View {
         HStack {
-            if let systemImage = systemImage {
+            if let systemImage {
                 Image(systemName: systemImage)
                     .font(.system(size: 14, weight: .light))
             }
@@ -47,7 +47,7 @@ public struct ChipView: View {
             .background(isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor)
             .clipShape(Capsule())
             .overlay(
-                Capsule().stroke(appearance.activeBorderColor, lineWidth: 1)
+                Capsule().stroke(appearance.inactiveBorderColor, lineWidth: 1)
             )
     }
 

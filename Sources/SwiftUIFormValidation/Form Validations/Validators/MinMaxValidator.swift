@@ -6,9 +6,10 @@
 //  Copyright © 2022 Recomdy, LLC. All rights reserved.
 //
 
+import Combine
 import Foundation
 
-class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
+public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
 
     // MARK: - Initializer
 
@@ -30,7 +31,12 @@ class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable 
         }
         self.init(minWarning, maxWarning, minError, maxError)
     }
-    private init(_ minWarning: Number? = nil, _ maxWarning: Number? = nil, _ minError: Number? = nil, _ maxError: Number? = nil) {
+    private init(
+        _ minWarning: Number? = nil,
+        _ maxWarning: Number? = nil,
+        _ minError: Number? = nil,
+        _ maxError: Number? = nil
+    ) {
         self.minWarning = minWarning
         self.maxWarning = maxWarning
         self.minError = minError
@@ -44,42 +50,82 @@ class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable 
     var minError: Number?
     var maxError: Number?
 
+    public let formatter = NumberFormatter()
+
     // MARK: - FormValidator Protocol
 
-    func validate(_ value: any Equatable) -> FormValidationResult {
-        guard let value = value as? Number else { return .valid }
-        if let minWarning = minWarning, let maxWarning = maxWarning, let minError = minError, let maxError = maxError {
-            switch value {
-            case (...minError):
-                return .warning(message: "\(value) is less than \(minError).")
-            case (maxError...):
-                return .warning(message: "\(value) is greater than \(maxError).")
-            case (...minWarning):
-                return .warning(message: "\(value) is less than \(minWarning).")
-            case (maxWarning...):
-                return .warning(message: "\(value) is greater than \(maxWarning).")
-            default:
-                return .valid
-            }
-        } else if let minWarning = minWarning, let maxWarning = maxWarning {
-            switch value {
-            case (...minWarning):
-                return .warning(message: "\(value) is less than \(minWarning).")
-            case (maxWarning...):
-                return .warning(message: "\(value) is greater than \(maxWarning).")
-            default:
-                return .valid
-            }
-        } else if let minError = minError, let maxError = maxError {
-            switch value {
-            case (...minError):
-                return .warning(message: "\(value) is less than \(minError).")
-            case (maxError...):
-                return .warning(message: "\(value) is greater than \(maxError).")
-            default:
-                return .valid
-            }
+    public func validate(_ value: any Equatable) -> AnyPublisher<FormValidationResult, Never> {
+        guard let value = value as? Number else { return Just(.valid).eraseToAnyPublisher() }
+        return Just(validateWarningAndError(value) ?? validateWarning(value) ?? validateError(value) ?? .valid)
+            .eraseToAnyPublisher()
+    }
+
+    private func validateWarningAndError(_ value: Number) -> FormValidationResult? {
+        guard let minWarning, let maxWarning, let minError, let maxError else {
+            return nil
         }
-        return .valid
+        switch value {
+        case (...minError):
+            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+        case (maxError...):
+            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
+        case (...minWarning):
+            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
+        case (maxWarning...):
+            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
+        default:
+            return .valid
+        }
+    }
+
+    private func validateWarning(_ value: Number) -> FormValidationResult? {
+        guard let minWarning, let maxWarning else {
+            return nil
+        }
+        switch value {
+        case (...minWarning):
+            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
+        case (maxWarning...):
+            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
+        default:
+            return .valid
+        }
+    }
+
+    private func validateError(_ value: Number) -> FormValidationResult? {
+        guard let minError, let maxError else {
+            return nil
+        }
+        switch value {
+        case (...minError):
+            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+        case (maxError...):
+            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
+        default:
+            return .valid
+        }
+    }
+}
+
+public extension FormValidator {
+    static func minMaxValidator<Number>(
+        minWarning: Number,
+        maxWarning: Number
+    ) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minWarning: minWarning, maxWarning: maxWarning)
+    }
+    static func minMaxValidator<Number>(
+        minError: Number,
+        maxError: Number
+    ) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minError: minError, maxError: maxError)
+    }
+    static func minMaxValidator<Number>(
+        minWarning: Number,
+        maxWarning: Number,
+        minError: Number,
+        maxError: Number
+    ) -> FormValidator where Self == MinMaxValidator<Number> {
+        MinMaxValidator<Number>(minWarning: minWarning, maxWarning: maxWarning, minError: minError, maxError: maxError)
     }
 }

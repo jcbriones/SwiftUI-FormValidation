@@ -1,15 +1,15 @@
 //
-//  FormTextFieldValidationView.swift
+//  FormSecureFieldValidationView.swift
 //  Recomdy
 //
-//  Created by Jc Briones on 8/27/22.
+//  Created by Jc Briones on 5/10/23.
 //  Copyright © 2022 Recomdy, LLC. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 
-public struct FormTextFieldValidationView: FormValidationContent {
+public struct FormSecureFieldValidationView: FormValidationContent {
 
     // MARK: - Initializer
 
@@ -50,7 +50,7 @@ public struct FormTextFieldValidationView: FormValidationContent {
                     Image(systemName: systemName).resizable().scaledToFit().frame(width: 27, height: 27)
                         .foregroundColor(appearance.imageIconColor)
                 }
-                TextField(placeholder, text: $value)
+                SecureField(placeholder, text: $value)
                     .font(appearance.textFieldFont)
                     .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                     .multilineTextAlignment(.leading)
@@ -68,18 +68,18 @@ public struct FormTextFieldValidationView: FormValidationContent {
 
 }
 
-public extension FormValidationContent where Self == FormTextFieldValidationView {
+public extension FormValidationContent where Self == FormSecureFieldValidationView {
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         imageName: String? = nil,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
     }
 
     /// The text field
@@ -87,23 +87,23 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - systemName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         systemName: String? = nil,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, systemName: systemName, placeholder: placeholder)
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, systemName: systemName, placeholder: placeholder)
     }
 
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, placeholder: placeholder)
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, placeholder: placeholder)
     }
 
     /// The text field
@@ -111,12 +111,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         imageName: String? = nil,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, imageName: imageName, placeholder: .init(placeholder))
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, imageName: imageName, placeholder: .init(placeholder))
     }
 
     /// The text field
@@ -124,23 +124,23 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - systemName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         systemName: String? = nil,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, systemName: systemName, placeholder: .init(placeholder))
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, systemName: systemName, placeholder: .init(placeholder))
     }
 
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String>,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, placeholder: .init(placeholder))
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(value: value, placeholder: .init(placeholder))
     }
 
     /// The text field
@@ -148,12 +148,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         imageName: String? = nil,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {
@@ -171,12 +171,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - systemName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         systemName: String? = nil,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {
@@ -193,11 +193,11 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     /// - Parameters:
     ///   - value: The text to display
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         placeholder: LocalizedStringKey = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {
@@ -214,12 +214,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         imageName: String? = nil,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {
@@ -237,12 +237,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - systemName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         systemName: String? = nil,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {
@@ -260,11 +260,11 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - value: The text to display
     ///   - systemName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func textField(
+    static func secureField(
         value: Binding<String?>,
         placeholder: String = ""
-    ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(
+    ) -> FormSecureFieldValidationView {
+        FormSecureFieldValidationView(
             value: Binding(
                 get: { value.wrappedValue ?? "" },
                 set: {

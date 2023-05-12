@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-public struct FormValidityKey: PreferenceKey {
-    public static let defaultValue: Bool = true
-    
-    public static func reduce(value: inout Bool, nextValue: () -> Bool) {
+struct FormValidityKey: PreferenceKey {
+    static let defaultValue: Bool = true
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
         value = nextValue() && value
     }
 }
-

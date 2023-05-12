@@ -9,9 +9,9 @@
 import SwiftUI
 
 public protocol FormValidationViewAppearance {
-    
+
     // MARK: - Colors
-    
+
     var accentBackgroundColor: Color { get }
     var enabledBackgroundColor: Color { get }
     var disabledBackgroundColor: Color { get }
@@ -33,13 +33,14 @@ public protocol FormValidationViewAppearance {
     var placeholderTextColor: Color { get }
     var requiredFieldSymbolTextColor: Color { get }
     var imageIconColor: Color { get }
-    
+    var animation: Animation { get }
+
     func formValidationBorderColor(focused: Bool, validationResult: FormValidationResult) -> Color
     func formValidationDescriptionTextColor(validationResult: FormValidationResult) -> Color
     func formTextColor(focused: Bool, isEnabled: Bool) -> Color
-    
+
     // MARK: - Font Styles
-    
+
     var titleHeaderFont: Font { get }
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }

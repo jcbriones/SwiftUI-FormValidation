@@ -17,7 +17,7 @@ struct FormPickerCapsuleButtonStyle: ButtonStyle {
         disabledForegroundColor = .white
         disabledBackgroundColor = appearance?.accentBackgroundColor ?? .accentColor
     }
-    
+
     @Environment(\.isEnabled) private var isEnabled: Bool
     private let enabledFont: Font
     private let disabledFont: Font
@@ -25,7 +25,7 @@ struct FormPickerCapsuleButtonStyle: ButtonStyle {
     private let enabledBorderColor: Color
     private let disabledForegroundColor: Color
     private let disabledBackgroundColor: Color
-    
+
     func makeBody(configuration: Configuration) -> some View {
         if isEnabled {
             configuration.label
@@ -45,6 +45,6 @@ struct FormPickerCapsuleButtonStyle: ButtonStyle {
                 .foregroundColor(disabledForegroundColor)
                 .clipShape(Capsule())
         }
-        
+
     }
 }

@@ -13,11 +13,11 @@ infix operator ~==
 
 public enum FormValidationResult: Equatable {
     case valid
-    case info(message: String)
-    case warning(message: String)
-    case error(message: String)
-    
-    public static func ~==(lhs: Self, rhs: Self) -> Bool {
+    case info(message: LocalizedStringKey)
+    case warning(message: LocalizedStringKey)
+    case error(message: LocalizedStringKey)
+
+    public static func ~== (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
         case (.valid, .valid), (.info, .info), (.warning, .warning), (.error, .error):
             return true
@@ -27,8 +27,8 @@ public enum FormValidationResult: Equatable {
     }
 }
 
-extension FormValidationResult {
-    public var isValid: Bool {
+public extension FormValidationResult {
+    var isValid: Bool {
         (self ~== .valid) || (self ~== .info(message: "")) || (self ~== .warning(message: ""))
     }
 }

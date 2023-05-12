@@ -10,25 +10,25 @@ import SwiftUI
 import Combine
 
 public struct FormPhotoValidationView: FormValidationContent {
-    
+
     // MARK: - Initializer
-    
+
     public init(value: Binding<Image?>) {
         self._value = value
     }
-    
+
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
-    @State private var validationResult: FormValidationResult = .valid
     @Binding public var value: Image?
-    
+
     @State private var showPicker: Bool = false
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         Button {
             showPicker.toggle()
@@ -57,7 +57,7 @@ public struct FormPhotoValidationView: FormValidationContent {
             ImagePicker(sourceType: .photoLibrary, selectedImage: self.$value)
         }
     }
-    
+
 }
 
 #if DEBUG
@@ -69,10 +69,10 @@ public struct FormPhotoValidationView_Previews: PreviewProvider {
 }
 #endif
 
-extension FormValidationContent where Self == FormPhotoValidationView {
-    
-    /// New boolean form
-    public static func photo(value: Binding<Image?>) -> FormPhotoValidationView {
+public extension FormValidationContent where Self == FormPhotoValidationView {
+    /// A form validation that allows to select a photo from the photo library or taken from the camera.
+    /// - Parameter value: The image selected.
+    static func photo(value: Binding<Image?>) -> FormPhotoValidationView {
         FormPhotoValidationView(value: value)
     }
 }

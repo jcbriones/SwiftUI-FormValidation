@@ -11,5 +11,5 @@ import SwiftUI
 
 public protocol AnyItem: Identifiable, Equatable {
     var systemImage: String? { get }
-    var titleKey: LocalizedStringKey { get }
+    var localizedString: LocalizedStringKey { get }
 }

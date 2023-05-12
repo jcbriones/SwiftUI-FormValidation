@@ -10,48 +10,74 @@ import SwiftUI
 import Combine
 
 public struct FormBooleanSelectorValidationView: FormValidationContent {
-    
+
     // MARK: - Initializer
-    
-    public init(value: Binding<Bool>, enabledText: String, disabledText: String) {
+
+    init(value: Binding<Bool>, textForNo: LocalizedStringKey, textForYes: LocalizedStringKey) {
         self._value = value
-        self.enabledText = enabledText
-        self.disabledText = disabledText
+        self.textForNo = textForNo
+        self.textForYes = textForYes
     }
-    
+
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Binding public var value: Bool
-    
-    private let enabledText: String
-    private let disabledText: String
-    
+
+    private let textForYes: LocalizedStringKey
+    private let textForNo: LocalizedStringKey
+
     // MARK: - Body
-    
+
     public var body: some View {
         HStack {
-            Button(enabledText) {
-                withAnimation {
-                    value = true
-                }
-            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
-                .disabled(value)
-            Button(disabledText) {
-                withAnimation {
-                    value = false
-                }
+            Button(textForNo) {
+                value = false
             }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
                 .disabled(!value)
+                .animation(appearance.animation, value: value)
+            Button(textForYes) {
+                value = true
+            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
+                .disabled(value)
+                .animation(appearance.animation, value: value)
         }.padding(.vertical, 5)
             .padding(.horizontal, 10)
     }
 }
 
-extension FormValidationContent where Self == FormBooleanSelectorValidationView {
-    
-    /// New boolean form
-    public static func boolean(value: Binding<Bool>, enabledText: String, disabledText: String) -> FormBooleanSelectorValidationView {
-        FormBooleanSelectorValidationView(value: value, enabledText: enabledText, disabledText: disabledText)
+public extension FormValidationContent where Self == FormBooleanSelectorValidationView {
+    /// A form validation that supports a boolean value.
+    /// - Parameters:
+    ///   - value: If set to true, the true button is selected. Otherwise, the false button is selected.
+    ///   - enabledText: The text to display on the button where the value is set to true.
+    ///   - disabledText: The text to display on the button where the value is set to false.
+    static func boolean(
+        value: Binding<Bool>,
+        textForNo: LocalizedStringKey,
+        textForYes: LocalizedStringKey
+    ) -> FormBooleanSelectorValidationView {
+        FormBooleanSelectorValidationView(
+            value: value,
+            textForNo: textForNo,
+            textForYes: textForYes
+        )
+    }
+
+    /// A form validation that supports a boolean value.
+    /// - Parameters:
+    ///   - value: If set to true, the true button is selected. Otherwise, the false button is selected.
+    ///   - enabledText: The text to display on the button where the value is set to true.
+    ///   - disabledText: The text to display on the button where the value is set to false.
+    static func boolean(
+        value: Binding<Bool>,
+        textForNo: String,
+        textForYes: String
+    ) -> FormBooleanSelectorValidationView {
+        FormBooleanSelectorValidationView(
+            value: value,
+            textForNo: .init(textForNo),
+            textForYes: .init(textForYes)
+        )
     }
 }

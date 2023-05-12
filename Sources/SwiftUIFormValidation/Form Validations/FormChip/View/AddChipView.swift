@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct AddChipView: View {
     var appearance: FormValidationViewAppearance
-    
+
     @Environment(\.isFocused) private var isFocused: Bool
     @Environment(\.isEnabled) private var isEnabled: Bool
 
@@ -20,7 +20,7 @@ public struct AddChipView: View {
     public var body: some View {
         HStack {
             Image(systemName: "plus")
-                .font(.system(size: 12, weight: .light))
+                .font(appearance.textFieldFont)
         }.padding(7.5)
             .foregroundColor(appearance.formTextColor(focused: isFocused, isEnabled: isEnabled))
             .background(appearance.enabledBackgroundColor)

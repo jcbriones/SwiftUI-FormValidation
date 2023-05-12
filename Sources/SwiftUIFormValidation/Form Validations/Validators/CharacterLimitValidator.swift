@@ -6,9 +6,10 @@
 //  Copyright © 2022 Recomdy, LLC. All rights reserved.
 //
 
+import Combine
 import Foundation
 
-class CharacterLimitValidator: FormValidator {
+public class CharacterLimitValidator: FormValidator {
 
     // MARK: - Initializer
 
@@ -22,12 +23,22 @@ class CharacterLimitValidator: FormValidator {
 
     // MARK: - FormValidator Protocol
 
-    func validate(_ value: any Equatable) -> FormValidationResult {
-        guard let value = value as? String else { return .valid }
+    public func validate(_ value: any Equatable) -> AnyPublisher<FormValidationResult, Never> {
+        guard let value = value as? String else { return Just(.valid).eraseToAnyPublisher() }
         if value.count > characterLimit {
-            return .error(message: "Character Limit: \(value.count) / \(characterLimit)")
+            return Just(
+                .error(
+                    message: "xloc.validator.characterLimit \(value.count.formatted()) \(characterLimit.formatted())"
+                )
+            ).eraseToAnyPublisher()
         } else {
-            return .valid
+            return Just(.valid).eraseToAnyPublisher()
         }
+    }
+}
+
+public extension FormValidator where Self == CharacterLimitValidator {
+    static func characterLimit(characterLimit: Int) -> FormValidator {
+        CharacterLimitValidator(characterLimit: characterLimit)
     }
 }
