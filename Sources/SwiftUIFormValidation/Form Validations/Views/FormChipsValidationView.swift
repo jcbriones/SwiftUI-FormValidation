@@ -115,7 +115,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                         height = 0
                         return result
                     }
-                    .alwaysPopover(isPresented: $showAddChipCollection) {
+                    .popover(isPresented: $showAddChipCollection) {
                         FormChipValidationSelectorView(collection: collection, selected: $value)
                     }
                 }
@@ -174,6 +174,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
                     }
                 }
             }
+#if os(iOS)
             .listStyle(.insetGrouped)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -184,6 +185,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
                     }
                 }
             }
+#endif
         }
     }
 }
@@ -235,7 +237,7 @@ struct FormChipValidationView_Previews: PreviewProvider {
                                                collection: NumberChip.allCases)
                     }.padding(.horizontal, 10)
                 }
-            }.navigationBarTitle("Demo")
+            }.navigationTitle("Demo")
         }
     }
 }

@@ -52,7 +52,9 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
                     .padding(5)
                     .focused($focused)
                     .disabled(!isEnabled)
+#if os(iOS)
                     .keyboardType(keyboardTypeFromFormatInput)
+#endif
             }
             if isEnabled {
                 Divider()
@@ -69,6 +71,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
         }
     }
 
+#if os(iOS)
     private var keyboardTypeFromFormatInput: UIKeyboardType {
         switch F.FormatInput.self {
         case is any Numeric:
@@ -77,6 +80,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
             return .default
         }
     }
+#endif
 
 }
 

@@ -41,8 +41,10 @@ public struct FormTextEditorValidationView: FormValidationContent {
             .frame(minHeight: 140)
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)
+#if os(iOS)
             .keyboardType(.asciiCapable)
             .border(.clear, width: 0)
+#endif
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(
@@ -74,7 +76,9 @@ public struct FormTextEditorValidationView: FormValidationContent {
                 }
             }
             .onAppear {
+#if os(iOS)
                 UITextView.appearance().backgroundColor = .clear
+#endif
             }
     }
 

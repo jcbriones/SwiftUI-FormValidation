@@ -11,7 +11,7 @@ import SwiftUI
 public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance {
     public let accentBackgroundColor: Color = .accentColor
 
-    public let enabledBackgroundColor: Color = Color(UIColor.systemBackground)
+    public let enabledBackgroundColor: Color = .white
 
     public let disabledBackgroundColor: Color = .gray.opacity(0.5)
 

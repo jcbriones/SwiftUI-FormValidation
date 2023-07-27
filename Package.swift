@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.8
 
 import PackageDescription
 
@@ -6,7 +6,7 @@ let package = Package(
     name: "SwiftUIFormValidation",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v12), .iOS(.v15), .tvOS(.v15)
+        .macOS(.v13), .iOS(.v16), .tvOS(.v16)
     ],
     products: [
         .library(

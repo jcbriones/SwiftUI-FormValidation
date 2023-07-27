@@ -61,7 +61,7 @@ public struct FormDatePickerValidationView: FormValidationContent {
                         .padding(5)
                 }
                 .buttonStyle(.plain)
-                .alwaysPopover(isPresented: $showDatePicker) {
+                .popover(isPresented: $showDatePicker) {
                     Group {
                         if let range, let displayedComponents {
                             DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)

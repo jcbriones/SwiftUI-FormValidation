@@ -28,7 +28,7 @@ struct DemoValidation: View {
                 .padding(.horizontal, 20)
             }
         }
-        .navigationBarTitle("xloc.demo.title")
+        .navigationTitle("xloc.demo.title")
     }
 
     private var chip: some View {

@@ -6,8 +6,9 @@
 //  Copyright © 2022 Recomdy, LLC. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import PhotosUI
+import SwiftUI
 
 public struct FormPhotoValidationView: FormValidationContent {
 
@@ -25,14 +26,14 @@ public struct FormPhotoValidationView: FormValidationContent {
     @FocusState private var focused: Bool
     @Binding public var value: Image?
 
-    @State private var showPicker: Bool = false
+    @State private var selectedItems: [PhotosPickerItem] = []
 
     // MARK: - Body
 
     public var body: some View {
-        Button {
-            showPicker.toggle()
-        } label: {
+        PhotosPicker(selection: $selectedItems,
+                     matching: .images,
+                     photoLibrary: .shared()) {
             VStack(spacing: 10) {
                 if let image = value {
                     image.resizable().scaledToFit()
@@ -47,15 +48,12 @@ public struct FormPhotoValidationView: FormValidationContent {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 200)
-        }
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8], dashPhase: 0))
-                .foregroundColor(appearance.inactiveBorderColor)
-        )
-        .sheet(isPresented: $showPicker) {
-            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$value)
-        }
+        }.buttonStyle(.borderless)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8], dashPhase: 0))
+                    .foregroundColor(appearance.inactiveBorderColor)
+            )
     }
 
 }
