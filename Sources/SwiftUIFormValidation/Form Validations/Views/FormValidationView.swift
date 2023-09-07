@@ -9,9 +9,9 @@ import SwiftUI
 import Combine
 
 public struct FormValidationView<Content>: View where Content: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     /// Creates a form validation field view.
     /// - Parameters:
     ///   - header: The title header of the validation field.
@@ -37,7 +37,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self.maxCharCount = maxCharCount
         self._validators = validators
         self._externalFormValidationResult = validationResult ?? .constant(.valid)
-
+        
         var validators = validators
         if isRequired, let fieldName = header.stringValue(),
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
@@ -49,7 +49,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         }
         _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
     }
-
+    
     /// Creates a form validation field view.
     /// - Parameters:
     ///   - header: The title header of the validation field.
@@ -75,7 +75,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self.maxCharCount = maxCharCount
         self._validators = validators
         self._externalFormValidationResult = validationResult ?? .constant(.valid)
-
+        
         var validators = validators
         if isRequired,
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
@@ -87,19 +87,19 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         }
         _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
     }
-
+    
     // MARK: - ViewModel
-
+    
     @StateObject private var viewModel: FormValidationViewModel
-
+    
     // MARK: - View Binding Properties
-
+    
     @Environment(\.formAppearance) private var appearance
     @Environment(\.isEnabled) private var isEnabled
     @FocusState private var focused: Bool
-
+    
     // MARK: - Form Validation Properties
-
+    
     private var header: LocalizedStringKey
     private var footerMessage: LocalizedStringKey?
     @State private var trailingFooter: String = ""
@@ -107,12 +107,12 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     private var contentType: Content
     private let maxCharCount: Int?
     private let _validators: [FormValidator]
-
+    
     @State private var shake: Bool = false
     @Binding private var externalFormValidationResult: FormValidationResult
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -131,8 +131,8 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
                                 comment: "For the input field of the form that is required."
                             )
                         )
-                        .font(appearance.titleHeaderFont)
-                        .foregroundColor(appearance.requiredFieldSymbolTextColor))
+                            .font(appearance.titleHeaderFont)
+                            .foregroundColor(appearance.requiredFieldSymbolTextColor))
                     .animation(appearance.animation, value: focused)
                 } else {
                     Text(header)

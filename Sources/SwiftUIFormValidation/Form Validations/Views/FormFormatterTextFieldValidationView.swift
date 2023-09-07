@@ -1,22 +1,21 @@
 //
-//  FormFormatTextFieldValidationView.swift
+//  FormFormattedTextFieldValidationView.swift
 //  Recomdy
 //
-//  Created by Jc Briones on 8/25/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Created by Jc Briones on 9/7/23.
+//  Copyright © 2023 Recomdy, LLC. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 
-public struct FormFormatTextFieldValidationView<F>: FormValidationContent
-where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+public struct FormFormatterTextFieldValidationView<F, V>: FormValidationContent where F: Formatter, V: Equatable {
 
     // MARK: - Initializer
 
-    init(value: Binding<F.FormatInput?>, format: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
+    init(value: Binding<V?>, formatter: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
         self._value = value
-        self.format = format
+        self.formatter = formatter
         self.imageName = imageName
         self.placeholder = placeholder
     }
@@ -27,9 +26,9 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
-    @Binding public var value: F.FormatInput?
+    @Binding public var value: V?
 
-    private let format: F
+    private let formatter: F
     private let imageName: String?
     private let placeholder: LocalizedStringKey
 
@@ -45,7 +44,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
                         .frame(width: 27, height: 27)
                         .foregroundColor(appearance.imageIconColor)
                 }
-                TextField(placeholder, value: $value, format: format)
+                TextField(placeholder, value: $value, formatter: formatter)
                     .font(appearance.textFieldFont)
                     .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                     .multilineTextAlignment(.leading)
@@ -73,7 +72,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
 
 #if os(iOS)
     private var keyboardTypeFromFormatInput: UIKeyboardType {
-        switch F.FormatInput.self {
+        switch V.self {
         case is any Numeric:
             return .numberPad
         default:
@@ -88,44 +87,42 @@ public extension FormValidationContent {
     /// Allows to format the text of the text field after resigning from responder.
     /// - Parameters:
     ///   - value: The text to display
-    ///   - format: The format to use to format the text.
+    ///   - formatter: The formatter to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func formatTextField<F>(
-        value: Binding<Value>,
-        format: F,
+    static func formatterTextField<F, V>(
+        value: Binding<V?>,
+        formatter: F,
         imageName: String? = nil,
         placeholder: LocalizedStringKey = ""
-    ) -> FormFormatTextFieldValidationView<F>
-    where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable,
-          Value == F.FormatInput?, Self == FormFormatTextFieldValidationView<F> {
-              FormFormatTextFieldValidationView(
-                value: value,
-                format: format,
-                imageName: imageName,
-                placeholder: placeholder
-              )
-          }
+    ) -> FormFormatterTextFieldValidationView<F, V>
+    where F: Formatter, Self == FormFormatterTextFieldValidationView<F, V> {
+        FormFormatterTextFieldValidationView(
+            value: value,
+            formatter: formatter,
+            imageName: imageName,
+            placeholder: placeholder
+        )
+    }
 
     /// Allows to format the text of the text field after resigning from responder.
     /// - Parameters:
     ///   - value: The text to display
-    ///   - format: The format to use to format the text.
+    ///   - formatter: The formatter to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    static func formatTextField<F>(
-        value: Binding<Value>,
-        format: F,
+    static func formatterTextField<F, V>(
+        value: Binding<V?>,
+        formatter: F,
         imageName: String? = nil,
         placeholder: String = ""
-    ) -> FormFormatTextFieldValidationView<F>
-    where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable,
-          Value == F.FormatInput?, Self == FormFormatTextFieldValidationView<F> {
-              FormFormatTextFieldValidationView(
-                value: value,
-                format: format,
-                imageName: imageName,
-                placeholder: .init(placeholder)
-              )
-          }
+    ) -> FormFormatterTextFieldValidationView<F, V>
+    where F: Formatter, Self == FormFormatterTextFieldValidationView<F, V> {
+        FormFormatterTextFieldValidationView(
+            value: value,
+            formatter: formatter,
+            imageName: imageName,
+            placeholder: .init(placeholder)
+        )
+    }
 }

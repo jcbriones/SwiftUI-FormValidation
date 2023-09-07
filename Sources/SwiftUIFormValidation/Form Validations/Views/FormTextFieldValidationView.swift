@@ -10,9 +10,9 @@ import SwiftUI
 import Combine
 
 public struct FormTextFieldValidationView: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     init(
         value: Binding<String>,
         imageName: String? = nil,
@@ -24,21 +24,21 @@ public struct FormTextFieldValidationView: FormValidationContent {
         self.systemName = systemName
         self.placeholder = placeholder
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @Binding public var value: String
-
+    
     private let imageName: String?
     private let systemName: String?
     private let placeholder: LocalizedStringKey
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -65,7 +65,7 @@ public struct FormTextFieldValidationView: FormValidationContent {
                 .animation(appearance.animation, value: validationResult)
         }
     }
-
+    
 }
 
 public extension FormValidationContent where Self == FormTextFieldValidationView {
@@ -81,7 +81,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -94,7 +94,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, systemName: systemName, placeholder: placeholder)
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -105,7 +105,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, placeholder: placeholder)
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -118,7 +118,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, imageName: imageName, placeholder: .init(placeholder))
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -131,7 +131,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, systemName: systemName, placeholder: .init(placeholder))
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -142,7 +142,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(value: value, placeholder: .init(placeholder))
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -165,7 +165,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
             placeholder: placeholder
         )
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -188,7 +188,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
             placeholder: placeholder
         )
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -208,7 +208,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
             placeholder: placeholder
         )
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -231,7 +231,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
             placeholder: .init(placeholder)
         )
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -254,7 +254,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
             placeholder: .init(placeholder)
         )
     }
-
+    
     /// The text field
     /// - Parameters:
     ///   - value: The text to display

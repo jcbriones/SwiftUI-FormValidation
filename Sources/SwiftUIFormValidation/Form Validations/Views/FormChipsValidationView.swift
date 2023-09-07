@@ -14,7 +14,7 @@ private struct Row<Item>: View where Item: AnyItem {
     let item: Item
     let isSelected: Bool
     let onTap: (() -> Void)?
-
+    
     var body: some View {
         HStack {
             if let image = item.systemImage {
@@ -33,16 +33,16 @@ private struct Row<Item>: View where Item: AnyItem {
 }
 
 public struct FormChipValidationView<Item>: FormValidationContent where Item: AnyItem {
-
+    
     // MARK: - Initializer
-
+    
     init(value: Binding<[Item]>, collection: [Item]) {
         self._value = value
         self.collection = collection
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.isEnabled) private var isEnabled: Bool
     @Environment(\.formValidationResult) private var validationResult
@@ -50,11 +50,11 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
     @State private var totalHeight = CGFloat.zero // Use .infinity if used in VStack
     @Binding public var value: [Item]
     @State private var showAddChipCollection: Bool = false
-
+    
     private var collection: [Item]
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
@@ -75,7 +75,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                             width = 0
                             height -= dimension.height
                         }
-
+                        
                         let result = width
                         if chip.id == value.last!.id && !isEnabled {
                             width = 0
@@ -105,7 +105,7 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                             width = 0
                             height -= dimension.height
                         }
-
+                        
                         let result = width
                         width = 0
                         return result
@@ -143,9 +143,9 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                 .animation(appearance.animation, value: validationResult)
         )
     }
-
+    
     // MARK: - Private API
-
+    
     private func updateCorrectViewHeight(_ binding: Binding<CGFloat>) -> some View {
         return GeometryReader { geometry -> Color in
             let rect = geometry.frame(in: .local)
@@ -159,10 +159,10 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
 
 struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
     @Environment(\.dismiss) var dismiss
-
+    
     @State var collection: [Item]
     @Binding var selected: [Item]
-
+    
     var body: some View {
         NavigationView {
             List(collection) { item in
@@ -198,7 +198,7 @@ enum NumberChip: Int, CaseIterable, AnyItem {
     case fourth
     case fifth
     case sixth
-
+    
     var id: Int {
         rawValue
     }
@@ -254,7 +254,7 @@ public extension FormValidationContent {
     ) -> FormChipValidationView<Item> where Item: AnyItem, Self == FormChipValidationView<Item> {
         FormChipValidationView(value: value, collection: collection)
     }
-
+    
     /// A chip container that displays a selected set of items as part of the collection.
     /// - Parameters:
     ///   - value: The set of selected items from the collection

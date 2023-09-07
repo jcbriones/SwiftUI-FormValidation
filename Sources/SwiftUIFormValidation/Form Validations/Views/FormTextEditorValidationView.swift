@@ -10,26 +10,26 @@ import SwiftUI
 import Combine
 
 public struct FormTextEditorValidationView: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     init(value: Binding<String>, placeholder: LocalizedStringKey = "") {
         self._value = value
         self.placeholder = placeholder
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @Binding public var value: String
-
+    
     private let placeholder: LocalizedStringKey
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         TextEditor(text: $value)
             .disabled(!isEnabled)
@@ -81,7 +81,7 @@ public struct FormTextEditorValidationView: FormValidationContent {
 #endif
             }
     }
-
+    
 }
 
 public extension FormValidationContent where Self == FormTextEditorValidationView {
@@ -96,7 +96,7 @@ public extension FormValidationContent where Self == FormTextEditorValidationVie
     ) -> FormTextEditorValidationView {
         FormTextEditorValidationView(value: value, placeholder: placeholder)
     }
-
+    
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
     ///   - value: The text to display
@@ -108,7 +108,7 @@ public extension FormValidationContent where Self == FormTextEditorValidationVie
     ) -> FormTextEditorValidationView {
         FormTextEditorValidationView(value: value, placeholder: .init(placeholder))
     }
-
+    
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
     ///   - value: The text to display
@@ -129,7 +129,7 @@ public extension FormValidationContent where Self == FormTextEditorValidationVie
             placeholder: placeholder
         )
     }
-
+    
     /// Text editor also known as text view in `UIKit`
     /// - Parameters:
     ///   - value: The text to display

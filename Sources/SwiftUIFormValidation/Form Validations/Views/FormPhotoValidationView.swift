@@ -11,25 +11,25 @@ import PhotosUI
 import SwiftUI
 
 public struct FormPhotoValidationView: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     public init(value: Binding<Image?>) {
         self._value = value
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @Binding public var value: Image?
-
+    
     @State private var selectedItems: [PhotosPickerItem] = []
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         PhotosPicker(selection: $selectedItems,
                      matching: .images,
@@ -55,7 +55,7 @@ public struct FormPhotoValidationView: FormValidationContent {
                     .foregroundColor(appearance.inactiveBorderColor)
             )
     }
-
+    
 }
 
 #if DEBUG

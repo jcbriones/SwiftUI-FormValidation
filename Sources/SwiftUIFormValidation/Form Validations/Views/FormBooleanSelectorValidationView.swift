@@ -10,25 +10,25 @@ import SwiftUI
 import Combine
 
 public struct FormBooleanSelectorValidationView: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     init(value: Binding<Bool>, textForNo: LocalizedStringKey, textForYes: LocalizedStringKey) {
         self._value = value
         self.textForNo = textForNo
         self.textForYes = textForYes
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Binding public var value: Bool
-
+    
     private let textForYes: LocalizedStringKey
     private let textForNo: LocalizedStringKey
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         HStack {
             Button(textForNo) {
@@ -63,7 +63,7 @@ public extension FormValidationContent where Self == FormBooleanSelectorValidati
             textForYes: textForYes
         )
     }
-
+    
     /// A form validation that supports a boolean value.
     /// - Parameters:
     ///   - value: If set to true, the true button is selected. Otherwise, the false button is selected.

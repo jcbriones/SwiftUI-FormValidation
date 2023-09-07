@@ -10,9 +10,9 @@ import SwiftUI
 import Combine
 
 public struct FormDatePickerValidationView: FormValidationContent {
-
+    
     // MARK: - Initializer
-
+    
     init(
         value: Binding<Date>,
         imageName: String? = nil,
@@ -24,22 +24,22 @@ public struct FormDatePickerValidationView: FormValidationContent {
         self.range = range
         self.displayedComponents = displayedComponents
     }
-
+    
     // MARK: - Private Properties
-
+    
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @State private var showDatePicker: Bool = false
     @Binding public var value: Date
-
+    
     private let imageName: String?
     private let range: ClosedRange<Date>?
     private let displayedComponents: DatePickerComponents?
-
+    
     // MARK: - Body
-
+    
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
