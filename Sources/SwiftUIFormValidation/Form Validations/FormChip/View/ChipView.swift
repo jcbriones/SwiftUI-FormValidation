@@ -30,8 +30,10 @@ public struct ChipView: View {
                 Image(systemName: systemImage)
                     .font(.system(size: 14, weight: .light))
             } else if let imageUrl {
-                AsyncImage(url: imageUrl)
-                    .font(.system(size: 14, weight: .light))
+                AsyncImage(url: imageUrl) {
+                    $0.image?.resizable()
+                        .clipShape(Circle())
+                }.font(.system(size: 14, weight: .light))
             }
             Text(titleKey).lineLimit(1)
                 .font(appearance.textFieldFont)
