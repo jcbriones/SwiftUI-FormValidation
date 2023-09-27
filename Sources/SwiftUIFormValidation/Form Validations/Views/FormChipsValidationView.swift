@@ -17,8 +17,18 @@ private struct Row<Item>: View where Item: AnyItem {
 
     var body: some View {
         HStack {
-            if let image = item.systemImage {
-                Image(systemName: image)
+            if let systemImage = item.systemImage {
+                Image(systemName: systemImage)
+            } else if let imageUrl = item.imageUrl {
+                AsyncImage(url: imageUrl) { phase in
+                    if let image = phase.image {
+                        image.resizable()
+                    } else if phase.error != nil {
+                        EmptyView()
+                    } else {
+                        ProgressView().controlSize(.mini)
+                    }
+                }.frame(width: 40, height: 40).clipShape(Circle())
             }
             Text(item.localizedString)
                 .font(appearance.textFieldFont)
@@ -180,6 +190,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
                 }
             }
             .navigationTitle(pickerTitle)
+            .navigationBarTitleDisplayMode(.inline)
 #if os(iOS)
             .listStyle(.insetGrouped)
             .toolbar {
@@ -212,7 +223,7 @@ enum NumberChip: Int, CaseIterable, AnyItem {
         nil
     }
     var imageUrl: URL? {
-        URL(string: "https://asia.omsystem.com/content/000107507.jpg")
+        self == .fifth || self == .third ? URL(string: "https://asia.omsystem.com/content/000107507.jpg") : nil
     }
     var localizedString: LocalizedStringKey {
         switch self {
@@ -242,8 +253,10 @@ struct FormChipValidationView_Previews: PreviewProvider {
                         .font(.system(size: 18, weight: .light))
                         .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
                     VStack(spacing: 8) {
-                        FormChipValidationView(value: $currentValues,
-                                               collection: NumberChip.allCases, pickerTitle: "Test Tite")
+                        FormChipValidationView(
+                            value: $currentValues,
+                            collection: NumberChip.allCases, pickerTitle: "Test Tite"
+                        )
                     }.padding(.horizontal, 10)
                 }
             }.navigationTitle("Demo")
