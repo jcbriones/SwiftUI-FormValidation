@@ -211,6 +211,9 @@ enum NumberChip: Int, CaseIterable, AnyItem {
     var systemImage: String? {
         nil
     }
+    var imageUrl: URL? {
+        URL(string: "https://asia.omsystem.com/content/000107507.jpg")
+    }
     var localizedString: LocalizedStringKey {
         switch self {
         case .first:
