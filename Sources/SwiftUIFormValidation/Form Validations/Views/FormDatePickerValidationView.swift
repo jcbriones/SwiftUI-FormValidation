@@ -61,7 +61,7 @@ public struct FormDatePickerValidationView: FormValidationContent {
                         .padding(5)
                 }
                 .buttonStyle(.plain)
-                .popover(isPresented: $showDatePicker) {
+                .sheet(isPresented: $showDatePicker) {
                     Group {
                         if let range, let displayedComponents {
                             DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)
@@ -76,6 +76,7 @@ public struct FormDatePickerValidationView: FormValidationContent {
                     .padding()
                     .labelsHidden()
                     .datePickerStyle(.graphical)
+                    .presentationDetents([.medium])
                 }
                 .focused($focused)
                 .disabled(!isEnabled)

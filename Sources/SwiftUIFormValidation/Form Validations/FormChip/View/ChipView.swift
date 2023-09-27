@@ -18,6 +18,7 @@ public struct ChipView: View {
     // MARK: - Properties
 
     let systemImage: String?
+    let imageUrl: URL?
     let titleKey: LocalizedStringKey
     var onRemove: () -> Void
 
@@ -27,6 +28,9 @@ public struct ChipView: View {
         HStack {
             if let systemImage {
                 Image(systemName: systemImage)
+                    .font(.system(size: 14, weight: .light))
+            } else if let imageUrl {
+                AsyncImage(url: imageUrl)
                     .font(.system(size: 14, weight: .light))
             }
             Text(titleKey).lineLimit(1)

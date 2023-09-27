@@ -34,9 +34,14 @@ struct DemoValidation: View {
 
     private var chip: some View {
         VStack(spacing: 8) {
-            FormValidationView(header: "Sample Chip Set",
-                               .chip(value: $viewModel.selectedChips,
-                                     collection: NumberChip.allCases))
+            FormValidationView(
+                header: "Sample Chip Set",
+                .chip(
+                    value: $viewModel.selectedChips,
+                    collection: NumberChip.allCases,
+                    pickerTitle: "Sample Selection"
+                )
+            )
         }
     }
     private var pickers: some View {
