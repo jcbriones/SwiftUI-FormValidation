@@ -23,8 +23,8 @@ class FormValidationViewModel: ObservableObject {
             .flatMap { value in
                 validators.validate(value)
             }
-            .sink { [self] result in
-                validationResult = result.first { $0 != .valid } ?? .valid
+            .sink { [weak self] result in
+                self?.validationResult = result.first { $0 != .valid } ?? .valid
             }
             .store(in: &subscribers)
     }
