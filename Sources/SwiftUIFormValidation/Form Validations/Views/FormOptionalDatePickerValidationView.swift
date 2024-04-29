@@ -1,20 +1,20 @@
 //
-//  FormDatePickerValidationView.swift
+//  FormOptionalDatePickerValidationView.swift
 //  Recomdy
 //
-//  Created by Jc Briones on 8/26/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Created by Jc Briones on 4/28/24.
+//  Copyright © 2024 Recomdy, LLC. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 
-public struct FormDatePickerValidationView: FormValidationContent {
-    
+public struct FormOptionalDatePickerValidationView: FormValidationContent {
+
     // MARK: - Initializer
-    
+
     init(
-        value: Binding<Date>,
+        value: Binding<Date?>,
         imageName: String? = nil,
         in range: ClosedRange<Date>? = nil,
         displayedComponents: DatePickerComponents? = nil
@@ -24,22 +24,22 @@ public struct FormDatePickerValidationView: FormValidationContent {
         self.range = range
         self.displayedComponents = displayedComponents
     }
-    
+
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @State private var showDatePicker: Bool = false
-    @Binding public var value: Date
-    
+    @Binding public var value: Date?
+
     private let imageName: String?
     private let range: ClosedRange<Date>?
     private let displayedComponents: DatePickerComponents?
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -50,28 +50,44 @@ public struct FormDatePickerValidationView: FormValidationContent {
                         .frame(width: 27, height: 27)
                         .foregroundColor(appearance.imageIconColor)
                 }
-                Button {
-                    showDatePicker.toggle()
-                } label: {
-                    Text(value.formatted(date: .abbreviated, time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted))
-                        .font(appearance.textFieldFont)
-                        .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                ZStack(alignment: .trailing) {
+                    Button {
+                        showDatePicker.toggle()
+                    } label: {
+                        if let value {
+                            Text(value.formatted(date: .abbreviated, time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted))
+                                .font(appearance.textFieldFont)
+                                .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(5)
+                                .contentShape(Rectangle())
+                        } else {
+                            Color.clear
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(5)
+                                .contentShape(Rectangle())
+                        }
+                    }
+
+                    Button("", systemImage: "x.circle.fill") {
+                        value = nil
+                    }.controlSize(.mini)
+                        .foregroundColor(appearance.placeholderTextColor)
                         .padding(5)
-                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .sheet(isPresented: $showDatePicker) {
                     Group {
                         if let range, let displayedComponents {
-                            DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)
+                            DatePicker("", selection: $value ?? .now, in: range, displayedComponents: displayedComponents)
                         } else if let range {
-                            DatePicker("", selection: $value, in: range)
+                            DatePicker("", selection: $value ?? .now, in: range)
                         } else if let displayedComponents {
-                            DatePicker("", selection: $value, displayedComponents: displayedComponents)
+                            DatePicker("", selection: $value ?? .now, displayedComponents: displayedComponents)
                         } else {
-                            DatePicker("", selection: $value)
+                            DatePicker("", selection: $value ?? .now)
                         }
                     }
                     .padding()
@@ -94,7 +110,7 @@ public struct FormDatePickerValidationView: FormValidationContent {
     }
 }
 
-public extension FormValidationContent where Self == FormDatePickerValidationView {
+public extension FormValidationContent where Self == FormOptionalDatePickerValidationView {
     /// Simple date picker that allows user to select date based on an optional range and displayed components.
     /// - Parameters:
     ///   - value: The selected date
@@ -102,12 +118,12 @@ public extension FormValidationContent where Self == FormDatePickerValidationVie
     ///   - range: The range from, to, or in between dates.
     ///   - displayedComponents: The components to be displayed such as date or time or even both
     static func datePicker(
-        value: Binding<Date>,
+        value: Binding<Date?>,
         imageName: String? = nil,
         in range: ClosedRange<Date>? = nil,
         displayedComponents: DatePickerComponents? = [.date, .hourAndMinute]
-    ) -> FormDatePickerValidationView {
-        FormDatePickerValidationView(
+    ) -> FormOptionalDatePickerValidationView {
+        FormOptionalDatePickerValidationView(
             value: value,
             imageName: imageName,
             in: range,

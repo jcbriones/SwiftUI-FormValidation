@@ -39,7 +39,7 @@ struct DemoValidation: View {
                 .chip(
                     value: $viewModel.selectedChips,
                     collection: NumberChip.allCases,
-                    pickerTitle: "Sample Selection"
+                    pickerTitle: .init("Sample Selection")
                 )
             )
         }
@@ -99,6 +99,28 @@ struct DemoValidation: View {
                 .formatTextField(value: $viewModel.date2,
                                     format: .dateTime,
                                     placeholder: "Write a text and remove it")
+            )
+            FormValidationView(
+                header: "Date Picker",
+                isRequired: true,
+                validators: [.requiredField(fieldName: "Date formatter")],
+                .datePicker(
+                    value: $viewModel.date1, 
+                    imageName: nil,
+                    in: nil,
+                    displayedComponents: .date
+                )
+            )
+            FormValidationView(
+                header: "Date Picker (Optional)",
+                isRequired: false,
+                validators: [],
+                .datePicker(
+                    value: $viewModel.date2,
+                    imageName: nil,
+                    in: nil,
+                    displayedComponents: .date
+                )
             )
             FormValidationView(
                 header: "Number Format Required",
