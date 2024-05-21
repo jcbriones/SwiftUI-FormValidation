@@ -137,8 +137,8 @@ struct DemoValidation: View {
                     isRequired: true,
                     validators: [.requiredField(fieldName: "URL formatter")],
                     .formatTextField(value: $viewModel.text3,
-                                        format: .url,
-                                        placeholder: "Write a text and remove it")
+                                     format: .url,
+                                     placeholder: "Write a text and remove it")
                 )
             }
             FormValidationView(

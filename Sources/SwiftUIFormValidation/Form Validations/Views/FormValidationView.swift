@@ -185,11 +185,16 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
                         )
                         .frame(minHeight: 15)
                 } else if let maxCharCount,
-                          let text = contentType.value as? CustomStringConvertible,
-                          viewModel.validationResult == .valid {
+                          let text = contentType.value as? CustomStringConvertible {
                     Text("\(text.description.count.formatted()) / \(maxCharCount.formatted())")
                         .font(appearance.validatedDescriptionFont)
-                        .foregroundColor(appearance.activeTextColor)
+                        .foregroundColor(text.description.count <= maxCharCount ?
+                                         appearance.activeTextColor :
+                                            appearance.formValidationBorderColor(
+                                                focused: focused,
+                                                validationResult: viewModel.validationResult
+                                            )
+                        )
                         .frame(minHeight: 15)
                 }
             }

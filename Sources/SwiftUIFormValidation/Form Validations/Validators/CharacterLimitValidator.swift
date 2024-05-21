@@ -28,7 +28,7 @@ public class CharacterLimitValidator: FormValidator {
         if value.count > characterLimit {
             return Just(
                 .error(
-                    message: "xloc.validator.characterLimit \(value.count.formatted()) \(characterLimit.formatted())"
+                    message: "xloc.validator.characterLimitReached"
                 )
             ).eraseToAnyPublisher()
         } else {
