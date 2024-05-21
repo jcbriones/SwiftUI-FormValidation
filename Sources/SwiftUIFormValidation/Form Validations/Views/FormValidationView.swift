@@ -27,17 +27,17 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         maxCharCount: Int? = nil,
         validators: [FormValidator] = [],
         validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
-        validationResult: Binding<FormValidationResult>? = nil,
+        validationResult: Binding<FormValidationResult?>? = nil,
         _ contentType: Content
     ) {
+        @State var dummyValidationResult: FormValidationResult? = nil
         self.header = header
         self.footerMessage = footerMessage
         self.isRequired = isRequired
         self.contentType = contentType
         self.maxCharCount = maxCharCount
         self._validators = validators
-        self._externalFormValidationResult = validationResult ?? .constant(.valid)
-        
+
         var validators = validators
         if isRequired, let fieldName = header.stringValue(),
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
@@ -65,17 +65,16 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         maxCharCount: Int? = nil,
         validators: [FormValidator] = [],
         validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
-        validationResult: Binding<FormValidationResult>? = nil,
         _ contentType: Content
     ) {
+        @State var dummyValidationResult: FormValidationResult? = nil
         self.header = .init(header)
         self.footerMessage = footerMessage != nil ? .init(footerMessage!) : nil
         self.isRequired = isRequired
         self.contentType = contentType
         self.maxCharCount = maxCharCount
         self._validators = validators
-        self._externalFormValidationResult = validationResult ?? .constant(.valid)
-        
+
         var validators = validators
         if isRequired,
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
@@ -94,8 +93,13 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     
     // MARK: - View Binding Properties
     
-    @Environment(\.formAppearance) private var appearance
-    @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.externalValidationResult)
+    @Binding private var externalFormValidationResult: FormValidationResult?
+    @Environment(\.formAppearance) 
+    private var appearance
+    @Environment(\.isEnabled)
+    private var isEnabled
+
     @FocusState private var focused: Bool
     
     // MARK: - Form Validation Properties
@@ -109,8 +113,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     private let _validators: [FormValidator]
     
     @State private var shake: Bool = false
-    @Binding private var externalFormValidationResult: FormValidationResult
-    
+
     // MARK: - Body
     
     public var body: some View {
@@ -202,8 +205,11 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         .onChange(of: contentType.value) { newValue in
             viewModel.validate(newValue)
         }
-        .onChange(of: externalFormValidationResult) { newValue in
-            viewModel.forceValidate(contentType.value, with: newValue)
+        .onAppear {
+            externalFormValidationResult = .valid
+        }
+        .onDisappear {
+            externalFormValidationResult = nil
         }
         .onChange(of: viewModel.validationResult) { newValue in
             externalFormValidationResult = newValue

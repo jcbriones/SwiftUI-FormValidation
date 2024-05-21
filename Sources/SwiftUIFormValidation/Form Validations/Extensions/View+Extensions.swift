@@ -9,18 +9,27 @@ import SwiftUI
 import Combine
 
 public extension View {
+    @ViewBuilder
     func formAppearance(_ appearance: FormValidationViewAppearance) -> some View {
         environment(\.formAppearance, appearance)
     }
 
+    @ViewBuilder
+    func validationResult(_ result: Binding<FormValidationResult?>) -> some View {
+        environment(\.externalValidationResult.self, result)
+    }
+
+    @ViewBuilder
     func onFormValidityChanged(isValid: @escaping (Bool) -> Void) -> some View {
         onPreferenceChange(FormValidityKey.self, perform: isValid)
     }
 
+    @ViewBuilder
     func isFormValid(_ value: Bool) -> some View {
         preference(key: FormValidityKey.self, value: value)
     }
 
+    @ViewBuilder
     func shake(
         _ shake: Bool,
         offsetRange: CGFloat = 10,

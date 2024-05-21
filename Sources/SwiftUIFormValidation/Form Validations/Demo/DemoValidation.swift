@@ -155,6 +155,7 @@ struct DemoValidation: View {
                     placeholder: "$"
                 )
             )
+            .validationResult($viewModel.validationResults["1"])
             FormValidationView(
                 header: "Monetary (2 Digit Fraction)",
                 footerMessage: "Valid: 0 - \(viewModel.minMax1?.formatted() ?? "100") _Based on **Monetary (Fixed)**_",
@@ -244,6 +245,11 @@ class DemoValidationViewModel: ObservableObject {
     @Published var text5: Double? = 1.2
     @Published var text6: Double?
     @Published var boolean: Bool = false
+    @Published var validationResults: [String: FormValidationResult] = [:] {
+        didSet {
+            print(validationResults)
+        }
+    }
 }
 
 struct DemoValidation_Previews: PreviewProvider {
