@@ -64,46 +64,40 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
         guard let minWarning, let maxWarning, let minError, let maxError else {
             return nil
         }
-        switch value {
-        case (...minError):
-            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
-        case (maxError...):
-            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
-        case (...minWarning):
+        if value < minError {
+            return .error(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+        } else if value > maxError {
+            return .error(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
+        } else if value < minWarning {
             return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
-        case (maxWarning...):
+        } else if value > maxWarning {
             return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
-        default:
-            return .valid
         }
+        return .valid
     }
 
     private func validateWarning(_ value: Number) -> FormValidationResult? {
         guard let minWarning, let maxWarning else {
             return nil
         }
-        switch value {
-        case (...minWarning):
+        if value < minWarning {
             return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
-        case (maxWarning...):
+        } else if value > maxWarning {
             return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
-        default:
-            return .valid
         }
+        return .valid
     }
 
     private func validateError(_ value: Number) -> FormValidationResult? {
         guard let minError, let maxError else {
             return nil
         }
-        switch value {
-        case (...minError):
-            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
-        case (maxError...):
-            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
-        default:
-            return .valid
+        if value < minError {
+            return .error(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+        } else if value > maxError {
+            return .error(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
         }
+        return .valid
     }
 }
 
