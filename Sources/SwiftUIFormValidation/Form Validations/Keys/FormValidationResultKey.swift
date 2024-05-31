@@ -11,7 +11,7 @@ struct FormValidationResultKey: EnvironmentKey {
     static let defaultValue: FormValidationResult = .valid
 }
 
-public extension EnvironmentValues {
+extension EnvironmentValues {
     var formValidationResult: FormValidationResult {
         get { self[FormValidationResultKey.self] }
         set { self[FormValidationResultKey.self] = newValue }

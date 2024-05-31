@@ -94,9 +94,14 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     // MARK: - View Binding Properties
     
     @Environment(\.externalValidationResult)
-    @Binding private var externalFormValidationResult: FormValidationResult?
-    @Environment(\.formAppearance) 
+    @Binding private var externalFormValidationResult
+
+    @Environment(\.externalValidator)
+    private var externalValidator
+
+    @Environment(\.formAppearance)
     private var appearance
+
     @Environment(\.isEnabled)
     private var isEnabled
 
@@ -204,6 +209,9 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         }
         .onChange(of: contentType.value) { newValue in
             viewModel.validate(newValue)
+        }
+        .onReceive(externalValidator) {
+            viewModel.validate(contentType.value)
         }
         .onAppear {
             externalFormValidationResult = .valid

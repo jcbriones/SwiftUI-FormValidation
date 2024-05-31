@@ -20,13 +20,8 @@ public extension View {
     }
 
     @ViewBuilder
-    func onFormValidityChanged(isValid: @escaping (Bool) -> Void) -> some View {
-        onPreferenceChange(FormValidityKey.self, perform: isValid)
-    }
-
-    @ViewBuilder
-    func isFormValid(_ value: Bool) -> some View {
-        preference(key: FormValidityKey.self, value: value)
+    func validateForm(using subject: PassthroughSubject<Void,Never>) -> some View {
+        environment(\.externalValidator.self, subject)
     }
 
     @ViewBuilder
