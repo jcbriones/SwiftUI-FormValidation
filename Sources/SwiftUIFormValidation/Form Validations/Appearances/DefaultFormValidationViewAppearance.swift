@@ -53,42 +53,6 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
 
     public let animation: Animation = .default
 
-    public func formValidationBorderColor(
-        focused: Bool = false,
-        validationResult: FormValidationResult = .valid
-    ) -> Color {
-        switch validationResult {
-        case .valid:
-            return focused ? activeBorderColor : inactiveBorderColor
-        case .info:
-            return infoBorderColor
-        case .warning:
-            return warningBorderColor
-        case .error:
-            return errorBorderColor
-        }
-    }
-
-    public func formValidationDescriptionTextColor(
-        focused: Bool = false,
-        validationResult: FormValidationResult = .valid
-    ) -> Color {
-        switch validationResult {
-        case .valid:
-            return validDescriptionTextColor
-        case .info:
-            return infoDescriptionTextColor
-        case .warning:
-            return warningDescriptionTextColor
-        case .error:
-            return errorDescriptionTextColor
-        }
-    }
-
-    public func formTextColor(focused: Bool = false, isEnabled: Bool = true) -> Color {
-        focused ? activeTextColor : isEnabled ? inactiveTextColor : disabledTextColor
-    }
-
     public let titleHeaderFont: Font = .headline
 
     public let textFieldFont: Font = .body

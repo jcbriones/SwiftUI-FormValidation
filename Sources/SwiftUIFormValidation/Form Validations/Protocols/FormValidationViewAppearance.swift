@@ -35,13 +35,47 @@ public protocol FormValidationViewAppearance {
     var imageIconColor: Color { get }
     var animation: Animation { get }
 
-    func formValidationBorderColor(focused: Bool, validationResult: FormValidationResult) -> Color
-    func formValidationDescriptionTextColor(focused: Bool, validationResult: FormValidationResult) -> Color
-    func formTextColor(focused: Bool, isEnabled: Bool) -> Color
-
     // MARK: - Font Styles
 
     var titleHeaderFont: Font { get }
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }
+}
+
+public extension FormValidationViewAppearance {
+    func formValidationBorderColor(
+        focused: Bool = false,
+        validationResult: FormValidationResult = .valid
+    ) -> Color {
+        switch validationResult {
+        case .valid:
+            return focused ? activeBorderColor : inactiveBorderColor
+        case .info:
+            return infoBorderColor
+        case .warning:
+            return warningBorderColor
+        case .error:
+            return errorBorderColor
+        }
+    }
+
+    func formValidationDescriptionTextColor(
+        focused: Bool = false,
+        validationResult: FormValidationResult = .valid
+    ) -> Color {
+        switch validationResult {
+        case .valid:
+            return validDescriptionTextColor
+        case .info:
+            return infoDescriptionTextColor
+        case .warning:
+            return warningDescriptionTextColor
+        case .error:
+            return errorDescriptionTextColor
+        }
+    }
+
+    func formTextColor(focused: Bool = false, isEnabled: Bool = true) -> Color {
+        focused ? activeTextColor : isEnabled ? inactiveTextColor : disabledTextColor
+    }
 }
