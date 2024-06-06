@@ -69,7 +69,10 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
         }
     }
 
-    public func formValidationDescriptionTextColor(validationResult: FormValidationResult = .valid) -> Color {
+    public func formValidationDescriptionTextColor(
+        focused: Bool = false,
+        validationResult: FormValidationResult = .valid
+    ) -> Color {
         switch validationResult {
         case .valid:
             return validDescriptionTextColor

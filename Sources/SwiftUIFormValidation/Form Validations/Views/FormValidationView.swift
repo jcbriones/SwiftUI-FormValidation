@@ -153,6 +153,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
             }.accessibilityAddTraits([.isHeader])
             contentType
                 .environment(\.formValidationResult, viewModel.validationResult)
+                .focused($focused)
                 .formAppearance(appearance)
                 .padding(.vertical, 3)
             HStack {
@@ -161,7 +162,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
                     Text(footerMessage ?? "")
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(
-                            appearance.formValidationBorderColor(
+                            appearance.formValidationDescriptionTextColor(
                                 focused: focused,
                                 validationResult: viewModel.validationResult
                             )
@@ -172,7 +173,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
                     Text(message, bundle: .module)
                         .font(appearance.validatedDescriptionFont)
                         .foregroundColor(
-                            appearance.formValidationBorderColor(
+                            appearance.formValidationDescriptionTextColor(
                                 focused: focused,
                                 validationResult: viewModel.validationResult
                             )
@@ -206,6 +207,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
                         .frame(minHeight: 15)
                 }
             }
+            .padding(.bottom, 3)
         }
         .onChange(of: contentType.value) { newValue in
             viewModel.validate(newValue)

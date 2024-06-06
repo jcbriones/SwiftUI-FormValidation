@@ -36,7 +36,7 @@ public protocol FormValidationViewAppearance {
     var animation: Animation { get }
 
     func formValidationBorderColor(focused: Bool, validationResult: FormValidationResult) -> Color
-    func formValidationDescriptionTextColor(validationResult: FormValidationResult) -> Color
+    func formValidationDescriptionTextColor(focused: Bool, validationResult: FormValidationResult) -> Color
     func formTextColor(focused: Bool, isEnabled: Bool) -> Color
 
     // MARK: - Font Styles
