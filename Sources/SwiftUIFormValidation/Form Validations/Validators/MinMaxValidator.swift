@@ -14,13 +14,13 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
     // MARK: - Initializer
 
     convenience init(minWarning: Number, maxWarning: Number) {
-        guard minWarning < maxWarning else {
+        guard minWarning <= maxWarning else {
             fatalError("MinMaxValidator setup incorrectly")
         }
         self.init(minWarning, maxWarning, nil, nil)
     }
     convenience init(minError: Number, maxError: Number) {
-        guard minError < maxError else {
+        guard minError <= maxError else {
             fatalError("MinMaxValidator setup incorrectly")
         }
         self.init(nil, nil, minError, maxError)
