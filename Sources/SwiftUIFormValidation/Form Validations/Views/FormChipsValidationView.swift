@@ -190,8 +190,8 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
                 }
             }
             .navigationTitle(pickerTitle)
-            .navigationBarTitleDisplayMode(.inline)
 #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
             .listStyle(.insetGrouped)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
