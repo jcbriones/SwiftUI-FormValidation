@@ -11,16 +11,6 @@ import Combine
 
 public struct FormFormatTextFieldValidationView<F>: FormValidationContent
 where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
-
-    // MARK: - Initializer
-
-    init(value: Binding<F.FormatInput?>, format: F, imageName: String? = nil, placeholder: LocalizedStringKey = "") {
-        self._value = value
-        self.format = format
-        self.imageName = imageName
-        self.placeholder = placeholder
-    }
-
     // MARK: - Private Properties
 
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
@@ -32,6 +22,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     private let format: F
     private let imageName: String?
     private let placeholder: LocalizedStringKey
+    private let textCase: Text.Case?
 
     // MARK: - Body
 
@@ -52,6 +43,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
                     .padding(5)
                     .focused($focused)
                     .disabled(!isEnabled)
+                    .textCase(textCase)
 #if os(iOS)
                     .keyboardType(keyboardTypeFromFormatInput)
 #endif
@@ -82,6 +74,21 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     }
 #endif
 
+    // MARK: - Initializer
+
+    init(
+        value: Binding<F.FormatInput?>,
+        format: F,
+        imageName: String? = nil,
+        placeholder: LocalizedStringKey = "",
+        textCase: Text.Case? = nil
+    ) {
+        self._value = value
+        self.format = format
+        self.imageName = imageName
+        self.placeholder = placeholder
+        self.textCase = textCase
+    }
 }
 
 public extension FormValidationContent {
@@ -91,11 +98,13 @@ public extension FormValidationContent {
     ///   - format: The format to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
+    ///   - textCase: The text casing inside the text field
     static func formatTextField<F>(
         value: Binding<Value>,
         format: F,
         imageName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringKey = "",
+        textCase: Text.Case? = nil
     ) -> FormFormatTextFieldValidationView<F>
     where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable,
           Value == F.FormatInput?, Self == FormFormatTextFieldValidationView<F> {
@@ -103,7 +112,8 @@ public extension FormValidationContent {
                 value: value,
                 format: format,
                 imageName: imageName,
-                placeholder: placeholder
+                placeholder: placeholder,
+                textCase: textCase
               )
           }
 
@@ -113,11 +123,13 @@ public extension FormValidationContent {
     ///   - format: The format to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
+    ///   - textCase: The text casing inside the text field
     static func formatTextField<F>(
         value: Binding<Value>,
         format: F,
         imageName: String? = nil,
-        placeholder: String = ""
+        placeholder: String = "",
+        textCase: Text.Case? = nil
     ) -> FormFormatTextFieldValidationView<F>
     where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable,
           Value == F.FormatInput?, Self == FormFormatTextFieldValidationView<F> {
@@ -125,7 +137,8 @@ public extension FormValidationContent {
                 value: value,
                 format: format,
                 imageName: imageName,
-                placeholder: .init(placeholder)
+                placeholder: .init(placeholder),
+                textCase: textCase
               )
           }
 }

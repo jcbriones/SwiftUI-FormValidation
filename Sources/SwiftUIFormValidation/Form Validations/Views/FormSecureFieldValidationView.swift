@@ -10,35 +10,20 @@ import SwiftUI
 import Combine
 
 public struct FormSecureFieldValidationView: FormValidationContent {
-    
-    // MARK: - Initializer
-    
-    init(
-        value: Binding<String>,
-        imageName: String? = nil,
-        systemName: String? = nil,
-        placeholder: LocalizedStringKey = ""
-    ) {
-        self._value = value
-        self.imageName = imageName
-        self.systemName = systemName
-        self.placeholder = placeholder
-    }
-    
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @Binding public var value: String
-    
+
     private let imageName: String?
     private let systemName: String?
     private let placeholder: LocalizedStringKey
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -65,7 +50,20 @@ public struct FormSecureFieldValidationView: FormValidationContent {
                 .animation(appearance.animation, value: validationResult)
         }
     }
-    
+
+    // MARK: - Initializer
+
+    init(
+        value: Binding<String>,
+        imageName: String? = nil,
+        systemName: String? = nil,
+        placeholder: LocalizedStringKey = ""
+    ) {
+        self._value = value
+        self.imageName = imageName
+        self.systemName = systemName
+        self.placeholder = placeholder
+    }
 }
 
 public extension FormValidationContent where Self == FormSecureFieldValidationView {
@@ -81,7 +79,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, imageName: imageName, placeholder: placeholder)
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -94,7 +92,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, systemName: systemName, placeholder: placeholder)
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -105,7 +103,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, placeholder: placeholder)
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -118,7 +116,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, imageName: imageName, placeholder: .init(placeholder))
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -131,7 +129,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, systemName: systemName, placeholder: .init(placeholder))
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -142,7 +140,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
     ) -> FormSecureFieldValidationView {
         FormSecureFieldValidationView(value: value, placeholder: .init(placeholder))
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -165,7 +163,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
             placeholder: placeholder
         )
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -188,7 +186,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
             placeholder: placeholder
         )
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -208,7 +206,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
             placeholder: placeholder
         )
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -231,7 +229,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
             placeholder: .init(placeholder)
         )
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display
@@ -254,7 +252,7 @@ public extension FormValidationContent where Self == FormSecureFieldValidationVi
             placeholder: .init(placeholder)
         )
     }
-    
+
     /// The text field
     /// - Parameters:
     ///   - value: The text to display

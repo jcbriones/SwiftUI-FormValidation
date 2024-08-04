@@ -20,7 +20,7 @@ public extension View {
     }
 
     @ViewBuilder
-    func validateForm(using subject: PassthroughSubject<Void,Never>) -> some View {
+    func validateForm(using subject: PassthroughSubject<Void, Never>) -> some View {
         environment(\.externalValidator.self, subject)
     }
 

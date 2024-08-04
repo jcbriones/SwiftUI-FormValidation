@@ -10,21 +10,6 @@ import SwiftUI
 import Combine
 
 public struct FormOptionalDatePickerValidationView: FormValidationContent {
-
-    // MARK: - Initializer
-
-    init(
-        value: Binding<Date?>,
-        imageName: String? = nil,
-        in range: ClosedRange<Date>? = nil,
-        displayedComponents: DatePickerComponents? = nil
-    ) {
-        self._value = value
-        self.imageName = imageName
-        self.range = range
-        self.displayedComponents = displayedComponents
-    }
-
     // MARK: - Private Properties
 
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
@@ -56,13 +41,18 @@ public struct FormOptionalDatePickerValidationView: FormValidationContent {
                         showDatePicker.toggle()
                     } label: {
                         if let value {
-                            Text(value.formatted(date: .abbreviated, time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted))
-                                .font(appearance.textFieldFont)
-                                .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
-                                .multilineTextAlignment(.leading)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(5)
-                                .contentShape(Rectangle())
+                            Text(
+                                value.formatted(
+                                    date: .abbreviated,
+                                    time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted
+                                )
+                            )
+                            .font(appearance.textFieldFont)
+                            .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(5)
+                            .contentShape(Rectangle())
                         } else {
                             Color.clear
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -81,7 +71,12 @@ public struct FormOptionalDatePickerValidationView: FormValidationContent {
                 .sheet(isPresented: $showDatePicker) {
                     Group {
                         if let range, let displayedComponents {
-                            DatePicker("", selection: $value ?? .now, in: range, displayedComponents: displayedComponents)
+                            DatePicker(
+                                "",
+                                selection: $value ?? .now,
+                                in: range,
+                                displayedComponents: displayedComponents
+                            )
                         } else if let range {
                             DatePicker("", selection: $value ?? .now, in: range)
                         } else if let displayedComponents {
@@ -103,10 +98,26 @@ public struct FormOptionalDatePickerValidationView: FormValidationContent {
             }
             Divider()
                 .frame(height: showDatePicker ? 2 : 1.5)
-                .background(appearance.formValidationBorderColor(focused: showDatePicker, validationResult: validationResult))
+                .background(
+                    appearance.formValidationBorderColor(focused: showDatePicker, validationResult: validationResult)
+                )
                 .animation(appearance.animation, value: showDatePicker)
                 .animation(appearance.animation, value: validationResult)
         }
+    }
+
+    // MARK: - Initializer
+
+    init(
+        value: Binding<Date?>,
+        imageName: String? = nil,
+        in range: ClosedRange<Date>? = nil,
+        displayedComponents: DatePickerComponents? = nil
+    ) {
+        self._value = value
+        self.imageName = imageName
+        self.range = range
+        self.displayedComponents = displayedComponents
     }
 }
 

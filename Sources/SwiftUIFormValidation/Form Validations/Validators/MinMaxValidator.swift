@@ -65,13 +65,21 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
             return nil
         }
         if value < minError {
-            return .error(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+            return .error(
+                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minError))"
+            )
         } else if value > maxError {
-            return .error(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
+            return .error(
+                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxError))"
+            )
         } else if value < minWarning {
-            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
+            return .warning(
+                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minWarning))"
+            )
         } else if value > maxWarning {
-            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
+            return .warning(
+                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxWarning))"
+            )
         }
         return .valid
     }
@@ -81,9 +89,13 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
             return nil
         }
         if value < minWarning {
-            return .warning(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minWarning) ?? "")")
+            return .warning(
+                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minWarning))"
+            )
         } else if value > maxWarning {
-            return .warning(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxWarning) ?? "")")
+            return .warning(
+                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxWarning))"
+            )
         }
         return .valid
     }
@@ -93,11 +105,19 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
             return nil
         }
         if value < minError {
-            return .error(message: "xloc.validator.isLessThan \(formatter.string(for: value) ?? "") \(formatter.string(for: minError) ?? "")")
+            return .error(
+                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minError))"
+            )
         } else if value > maxError {
-            return .error(message: "xloc.validator.isGreaterThan \(formatter.string(for: value) ?? "") \(formatter.string(for: maxError) ?? "")")
+            return .error(
+                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxError))"
+            )
         }
         return .valid
+    }
+
+    private func formatString(_ object: Any?) -> String {
+        formatter.string(for: object) ?? ""
     }
 }
 

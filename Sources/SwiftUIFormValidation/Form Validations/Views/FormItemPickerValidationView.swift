@@ -10,15 +10,6 @@ import SwiftUI
 import Combine
 
 public struct FormItemPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
-
-    // MARK: - Initializer
-
-    init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
-        self._value = value
-        self.placeholder = placeholder
-        self.collection = collection
-    }
-
     // MARK: - Private Properties
 
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
@@ -79,6 +70,13 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
         }
     }
 
+    // MARK: - Initializer
+
+    init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
+        self._value = value
+        self.placeholder = placeholder
+        self.collection = collection
+    }
 }
 
 public extension FormValidationContent {

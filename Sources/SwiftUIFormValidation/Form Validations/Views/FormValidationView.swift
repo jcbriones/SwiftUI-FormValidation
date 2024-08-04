@@ -9,90 +9,12 @@ import SwiftUI
 import Combine
 
 public struct FormValidationView<Content>: View where Content: FormValidationContent {
-    
-    // MARK: - Initializer
-    
-    /// Creates a form validation field view.
-    /// - Parameters:
-    ///   - header: The title header of the validation field.
-    ///   - footerMessage: An optional string to display to the user which is displayed at the bottom of the form validation field.
-    ///   - isRequired: If the validation field is required.
-    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result.
-    ///   - validators: Validators to be applied on this field.
-    ///   - contentType: The type of validation field.
-    public init(
-        header: LocalizedStringKey,
-        footerMessage: LocalizedStringKey? = nil,
-        isRequired: Bool = false,
-        maxCharCount: Int? = nil,
-        validators: [FormValidator] = [],
-        validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
-        validationResult: Binding<FormValidationResult?>? = nil,
-        _ contentType: Content
-    ) {
-        @State var dummyValidationResult: FormValidationResult? = nil
-        self.header = header
-        self.footerMessage = footerMessage
-        self.isRequired = isRequired
-        self.contentType = contentType
-        self.maxCharCount = maxCharCount
-        self._validators = validators
-
-        var validators = validators
-        if isRequired, let fieldName = header.stringValue(),
-           !validators.contains(where: { $0 is RequiredFieldValidator }) {
-            validators.append(RequiredFieldValidator(fieldName: fieldName))
-        }
-        if let maxCharCount,
-           !validators.contains(where: { $0 is CharacterLimitValidator }) {
-            validators.append(CharacterLimitValidator(characterLimit: maxCharCount))
-        }
-        _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
-    }
-    
-    /// Creates a form validation field view.
-    /// - Parameters:
-    ///   - header: The title header of the validation field.
-    ///   - footerMessage: An optional string to display to the user which is displayed at the bottom of the form validation field.
-    ///   - isRequired: If the validation field is required.
-    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result.
-    ///   - validators: Validators to be applied on this field.
-    ///   - contentType: The type of validation field.
-    public init(
-        header: String,
-        footerMessage: String? = nil,
-        isRequired: Bool = false,
-        maxCharCount: Int? = nil,
-        validators: [FormValidator] = [],
-        validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
-        _ contentType: Content
-    ) {
-        @State var dummyValidationResult: FormValidationResult? = nil
-        self.header = .init(header)
-        self.footerMessage = footerMessage != nil ? .init(footerMessage!) : nil
-        self.isRequired = isRequired
-        self.contentType = contentType
-        self.maxCharCount = maxCharCount
-        self._validators = validators
-
-        var validators = validators
-        if isRequired,
-           !validators.contains(where: { $0 is RequiredFieldValidator }) {
-            validators.append(RequiredFieldValidator(fieldName: header))
-        }
-        if let maxCharCount,
-           !validators.contains(where: { $0 is CharacterLimitValidator }) {
-            validators.append(CharacterLimitValidator(characterLimit: maxCharCount))
-        }
-        _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
-    }
-    
     // MARK: - ViewModel
-    
+
     @StateObject private var viewModel: FormValidationViewModel
-    
+
     // MARK: - View Binding Properties
-    
+
     @Environment(\.externalValidationResult)
     @Binding private var externalFormValidationResult
 
@@ -106,9 +28,9 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     private var isEnabled
 
     @FocusState private var focused: Bool
-    
+
     // MARK: - Form Validation Properties
-    
+
     private var header: LocalizedStringKey
     private var footerMessage: LocalizedStringKey?
     @State private var trailingFooter: String = ""
@@ -116,11 +38,11 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     private var contentType: Content
     private let maxCharCount: Int?
     private let _validators: [FormValidator]
-    
+
     @State private var shake: Bool = false
 
     // MARK: - Body
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -225,5 +147,82 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
             externalFormValidationResult = newValue
         }
         .accessibilityElement(children: .contain)
+    }
+
+    // MARK: - Initializer
+
+    /// Creates a form validation field view.
+    /// - Parameters:
+    ///   - header: The title header of the validation field.
+    ///   - footerMessage: An optional string which is displayed at the bottom of the form validation field.   
+    ///   - isRequired: If the validation field is required.
+    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result.
+    ///   - validators: Validators to be applied on this field.
+    ///   - contentType: The type of validation field.
+    public init(
+        header: LocalizedStringKey,
+        footerMessage: LocalizedStringKey? = nil,
+        isRequired: Bool = false,
+        maxCharCount: Int? = nil,
+        validators: [FormValidator] = [],
+        validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
+        validationResult: Binding<FormValidationResult?>? = nil,
+        _ contentType: Content
+    ) {
+        @State var dummyValidationResult: FormValidationResult?
+        self.header = header
+        self.footerMessage = footerMessage
+        self.isRequired = isRequired
+        self.contentType = contentType
+        self.maxCharCount = maxCharCount
+        self._validators = validators
+
+        var validators = validators
+        if isRequired, let fieldName = header.stringValue(),
+           !validators.contains(where: { $0 is RequiredFieldValidator }) {
+            validators.append(RequiredFieldValidator(fieldName: fieldName))
+        }
+        if let maxCharCount,
+           !validators.contains(where: { $0 is CharacterLimitValidator }) {
+            validators.append(CharacterLimitValidator(characterLimit: maxCharCount))
+        }
+        _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
+    }
+
+    /// Creates a form validation field view.
+    /// - Parameters:
+    ///   - header: The title header of the validation field.
+    ///   - footerMessage: An optional string which is displayed at the bottom of the form validation field.
+    ///   - isRequired: If the validation field is required.
+    ///   - maxCharCount: The maximum number of characters allowed before it throws an error validation result.
+    ///   - validators: Validators to be applied on this field.
+    ///   - contentType: The type of validation field.
+    public init(
+        header: String,
+        footerMessage: String? = nil,
+        isRequired: Bool = false,
+        maxCharCount: Int? = nil,
+        validators: [FormValidator] = [],
+        validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
+        _ contentType: Content
+    ) {
+        @State var dummyValidationResult: FormValidationResult?
+        self.header = .init(header)
+        self.footerMessage = footerMessage != nil ? .init(footerMessage!) : nil
+        self.isRequired = isRequired
+        self.contentType = contentType
+        self.maxCharCount = maxCharCount
+        self._validators = validators
+
+        var validators = validators
+        if isRequired,
+           !validators.contains(where: { $0 is RequiredFieldValidator }) {
+            validators.append(RequiredFieldValidator(fieldName: header))
+        }
+        if let maxCharCount,
+           !validators.contains(where: { $0 is CharacterLimitValidator }) {
+            validators.append(CharacterLimitValidator(characterLimit: maxCharCount))
+        }
+        _viewModel = StateObject(wrappedValue: FormValidationViewModel(validators: validators, delay: validatorDelay))
     }
 }

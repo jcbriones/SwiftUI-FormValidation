@@ -10,36 +10,21 @@ import SwiftUI
 import Combine
 
 public struct FormDatePickerValidationView: FormValidationContent {
-    
-    // MARK: - Initializer
-    
-    init(
-        value: Binding<Date>,
-        imageName: String? = nil,
-        in range: ClosedRange<Date>? = nil,
-        displayedComponents: DatePickerComponents? = nil
-    ) {
-        self._value = value
-        self.imageName = imageName
-        self.range = range
-        self.displayedComponents = displayedComponents
-    }
-    
     // MARK: - Private Properties
-    
+
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult) private var validationResult
     @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
     @State private var showDatePicker: Bool = false
     @Binding public var value: Date
-    
+
     private let imageName: String?
     private let range: ClosedRange<Date>?
     private let displayedComponents: DatePickerComponents?
-    
+
     // MARK: - Body
-    
+
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -53,13 +38,18 @@ public struct FormDatePickerValidationView: FormValidationContent {
                 Button {
                     showDatePicker.toggle()
                 } label: {
-                    Text(value.formatted(date: .abbreviated, time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted))
-                        .font(appearance.textFieldFont)
-                        .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(5)
-                        .contentShape(Rectangle())
+                    Text(
+                        value.formatted(
+                            date: .abbreviated,
+                            time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted
+                        )
+                    )
+                    .font(appearance.textFieldFont)
+                    .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(5)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .sheet(isPresented: $showDatePicker) {
@@ -87,10 +77,26 @@ public struct FormDatePickerValidationView: FormValidationContent {
             }
             Divider()
                 .frame(height: showDatePicker ? 2 : 1.5)
-                .background(appearance.formValidationBorderColor(focused: showDatePicker, validationResult: validationResult))
+                .background(
+                    appearance.formValidationBorderColor(focused: showDatePicker, validationResult: validationResult)
+                )
                 .animation(appearance.animation, value: showDatePicker)
                 .animation(appearance.animation, value: validationResult)
         }
+    }
+
+    // MARK: - Initializer
+
+    init(
+        value: Binding<Date>,
+        imageName: String? = nil,
+        in range: ClosedRange<Date>? = nil,
+        displayedComponents: DatePickerComponents? = nil
+    ) {
+        self._value = value
+        self.imageName = imageName
+        self.range = range
+        self.displayedComponents = displayedComponents
     }
 }
 

@@ -16,7 +16,7 @@ private struct Row<Item>: View where Item: AnyItem {
     let onTap: (() -> Void)?
 
     var body: some View {
-        HStack {
+        LazyHGrid(rows: [.init(.flexible()), .init(.flexible())]) {
             if let systemImage = item.systemImage {
                 Image(systemName: systemImage)
             } else if let imageUrl = item.imageUrl {
@@ -29,13 +29,17 @@ private struct Row<Item>: View where Item: AnyItem {
                         ProgressView().controlSize(.mini)
                     }
                 }.frame(width: 40, height: 40).clipShape(Circle())
+            } else {
+                Image(systemName: "smallcircle.filled.circle")
             }
-            Text(item.localizedString)
-                .font(appearance.textFieldFont)
-                .foregroundColor(appearance.activeTextColor)
-            Spacer()
-            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(isSelected ? appearance.activeBorderColor : appearance.inactiveBorderColor)
+            HStack {
+                Text(item.localizedString)
+                    .font(appearance.textFieldFont)
+                    .foregroundColor(appearance.activeTextColor)
+                Spacer()
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(isSelected ? appearance.activeBorderColor : appearance.inactiveBorderColor)
+            }
         }.onTapGesture {
             onTap?()
         }
@@ -129,8 +133,11 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
                         return result
                     }
                     .sheet(isPresented: $showAddChipCollection) {
-                        FormChipValidationSelectorView(pickerTitle: pickerTitle, collection: collection, selected: $value)
-                            .presentationDetents([.medium, .large])
+                        FormChipValidationSelectorView(
+                            pickerTitle: pickerTitle,
+                            collection: collection,
+                            selected: $value
+                        ).presentationDetents([.medium, .large])
                     }
                 }
             }

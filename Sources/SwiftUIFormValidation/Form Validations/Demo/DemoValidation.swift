@@ -105,7 +105,7 @@ struct DemoValidation: View {
                 isRequired: true,
                 validators: [.requiredField(fieldName: "Date formatter")],
                 .datePicker(
-                    value: $viewModel.date1, 
+                    value: $viewModel.date1,
                     imageName: nil,
                     in: nil,
                     displayedComponents: .date
@@ -212,7 +212,7 @@ struct DemoValidation: View {
                 ],
                 .textEditor(
                     value: $viewModel.textView2,
-                    placeholder: "Type in \"Hello\" on the text field above and \"Hello\" on this field to throw error on both"
+                    placeholder: "Type in \"Hello\" to this and field above to throw error on both"
                 )
             )
             FormValidationView(
