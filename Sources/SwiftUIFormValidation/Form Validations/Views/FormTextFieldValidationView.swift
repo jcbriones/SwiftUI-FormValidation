@@ -21,7 +21,6 @@ public struct FormTextFieldValidationView: FormValidationContent {
     private let imageName: String?
     private let systemName: String?
     private let placeholder: LocalizedStringKey
-    private let textCase: Text.Case?
 
     // MARK: - Body
 
@@ -43,7 +42,6 @@ public struct FormTextFieldValidationView: FormValidationContent {
                     .padding(5)
                     .focused($focused)
                     .disabled(!isEnabled)
-                    .textCase(textCase)
             }
             Divider()
                 .frame(height: focused ? 2 : 1.5)
@@ -59,14 +57,12 @@ public struct FormTextFieldValidationView: FormValidationContent {
         value: Binding<String>,
         imageName: String? = nil,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) {
         self._value = value
         self.imageName = imageName
         self.systemName = systemName
         self.placeholder = placeholder
-        self.textCase = textCase
     }
 }
 
@@ -79,14 +75,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String>,
         imageName: String? = nil,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: value,
             imageName: imageName,
-            placeholder: placeholder,
-            textCase: textCase
+            placeholder: placeholder
         )
     }
 
@@ -98,14 +92,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String>,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: value,
             systemName: systemName,
-            placeholder: placeholder,
-            textCase: textCase
+            placeholder: placeholder
         )
     }
 
@@ -115,10 +107,9 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - placeholder: The text placeholder
     static func textField(
         value: Binding<String>,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
-        FormTextFieldValidationView(value: value, placeholder: placeholder, textCase: textCase)
+        FormTextFieldValidationView(value: value, placeholder: placeholder)
     }
 
     /// The text field
@@ -129,14 +120,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String>,
         imageName: String? = nil,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: value,
             imageName: imageName,
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 
@@ -148,14 +137,12 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String>,
         systemName: String? = nil,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: value,
             systemName: systemName,
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 
@@ -165,13 +152,11 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - placeholder: The text placeholder
     static func textField(
         value: Binding<String>,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: value,
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 
@@ -183,8 +168,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String?>,
         imageName: String? = nil,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -195,8 +179,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                 }
             ),
             imageName: imageName,
-            placeholder: placeholder,
-            textCase: textCase
+            placeholder: placeholder
         )
     }
 
@@ -208,8 +191,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String?>,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -220,8 +202,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                 }
             ),
             systemName: systemName,
-            placeholder: placeholder,
-            textCase: textCase
+            placeholder: placeholder
         )
     }
 
@@ -231,8 +212,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - placeholder: The text placeholder
     static func textField(
         value: Binding<String?>,
-        placeholder: LocalizedStringKey = "",
-        textCase: Text.Case? = nil
+        placeholder: LocalizedStringKey = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -242,8 +222,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                     value.wrappedValue = newValue.isEmpty ? nil : $0
                 }
             ),
-            placeholder: placeholder,
-            textCase: textCase
+            placeholder: placeholder
         )
     }
 
@@ -255,8 +234,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String?>,
         imageName: String? = nil,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -267,8 +245,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                 }
             ),
             imageName: imageName,
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 
@@ -280,8 +257,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     static func textField(
         value: Binding<String?>,
         systemName: String? = nil,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -292,8 +268,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                 }
             ),
             systemName: systemName,
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 
@@ -304,8 +279,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
     ///   - placeholder: The text placeholder
     static func textField(
         value: Binding<String?>,
-        placeholder: String = "",
-        textCase: Text.Case? = nil
+        placeholder: String = ""
     ) -> FormTextFieldValidationView {
         FormTextFieldValidationView(
             value: Binding(
@@ -315,8 +289,7 @@ public extension FormValidationContent where Self == FormTextFieldValidationView
                     value.wrappedValue = newValue.isEmpty ? nil : $0
                 }
             ),
-            placeholder: .init(placeholder),
-            textCase: textCase
+            placeholder: .init(placeholder)
         )
     }
 }
