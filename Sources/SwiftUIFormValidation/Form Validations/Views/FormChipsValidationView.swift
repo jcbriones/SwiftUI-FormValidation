@@ -16,21 +16,21 @@ private struct Row<Item>: View where Item: AnyItem {
     let onTap: (() -> Void)?
 
     var body: some View {
-        LazyHGrid(rows: [.init(.flexible()), .init(.flexible())]) {
-            if let systemImage = item.systemImage {
-                Image(systemName: systemImage)
-            } else if let imageUrl = item.imageUrl {
-                AsyncImage(url: imageUrl) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else if phase.error != nil {
-                        EmptyView()
-                    } else {
-                        ProgressView().controlSize(.mini)
-                    }
-                }.frame(width: 40, height: 40).clipShape(Circle())
-            } else {
-                Image(systemName: "smallcircle.filled.circle")
+        LazyVGrid(columns: [.init(.flexible()), .init(.flexible())]) {
+            HStack {
+                if let systemImage = item.systemImage {
+                    Image(systemName: systemImage)
+                } else if let imageUrl = item.imageUrl {
+                    AsyncImage(url: imageUrl) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                        } else if phase.error != nil {
+                            EmptyView()
+                        } else {
+                            ProgressView().controlSize(.mini)
+                        }
+                    }.frame(width: 40, height: 40).clipShape(Circle())
+                }
             }
             HStack {
                 Text(item.localizedString)
