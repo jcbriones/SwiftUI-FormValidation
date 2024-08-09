@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FormAppearanceKey: EnvironmentKey {
-    static let defaultValue: FormValidationViewAppearance = .default
+    static let defaultValue: any FormValidationViewAppearance = .default
 }
 
 public extension EnvironmentValues {

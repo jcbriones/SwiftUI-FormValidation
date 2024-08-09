@@ -12,7 +12,7 @@ struct Shake: GeometryEffect {
     var repeatCount: Int = 3
     var animatableData: CGFloat
 
-    func effectValue(size: CGSize) -> ProjectionTransform {
+    nonisolated func effectValue(size: CGSize) -> ProjectionTransform {
         ProjectionTransform(
             CGAffineTransform(
                 translationX: offsetRange * sin(animatableData * .pi * CGFloat(repeatCount)),

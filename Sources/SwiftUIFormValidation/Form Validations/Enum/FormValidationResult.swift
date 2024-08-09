@@ -11,7 +11,8 @@ import SwiftUI
 
 infix operator ~==
 
-public enum FormValidationResult: Equatable {
+@MainActor
+public enum FormValidationResult: Equatable, Sendable {
     case valid
     case info(message: LocalizedStringKey)
     case warning(message: LocalizedStringKey)

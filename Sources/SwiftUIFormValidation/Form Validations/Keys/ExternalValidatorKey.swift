@@ -5,7 +5,7 @@
 //  Created by Jc Briones on 5/31/24.
 //
 
-import Combine
+@preconcurrency import Combine
 import SwiftUI
 
 struct ExternalValidatorKey: EnvironmentKey {

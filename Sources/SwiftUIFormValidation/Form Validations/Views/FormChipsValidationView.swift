@@ -11,12 +11,13 @@ import Combine
 
 private struct Row<Item>: View where Item: AnyItem {
     @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+    let columns: [GridItem]
     let item: Item
     let isSelected: Bool
     let onTap: (() -> Void)?
 
     var body: some View {
-        LazyVGrid(columns: [.init(.flexible()), .init(.flexible())]) {
+        LazyVGrid(columns: columns) {
             HStack {
                 if let systemImage = item.systemImage {
                     Image(systemName: systemImage)
@@ -187,8 +188,10 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
 
     var body: some View {
         NavigationView {
+            let columns: [GridItem] = collection.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
+            [.init(.flexible(minimum: 10, maximum: 40)), .init(.flexible())] : [.init(.flexible())]
             List(collection) { item in
-                Row(item: item, isSelected: selected.contains(item)) {
+                Row(columns: columns, item: item, isSelected: selected.contains(item)) {
                     if let index = selected.firstIndex(of: item) {
                         selected.remove(at: index)
                     } else {
@@ -230,7 +233,7 @@ enum NumberChip: Int, CaseIterable, AnyItem {
         nil
     }
     var imageUrl: URL? {
-        self == .fifth || self == .third ? URL(string: "https://asia.omsystem.com/content/000107507.jpg") : nil
+        nil
     }
     var localizedString: LocalizedStringKey {
         switch self {

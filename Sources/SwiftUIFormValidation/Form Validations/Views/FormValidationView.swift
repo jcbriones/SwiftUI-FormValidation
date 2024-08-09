@@ -178,9 +178,9 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self._validators = validators
 
         var validators = validators
-        if isRequired, let fieldName = header.stringValue(),
+        if isRequired,
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
-            validators.append(RequiredFieldValidator(fieldName: fieldName))
+            validators.append(RequiredFieldValidator(fieldName: header.stringValue()))
         }
         if let maxCharCount,
            !validators.contains(where: { $0 is CharacterLimitValidator }) {

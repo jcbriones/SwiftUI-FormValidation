@@ -20,9 +20,23 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftUIFormValidation",
-            dependencies: []),
+            dependencies: []
+//            swiftSettings: swiftSettings
+        ),
         .testTarget(
             name: "SwiftUIFormValidationTests",
-            dependencies: ["SwiftUIFormValidation"])
+            dependencies: ["SwiftUIFormValidation"]
+//            swiftSettings: swiftSettings
+        )
     ]
 )
+var swiftSettings: [SwiftSetting] {
+    [
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_FORWARD_TRAILING_CLOSURES"),
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_IMPLICIT_OPEN_EXISTENTIALS"),
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_IMPORT_OBJC_FORWARD_DECLS"),
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES"),
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_GLOBAL_CONCURRENCY"),
+        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY")
+    ]
+}
