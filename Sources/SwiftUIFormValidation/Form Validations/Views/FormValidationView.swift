@@ -31,7 +31,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
 
     // MARK: - Form Validation Properties
 
-    private var header: LocalizedStringKey
+    private var header: LocalizedStringKey?
     private var footerMessage: LocalizedStringKey?
     @State private var trailingFooter: String = ""
     private var isRequired: Bool
@@ -45,34 +45,36 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                if isRequired {
-                    (Text(header)
-                        .font(appearance.titleHeaderFont)
-                        .foregroundColor(
-                            focused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor
-                        )
-                     +
-                     Text(" *")
-                        .accessibilityLabel(
-                            NSLocalizedString(
-                                "xloc.field.required",
-                                bundle: .module,
-                                comment: "For the input field of the form that is required."
-                            )
-                        )
+            if let header {
+                HStack {
+                    if isRequired {
+                        (Text(header)
                             .font(appearance.titleHeaderFont)
-                            .foregroundColor(appearance.requiredFieldSymbolTextColor))
-                    .animation(appearance.animation, value: focused)
-                } else {
-                    Text(header)
-                        .font(appearance.titleHeaderFont)
-                        .foregroundColor(
-                            focused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor
-                        )
+                            .foregroundColor(
+                                focused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor
+                            )
+                         +
+                         Text(" *")
+                            .accessibilityLabel(
+                                NSLocalizedString(
+                                    "xloc.field.required",
+                                    bundle: .module,
+                                    comment: "For the input field of the form that is required."
+                                )
+                            )
+                                .font(appearance.titleHeaderFont)
+                                .foregroundColor(appearance.requiredFieldSymbolTextColor))
                         .animation(appearance.animation, value: focused)
-                }
-            }.accessibilityAddTraits([.isHeader])
+                    } else {
+                        Text(header)
+                            .font(appearance.titleHeaderFont)
+                            .foregroundColor(
+                                focused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor
+                            )
+                            .animation(appearance.animation, value: focused)
+                    }
+                }.accessibilityAddTraits([.isHeader])
+            }
             contentType
                 .environment(\.formValidationResult, viewModel.validationResult)
                 .focused($focused)
@@ -160,7 +162,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     ///   - validators: Validators to be applied on this field.
     ///   - contentType: The type of validation field.
     public init(
-        header: LocalizedStringKey,
+        header: LocalizedStringKey?,
         footerMessage: LocalizedStringKey? = nil,
         isRequired: Bool = false,
         maxCharCount: Int? = nil,
@@ -178,7 +180,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self._validators = validators
 
         var validators = validators
-        if isRequired,
+        if isRequired, let header,
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
             validators.append(RequiredFieldValidator(fieldName: header.stringValue()))
         }
@@ -198,7 +200,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     ///   - validators: Validators to be applied on this field.
     ///   - contentType: The type of validation field.
     public init(
-        header: String,
+        header: String?,
         footerMessage: String? = nil,
         isRequired: Bool = false,
         maxCharCount: Int? = nil,
@@ -207,7 +209,9 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         _ contentType: Content
     ) {
         @State var dummyValidationResult: FormValidationResult?
-        self.header = .init(header)
+        if let header {
+            self.header = .init(header)
+        }
         self.footerMessage = footerMessage != nil ? .init(footerMessage!) : nil
         self.isRequired = isRequired
         self.contentType = contentType
@@ -215,7 +219,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self._validators = validators
 
         var validators = validators
-        if isRequired,
+        if isRequired, let header,
            !validators.contains(where: { $0 is RequiredFieldValidator }) {
             validators.append(RequiredFieldValidator(fieldName: header))
         }
