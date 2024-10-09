@@ -12,7 +12,7 @@ class FormValidationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var validationResult: FormValidationResult = .valid
 
-    private var validators: [FormValidator]
+    @Published var validators: [FormValidator]
     private var valueSubject = PassthroughSubject<any Equatable, Never>()
     private var subscribers = Set<AnyCancellable>()
 

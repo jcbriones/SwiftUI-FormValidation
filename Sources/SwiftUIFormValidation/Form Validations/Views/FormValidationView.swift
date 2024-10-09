@@ -37,7 +37,6 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
     private var isRequired: Bool
     private var contentType: Content
     private let maxCharCount: Int?
-    private let _validators: [FormValidator]
 
     @State private var shake: Bool = false
 
@@ -171,13 +170,11 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         validationResult: Binding<FormValidationResult?>? = nil,
         _ contentType: Content
     ) {
-        @State var dummyValidationResult: FormValidationResult?
         self.header = header
         self.footerMessage = footerMessage
         self.isRequired = isRequired
         self.contentType = contentType
         self.maxCharCount = maxCharCount
-        self._validators = validators
 
         var validators = validators
         if isRequired, let header,
@@ -208,7 +205,6 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
         _ contentType: Content
     ) {
-        @State var dummyValidationResult: FormValidationResult?
         if let header {
             self.header = .init(header)
         }
@@ -216,7 +212,6 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         self.isRequired = isRequired
         self.contentType = contentType
         self.maxCharCount = maxCharCount
-        self._validators = validators
 
         var validators = validators
         if isRequired, let header,
