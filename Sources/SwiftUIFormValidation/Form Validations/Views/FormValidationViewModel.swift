@@ -12,7 +12,7 @@ class FormValidationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var validationResult: FormValidationResult = .valid
 
-    @Published var validators: [FormValidator]
+    @Published var validators: [any FormValidator] = []
     private var valueSubject = PassthroughSubject<any Equatable, Never>()
     private var subscribers = Set<AnyCancellable>()
 
@@ -20,11 +20,11 @@ class FormValidationViewModel: ObservableObject {
         self.validators = validators
         valueSubject
             .debounce(for: delay, scheduler: RunLoop.main)
-            .flatMap { value in
-                validators.validate(value)
+            .flatMap { [self] value in
+                self.validators.validate(value)
             }
-            .sink { [weak self] result in
-                self?.validationResult = result.first { $0 != .valid } ?? .valid
+            .sink { [self] result in
+                self.validationResult = result.first { $0 != .valid } ?? .valid
             }
             .store(in: &subscribers)
     }
@@ -38,7 +38,7 @@ class FormValidationViewModel: ObservableObject {
     func forceValidate(_ value: any Equatable, with external: FormValidationResult) {
         validators.validate(value)
             .sink { [self] result in
-                validationResult = result.first { $0 != .valid } ?? external
+                self.validationResult = result.first { $0 != .valid } ?? external
             }
             .store(in: &subscribers)
     }

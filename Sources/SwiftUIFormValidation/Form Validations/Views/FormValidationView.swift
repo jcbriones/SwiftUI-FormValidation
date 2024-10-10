@@ -147,6 +147,22 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         .onChange(of: viewModel.validationResult) { newValue in
             externalFormValidationResult = newValue
         }
+        .onChange(of: isRequired) { newValue in
+            if newValue, let header,
+               !viewModel.validators.contains(where: { $0 is RequiredFieldValidator }) {
+                viewModel.validators.append(RequiredFieldValidator(fieldName: header.stringValue()))
+            } else {
+                viewModel.validators.removeAll(where: { $0 is RequiredFieldValidator })
+            }
+        }
+        .onChange(of: maxCharCount) { newValue in
+            if let newValue,
+               !viewModel.validators.contains(where: { $0 is CharacterLimitValidator }) {
+                viewModel.validators.append(CharacterLimitValidator(characterLimit: newValue))
+            } else {
+                viewModel.validators.removeAll(where: { $0 is CharacterLimitValidator })
+            }
+        }
         .accessibilityElement(children: .contain)
     }
 
@@ -165,7 +181,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         footerMessage: LocalizedStringKey? = nil,
         isRequired: Bool = false,
         maxCharCount: Int? = nil,
-        validators: [FormValidator] = [],
+        validators: [any FormValidator] = [],
         validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
         validationResult: Binding<FormValidationResult?>? = nil,
         _ contentType: Content
@@ -201,7 +217,7 @@ public struct FormValidationView<Content>: View where Content: FormValidationCon
         footerMessage: String? = nil,
         isRequired: Bool = false,
         maxCharCount: Int? = nil,
-        validators: [FormValidator] = [],
+        validators: [any FormValidator] = [],
         validatorDelay: RunLoop.SchedulerTimeType.Stride = .zero,
         _ contentType: Content
     ) {
