@@ -24,13 +24,11 @@ public struct FormBooleanSelectorValidationView: FormValidationContent {
         HStack {
             Button(textForNo) {
                 value = false
-            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
-                .disabled(!value)
+            }.buttonStyle(FormPickerCapsuleButtonStyle(!value, appearance: appearance))
                 .animation(appearance.animation, value: value)
             Button(textForYes) {
                 value = true
-            }.buttonStyle(FormPickerCapsuleButtonStyle(appearance: appearance))
-                .disabled(value)
+            }.buttonStyle(FormPickerCapsuleButtonStyle(value, appearance: appearance))
                 .animation(appearance.animation, value: value)
         }.padding(.vertical, 5)
             .padding(.horizontal, 10)

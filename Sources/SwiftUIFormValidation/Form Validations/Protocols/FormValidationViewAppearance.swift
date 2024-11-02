@@ -9,7 +9,6 @@
 import SwiftUI
 
 public protocol FormValidationViewAppearance: Sendable {
-
     // MARK: - Colors
 
     var accentBackgroundColor: Color { get }
@@ -40,6 +39,10 @@ public protocol FormValidationViewAppearance: Sendable {
     var titleHeaderFont: Font { get }
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }
+
+    // MARK: - Views
+    func row<Item>(_ items: [Item]) -> AnyView where Item: AnyItem
+    func selectableRow<Item>(_ items: [Item], selected: Binding<[Item]>) -> AnyView where Item: AnySelectableItem
 }
 
 public extension FormValidationViewAppearance {

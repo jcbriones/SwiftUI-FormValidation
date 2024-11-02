@@ -9,45 +9,7 @@
 import SwiftUI
 import Combine
 
-private struct Row<Item>: View where Item: AnyItem {
-    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
-    let columns: [GridItem]
-    let item: Item
-    let isSelected: Bool
-    let onTap: (() -> Void)?
-
-    var body: some View {
-        LazyVGrid(columns: columns) {
-            HStack {
-                if let systemImage = item.systemImage {
-                    Image(systemName: systemImage)
-                } else if let imageUrl = item.imageUrl {
-                    AsyncImage(url: imageUrl) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                        } else if phase.error != nil {
-                            EmptyView()
-                        } else {
-                            ProgressView().controlSize(.mini)
-                        }
-                    }.frame(width: 40, height: 40).clipShape(Circle())
-                }
-            }
-            HStack {
-                Text(item.localizedString)
-                    .font(appearance.textFieldFont)
-                    .foregroundColor(appearance.activeTextColor)
-                Spacer()
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isSelected ? appearance.activeBorderColor : appearance.inactiveBorderColor)
-            }
-        }.onTapGesture {
-            onTap?()
-        }
-    }
-}
-
-public struct FormChipValidationView<Item>: FormValidationContent where Item: AnyItem {
+public struct FormChipValidationView<Item>: FormValidationContent where Item: AnySelectableItem {
 
     // MARK: - Initializer
 
@@ -179,8 +141,11 @@ public struct FormChipValidationView<Item>: FormValidationContent where Item: An
     }
 }
 
-struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
-    @Environment(\.dismiss) var dismiss
+struct FormChipValidationSelectorView<Item>: View where Item: AnySelectableItem {
+    @Environment(\.formAppearance)
+    private var appearance
+    @Environment(\.dismiss)
+    private var dismiss
 
     var pickerTitle: LocalizedStringKey
     @State var collection: [Item]
@@ -188,17 +153,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
 
     var body: some View {
         NavigationView {
-            let columns: [GridItem] = collection.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
-            [.init(.flexible(minimum: 10, maximum: 40)), .init(.flexible())] : [.init(.flexible())]
-            List(collection) { item in
-                Row(columns: columns, item: item, isSelected: selected.contains(item)) {
-                    if let index = selected.firstIndex(of: item) {
-                        selected.remove(at: index)
-                    } else {
-                        selected.append(item)
-                    }
-                }
-            }
+            appearance.selectableRow(collection, selected: $selected)
             .navigationTitle(pickerTitle)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -218,7 +173,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnyItem {
 }
 
 #if DEBUG
-enum NumberChip: Int, CaseIterable, AnyItem {
+enum NumberChip: Int, CaseIterable, AnySelectableItem {
     case first
     case second
     case third
@@ -229,11 +184,8 @@ enum NumberChip: Int, CaseIterable, AnyItem {
     var id: Int {
         rawValue
     }
-    var systemImage: String? {
-        nil
-    }
-    var imageUrl: URL? {
-        nil
+    var enabled: Bool {
+        true
     }
     var localizedString: LocalizedStringKey {
         switch self {
@@ -285,7 +237,7 @@ public extension FormValidationContent {
         value: Binding<[Item]>,
         collection: [Item],
         pickerTitle: LocalizedStringKey
-    ) -> FormChipValidationView<Item> where Item: AnyItem, Self == FormChipValidationView<Item> {
+    ) -> FormChipValidationView<Item> where Item: AnySelectableItem, Self == FormChipValidationView<Item> {
         FormChipValidationView(
             value: value,
             collection: collection,
@@ -303,7 +255,7 @@ public extension FormValidationContent {
         collection: [Item],
         pickerTitle: LocalizedStringKey
     ) -> FormChipValidationView<Item>
-    where Item: AnyItem & OptionSet & CaseIterable, Item == Item.Element, Item.RawValue: FixedWidthInteger,
+    where Item: AnySelectableItem & OptionSet & CaseIterable, Item == Item.Element, Item.RawValue: FixedWidthInteger,
           Self == FormChipValidationView<Item> {
               FormChipValidationView(
                 value: Binding(

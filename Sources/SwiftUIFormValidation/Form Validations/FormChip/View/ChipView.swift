@@ -26,10 +26,7 @@ public struct ChipView: View {
 
     public var body: some View {
         HStack {
-            if let systemImage {
-                Image(systemName: systemImage)
-                    .font(.system(size: 14, weight: .light))
-            } else if let imageUrl {
+            if let imageUrl {
                 AsyncImage(url: imageUrl) { phase in
                     if let image = phase.image {
                         image.resizable()
@@ -39,6 +36,9 @@ public struct ChipView: View {
                         ProgressView().controlSize(.mini)
                     }
                 }.frame(width: 14, height: 14).clipShape(Circle())
+            } else if let systemImage {
+                Image(systemName: systemImage)
+                    .font(.system(size: 14, weight: .light))
             }
             Text(titleKey).lineLimit(1)
                 .font(appearance.textFieldFont)

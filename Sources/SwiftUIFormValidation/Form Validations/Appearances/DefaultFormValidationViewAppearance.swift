@@ -9,6 +9,46 @@
 import SwiftUI
 
 public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance {
+    private struct Row<Item>: View where Item: AnyItem {
+        @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
+        let columns: [GridItem]
+        let item: Item
+        let isSelected: Bool?
+        var onTap: (() -> Void)?
+
+        var body: some View {
+            LazyVGrid(columns: columns) {
+                HStack {
+                    if let systemImage = item.systemImage {
+                        Image(systemName: systemImage)
+                    } else if let imageUrl = item.imageUrl {
+                        AsyncImage(url: imageUrl) { phase in
+                            if let image = phase.image {
+                                image.resizable()
+                            } else if phase.error != nil {
+                                EmptyView()
+                            } else {
+                                ProgressView().controlSize(.mini)
+                            }
+                        }.frame(width: 40, height: 40).clipShape(Circle())
+                    }
+                }
+                HStack {
+                    Text(item.localizedString)
+                        .font(appearance.textFieldFont)
+                        .foregroundColor(appearance.activeTextColor)
+                    Spacer()
+                    if let isSelected {
+                        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(isSelected ? appearance.activeBorderColor : appearance.inactiveBorderColor)
+                    }
+                }
+            }.onTapGesture {
+                onTap?()
+            }
+        }
+    }
+
     public let accentBackgroundColor: Color = .accentColor
 
     public let enabledBackgroundColor: Color = .white
@@ -60,6 +100,33 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
     public let validatedDescriptionFont: Font = .callout
 
     public init() { }
+
+    public func row<Item>(_ items: [Item]) -> AnyView where Item: AnyItem {
+        let columns: [GridItem] = items.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
+        [.init(.flexible(minimum: 10, maximum: 40)), .init(.flexible())] : [.init(.flexible())]
+        return AnyView(
+            List(items) { item in
+                Row(columns: columns, item: item, isSelected: nil)
+            }
+        )
+    }
+
+    public func selectableRow<Item>(_ items: [Item], selected: Binding<[Item]>) -> AnyView
+    where Item: AnySelectableItem {
+        let columns: [GridItem] = items.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
+        [.init(.flexible(minimum: 10, maximum: 40)), .init(.flexible())] : [.init(.flexible())]
+        return AnyView(
+            List(items) { item in
+                Row(columns: columns, item: item, isSelected: selected.wrappedValue.contains(item)) {
+                    if let index = selected.wrappedValue.firstIndex(of: item) {
+                        selected.wrappedValue.remove(at: index)
+                    } else {
+                        selected.wrappedValue.append(item)
+                    }
+                }
+            }
+        )
+    }
 }
 
 public extension FormValidationViewAppearance where Self == DefaultFormValidationViewAppearance {
