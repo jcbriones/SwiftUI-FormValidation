@@ -1,9 +1,9 @@
 //
 //  LocalizedStringKey+Extensions.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 3/5/23.
-//  Copyright © 2023 Recomdy, LLC. All rights reserved.
+//  Copyright © 2023 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI

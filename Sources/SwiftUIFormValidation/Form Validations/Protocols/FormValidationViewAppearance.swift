@@ -1,13 +1,14 @@
 //
 //  FormValidationViewAppearance.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 9/13/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI
 
+@MainActor
 public protocol FormValidationViewAppearance: Sendable {
     // MARK: - Colors
 

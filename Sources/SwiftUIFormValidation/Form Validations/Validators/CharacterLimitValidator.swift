@@ -1,38 +1,26 @@
 //
 //  CharacterLimitValidator.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/28/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
-import Combine
 import Foundation
 
-public class CharacterLimitValidator: FormValidator {
-
-    // MARK: - Initializer
-
-    init(characterLimit: Int) {
-        self.characterLimit = characterLimit
-    }
-
+public struct CharacterLimitValidator: FormValidator {
     // MARK: - Properties
 
-    var characterLimit: Int
+    public var characterLimit: Int
 
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> AnyPublisher<FormValidationResult, Never> {
-        guard let value = value as? String else { return Just(.valid).eraseToAnyPublisher() }
+    public func validate(_ value: any Equatable) -> FormValidationResult {
+        guard let value = value as? String else { return .valid }
         if value.count > characterLimit {
-            return Just(
-                .error(
-                    message: "xloc.validator.characterLimitReached"
-                )
-            ).eraseToAnyPublisher()
+            return .error(message: "xloc.validator.characterLimitReached")
         } else {
-            return Just(.valid).eraseToAnyPublisher()
+            return .valid
         }
     }
 }

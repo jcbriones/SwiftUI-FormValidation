@@ -1,12 +1,13 @@
 //
 //  View+Extension.swift
-//  
+//  SwiftUI-FormValidation
 //
 //  Created by Jc Briones on 9/23/22.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 public extension View {
     @ViewBuilder

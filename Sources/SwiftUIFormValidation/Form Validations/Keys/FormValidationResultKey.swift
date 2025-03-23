@@ -1,8 +1,9 @@
 //
 //  FormValidationResultKey.swift
-//
+//  SwiftUI-FormValidation
 //
 //  Created by Jc Briones on 10/1/22.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI

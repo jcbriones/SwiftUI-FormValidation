@@ -1,9 +1,9 @@
 //
 //  FormValidationResult.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/27/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import Foundation

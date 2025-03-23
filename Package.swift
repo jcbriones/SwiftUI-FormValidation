@@ -1,5 +1,4 @@
-// swift-tools-version: 5.8
-
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
@@ -14,29 +13,18 @@ let package = Package(
             targets: ["SwiftUIFormValidation"])
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/tevelee/SwiftUI-Flow.git", from: "2.0.0")
     ],
     targets: [
         .target(
             name: "SwiftUIFormValidation",
-            dependencies: []
-//            swiftSettings: swiftSettings
+            dependencies: [
+                .product(name: "Flow", package: "SwiftUI-Flow")
+            ]
         ),
         .testTarget(
             name: "SwiftUIFormValidationTests",
             dependencies: ["SwiftUIFormValidation"]
-//            swiftSettings: swiftSettings
         )
     ]
 )
-var swiftSettings: [SwiftSetting] {
-    [
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_FORWARD_TRAILING_CLOSURES"),
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_IMPLICIT_OPEN_EXISTENTIALS"),
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_IMPORT_OBJC_FORWARD_DECLS"),
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES"),
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_GLOBAL_CONCURRENCY"),
-        .enableUpcomingFeature("SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY")
-    ]
-}

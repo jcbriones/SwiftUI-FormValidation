@@ -1,13 +1,13 @@
 //
 //  DemoValidation.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/27/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 #if DEBUG
 struct DemoValidation: View {
@@ -34,196 +34,190 @@ struct DemoValidation: View {
 
     private var chip: some View {
         VStack(spacing: 8) {
-            FormValidationView(
+            FormChip(
+                $viewModel.selectedChips,
                 header: "Sample Chip Set",
-                .chip(
-                    value: $viewModel.selectedChips,
-                    collection: NumberChip.allCases,
-                    pickerTitle: .init("Sample Selection")
-                )
+                collection: NumberChip.allCases,
+                pickerTitle: .init("Sample Selection")
             )
         }
     }
     private var pickers: some View {
         VStack(spacing: 8) {
-            FormValidationView(header: "Item Picker",
-                               .itemPicker(value: $viewModel.selectedItem,
-                                           placeholder: "Select",
-                                           collection: NumberChip.allCases))
-            .disabled(viewModel.textView2.isEmpty)
-            FormValidationView(
-                header: "Date Picker",
-                .datePicker(
-                    value: $viewModel.date1,
-                    imageName: nil,
-                    in: .now...Date.distantFuture,
-                    displayedComponents: .date
-                )
+            FormItemPicker(
+                $viewModel.selectedItem,
+                header: "Item Picker",
+                placeholder: "Select",
+                collection: NumberChip.allCases
             )
-            .disabled(viewModel.textView2.isEmpty)
+//            .validationResult($viewModel.validationResults["pickers1"])
+            FormDatePicker(
+                $viewModel.date1,
+                header: "Date Picker",
+                imageName: nil,
+                in: .now...Date.distantFuture,
+                displayedComponents: .date
+            )
+            .footerMessage("From today forward")
+//            .validationResult($viewModel.validationResults["pickers2"])
+            FormDatePicker(
+                $viewModel.date1,
+                header: "Date Picker",
+                imageName: nil,
+                in: nil,
+                displayedComponents: .date
+            )
+            .validators([.requiredField(fieldName: "")])
+//            .validationResult($viewModel.validationResults["pickers3"])
+            FormOptionalDatePicker(
+                $viewModel.date2,
+                header: "Date Picker (Optional)",
+                imageName: nil,
+                in: nil,
+                displayedComponents: .date
+            )
+            .validators([.requiredField(fieldName: "")])
+            .validationResult($viewModel.validationResults["pickers4"])
+            FormBooleanSelector(
+                $viewModel.boolean,
+                header: "Boolean Selector",
+                textForNo: "If False",
+                textForYes: "If True"
+            )
+//            .validationResult($viewModel.validationResults["pickers5"])
         }
+        .validationResult($viewModel.validationResults["pickers"])
     }
     private var formatterTextFields: some View {
         VStack(spacing: 8) {
-            FormValidationView(
-                header: "Date Formatter Required",
-                isRequired: true,
-                validators: [.requiredField(fieldName: "Date formatter")],
-                .formatterTextField(value: $viewModel.date2,
-                                    formatter: DateFormatter(),
-                                    placeholder: "Write a text and remove it")
+            FormFormatterTextField(
+                $viewModel.date2,
+                header: "Date Formatter",
+                formatter: DateFormatter(),
+                placeholder: "Write a text and remove it"
             )
-            FormValidationView(
-                header: "Number Format Required",
-                isRequired: true,
-                validators: [.requiredField(fieldName: "Number formatter")],
-                .formatterTextField(value: $viewModel.text1,
-                                    formatter: NumberFormatter(),
-                                    placeholder: "Write a text and remove it")
+            .validators([.requiredField(fieldName: "")])
+//            .validationResult($viewModel.validationResults["formatterTextFields1"])
+            FormFormatterTextField(
+                $viewModel.text1,
+                header: "Number Format",
+                formatter: NumberFormatter(),
+                placeholder: "Write a text and remove it"
             )
+            .validators([.requiredField(fieldName: "")])
+            .validationResult($viewModel.validationResults["formatterTextFields2"])
         }
     }
     private var formatTextFields: some View {
         VStack(spacing: 8) {
-            FormValidationView(
-                header: "Boolean Selector",
-                isRequired: false,
-                .boolean(value: $viewModel.boolean,
-                         textForNo: "If False",
-                         textForYes: "If True")
-            )
-            FormValidationView(
+            FormFormatTextField(
+                $viewModel.date2,
                 header: "Date Format Required",
-                isRequired: true,
-                validators: [.requiredField(fieldName: "Date formatter")],
-                .formatTextField(value: $viewModel.date2,
-                                    format: .dateTime,
-                                    placeholder: "Write a text and remove it")
+                format: .dateTime,
+                placeholder: "Write a text in date format"
             )
-            FormValidationView(
-                header: "Date Picker",
-                isRequired: true,
-                validators: [.requiredField(fieldName: "Date formatter")],
-                .datePicker(
-                    value: $viewModel.date1,
-                    imageName: nil,
-                    in: nil,
-                    displayedComponents: .date
-                )
-            )
-            FormValidationView(
-                header: "Date Picker (Optional)",
-                isRequired: false,
-                validators: [],
-                .datePicker(
-                    value: $viewModel.date2,
-                    imageName: nil,
-                    in: nil,
-                    displayedComponents: .date
-                )
-            )
-            FormValidationView(
+            .validators([.requiredField(fieldName: "")])
+            .validationResult($viewModel.validationResults["formatTextFields1"])
+
+            FormFormatTextField(
+                $viewModel.text1,
                 header: "Number Format Required",
-                isRequired: true,
-                validators: [.requiredField(fieldName: "Number formatter")],
-                .formatTextField(value: $viewModel.text1,
-                                    format: .number,
-                                    placeholder: "Write a text and remove it")
+                format: .number,
+                placeholder: "Write a text in number format"
             )
-            .disabled(viewModel.textView2.isEmpty)
+            .validators([.requiredField(fieldName: "")])
+            .validationResult($viewModel.validationResults["formatTextFields2"])
             if #available(iOS 16.0, *) {
-                FormValidationView(
+                FormFormatTextField(
+                    $viewModel.text3,
                     header: "URL Format Required",
-                    isRequired: true,
-                    validators: [.requiredField(fieldName: "URL formatter")],
-                    .formatTextField(value: $viewModel.text3,
-                                     format: .url,
-                                     placeholder: "Write a text and remove it")
+                    format: .url,
+                    placeholder: "Enter a valid URL."
                 )
+                .validators([.requiredField(fieldName: "URL formatter")])
+                .validationResult($viewModel.validationResults["formatTextFields3"])
             }
-            FormValidationView(
+            FormFormatTextField(
+                $viewModel.minMax1,
                 header: "Monetary (Fixed)",
-                footerMessage: "Valid: 1 - 1000",
-                validators: [
-                    .characterLimit(characterLimit: 10),
-                    .minMaxValidator(minError: 1.0, maxError: 1000.0)
-                ],
-                validatorDelay: .seconds(1),
-                .formatTextField(
-                    value: $viewModel.minMax1,
-                    format: .currency(code: "USD").precision(.fractionLength(0)),
-                    placeholder: "$"
-                )
+                format: .currency(code: "USD").precision(.fractionLength(0)),
+                placeholder: "$"
             )
-            .validationResult($viewModel.validationResults["1"])
-            FormValidationView(
+            .footerMessage("Valid: $1 - $1000")
+            .validators([
+                .characterLimit(characterLimit: 10),
+                .minMaxValidator(minError: 1.0, maxError: 1000.0)
+            ], delay: .seconds(1))
+            .validationResult($viewModel.validationResults["formatTextFields4"])
+            FormFormatTextField(
+                $viewModel.minMax2,
                 header: "Monetary (2 Digit Fraction)",
-                footerMessage: "Valid: 0 - \(viewModel.minMax1?.formatted() ?? "100") _Based on **Monetary (Fixed)**_",
-                validators: [
-                    .characterLimit(characterLimit: 10),
-                    .minMaxValidator(minWarning: 0, maxWarning: viewModel.minMax1 ?? 100)
-                ],
-                .formatTextField(
-                    value: $viewModel.minMax2,
-                    format: .currency(code: "USD").precision(.fractionLength(2)),
-                    placeholder: "$"
-                )
+                format: .currency(code: "USD").precision(.fractionLength(2)),
+                placeholder: "$"
             )
-            FormValidationView(
+            .footerMessage(
+                "Valid: $0 - \(viewModel.minMax1?.formatted(.currency(code: "USD")) ?? "$100") _Based on **Monetary (Fixed)**_"
+            )
+            .validators([
+                .minMaxValidator(minWarning: 0, maxWarning: viewModel.minMax1 ?? 100)
+            ])
+            .validationResult($viewModel.validationResults["formatTextFields5"])
+            FormFormatTextField(
+                $viewModel.text5,
                 header: "Percentage",
-                footerMessage: "No Limit Range",
-                .formatTextField(
-                    value: $viewModel.text5,
-                    format: .percent,
-                    placeholder: "%"
-                )
+                format: .percent,
+                placeholder: "%"
             )
-            FormValidationView(
-                header: "Percentage (2 Decimal Places)",
-                footerMessage: "Enter from 0.0 to 100.0",
-                validators: [
-                    .characterLimit(characterLimit: 10),
-                    .minMaxValidator(minWarning: 0.0, maxWarning: 100.0)
-                ],
-                .formatTextField(
-                    value: $viewModel.text5,
-                    format: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
-                    placeholder: "%"
-                )
+            .footerMessage("No Limit Range")
+            .validationResult($viewModel.validationResults["formatTextFields6"])
+            FormFormatTextField(
+                $viewModel.text5,
+                header: "Percentage (3 Integer, 2 Decimal)",
+                format: .percent.precision(.integerAndFractionLength(integer: 3, fraction: 2)),
+                placeholder: "%"
             )
+            .footerMessage("Enter from 0.0 to 100.0")
+            .validators([
+                .minMaxValidator(minWarning: 0.0, maxWarning: 100.0)
+            ])
+            .validationResult($viewModel.validationResults["formatTextFields7"])
         }
     }
     private var textEditors: some View {
         VStack(spacing: 8) {
-            FormValidationView(
+            FormTextEditor(
+                $viewModel.textView1,
                 header: "Text View example with validation",
-                validators: [
-                    .regexMatch("TextView")
-                ],
-                .textEditor(
-                    value: $viewModel.textView1,
-                    placeholder: "Type a regex string value here. Or enter _TextView_ to remove the error on this field"
-                )
+                placeholder: "Type a regex string value here. Or enter _TextView_ to remove the error on this field"
             )
-            FormValidationView(
+            .validators([
+                .regexMatch("TextView")
+            ])
+            .validationResult($viewModel.validationResults["textEditors1"])
+            FormTextEditor(
+                $viewModel.textView2,
                 header: "Text View example with validation based on other field",
-                validators: [
-                    .regexMatch(viewModel.textView1)
-                ],
-                .textEditor(
-                    value: $viewModel.textView2,
-                    placeholder: "Type in \"Hello\" to this and field above to throw error on both"
-                )
+                placeholder: "This uses the regex validator you typed in above."
             )
-            FormValidationView(
+            .validators([
+                .regexMatch(viewModel.textView1)
+            ])
+            .validationResult($viewModel.validationResults["textEditors2"])
+            FormTextEditor(
+                $viewModel.textView3,
                 header: "Text View example with character limit",
-                maxCharCount: 20,
-                .textEditor(
-                    value: $viewModel.textView3,
-                    placeholder: "A field that has a maximum of 20 characters long"
-                )
+                placeholder: "A field that has a maximum of 20 characters long"
             )
+            .validators([
+                .characterLimit(characterLimit: 20)
+            ])
+            .validationResult($viewModel.validationResults["textEditors3"])
+
+            Button("Validate") {
+                viewModel.validate.send()
+            }
         }
+        .validateForm(using: viewModel.validate)
     }
 }
 
@@ -234,10 +228,10 @@ class DemoValidationViewModel: ObservableObject {
     @Published var minMax2: Double?
     @Published var textView1: String = "^[0-9]+$"
     @Published var textView2: String = ""
-    @Published var textView3: String = ""
+    @Published var textView3: String = "12345123451234512345"
 
     @Published var date1: Date = Date()
-    @Published var date2: Date? = Date()
+    @Published var date2: Date?
     @Published var text1: Double? = 0
     @Published var text2: String? = "helloworld"
     @Published var text3: URL? = URL(string: "https://madeby.jcbriones.com")
@@ -250,6 +244,7 @@ class DemoValidationViewModel: ObservableObject {
             print(validationResults)
         }
     }
+    var validate: PassthroughSubject<Void, Never> = .init()
 }
 
 struct DemoValidation_Previews: PreviewProvider {

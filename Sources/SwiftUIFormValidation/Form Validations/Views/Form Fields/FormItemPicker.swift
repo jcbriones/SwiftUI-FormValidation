@@ -1,22 +1,29 @@
 //
-//  FormItemPickerValidationView.swift
-//  Recomdy
+//  FormItemPicker.swift
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/27/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI
-import Combine
 
-public struct FormItemPickerValidationView<Item>: FormValidationContent where Item: AnyItem {
-    // MARK: - Private Properties
+public struct FormItemPicker<Item>: FormValidationContent where Item: AnyItem {
+    @Environment(\.formAppearance)
+    private var appearance: FormValidationViewAppearance
+    @Environment(\.formValidationResult)
+    private var validationResult
+    @Environment(\.isEnabled)
+    private var isEnabled: Bool
 
-    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
-    @Environment(\.formValidationResult) private var validationResult
-    @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
+
+    // MARK: - FormValidationContent Properties
+
     @Binding public var value: Item?
+    public var model: FormModel<Value>
+
+    // MARK: - Form Field Properties
 
     private let placeholder: LocalizedStringKey
     private let collection: [Item]
@@ -68,43 +75,26 @@ public struct FormItemPickerValidationView<Item>: FormValidationContent where It
                     .padding(.trailing, 10)
             }
         }
+        .modifier(FormFieldContentModifier($value, model: model))
     }
 
     // MARK: - Initializer
 
-    init(value: Binding<Item?>, placeholder: LocalizedStringKey, collection: [Item]) {
-        self._value = value
-        self.placeholder = placeholder
-        self.collection = collection
-    }
-}
-
-public extension FormValidationContent {
     /// A single item picker. An Item should be a valid member of the collection.
     /// - Parameters:
     ///   - value: Any item inside the collection.
+    ///   - header: The name of this form field.   
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - collection: The set of items.
-    static func itemPicker<Item>(
-        value: Binding<Value>,
+    init(
+        _ value: Binding<Item?>,
+        header: LocalizedStringKey? = nil,
         placeholder: LocalizedStringKey,
         collection: [Item]
-    ) -> FormItemPickerValidationView<Item>
-    where Item: AnyItem, Value == Item?, Self == FormItemPickerValidationView<Item> {
-        FormItemPickerValidationView(value: value, placeholder: placeholder, collection: collection)
-    }
-
-    /// A single item picker. An Item should be a valid member of the collection.
-    /// - Parameters:
-    ///   - value: Any item inside the collection.
-    ///   - placeholder: Placeholder string if the value is `nil`
-    ///   - collection: The set of items.
-    static func itemPicker<Item>(
-        value: Binding<Value>,
-        placeholder: String,
-        collection: [Item]
-    ) -> FormItemPickerValidationView<Item>
-    where Item: AnyItem, Value == Item?, Self == FormItemPickerValidationView<Item> {
-        FormItemPickerValidationView(value: value, placeholder: LocalizedStringKey(placeholder), collection: collection)
+    ) {
+        self._value = value
+        self.model = .init(header: header)
+        self.placeholder = placeholder
+        self.collection = collection
     }
 }

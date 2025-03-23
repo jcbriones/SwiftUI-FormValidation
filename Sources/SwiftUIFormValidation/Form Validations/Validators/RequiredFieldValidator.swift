@@ -1,36 +1,28 @@
 //
 //  RequiredFieldValidator.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/28/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
-import Combine
 import Foundation
 
-public class RequiredFieldValidator: FormValidator {
-
-    // MARK: - Initializer
-
-    init(fieldName: String) {
-        self.fieldName = fieldName
-    }
-
+public struct RequiredFieldValidator: FormValidator {
     // MARK: - Properties
 
-    var fieldName: String
+    public var fieldName: String
 
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> AnyPublisher<FormValidationResult, Never> {
+    public func validate(_ value: any Equatable) -> FormValidationResult {
         if let value = value as? String?, (value ?? "").count == 0 {
-            return Just(.error(message: "xloc.validator.isRequired \(fieldName)")).eraseToAnyPublisher()
+            return .error(message: "xloc.validator.isRequired \(fieldName)")
         }
         if let value = value as? [Any], value.count == 0 {
-            return Just(.error(message: "xloc.validator.isRequired \(fieldName)")).eraseToAnyPublisher()
+            return .error(message: "xloc.validator.isRequired \(fieldName)")
         }
-        return Just(.valid).eraseToAnyPublisher()
+        return .valid
     }
 }
 

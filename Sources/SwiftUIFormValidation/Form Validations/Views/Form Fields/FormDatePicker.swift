@@ -1,24 +1,31 @@
 //
-//  FormDatePickerValidationView.swift
-//  Recomdy
+//  FormDatePicker.swift
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/26/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI
-import Combine
 
-public struct FormDatePickerValidationView: FormValidationContent {
-    // MARK: - Private Properties
+public struct FormDatePicker: FormValidationContent {
+    @Environment(\.formAppearance)
+    private var appearance: FormValidationViewAppearance
+    @Environment(\.formValidationResult)
+    private var validationResult
+    @Environment(\.isEnabled)
+    private var isEnabled: Bool
 
-    @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
-    @Environment(\.formValidationResult) private var validationResult
-    @Environment(\.isEnabled) private var isEnabled: Bool
     @FocusState private var focused: Bool
-    @State private var showDatePicker: Bool = false
-    @Binding public var value: Date
 
+    // MARK: - FormValidationContent Properties
+
+    @Binding public var value: Date
+    public var model: FormModel<Value>
+
+    // MARK: - Form Field Properties
+
+    @State private var showDatePicker: Bool = false
     private let imageName: String?
     private let range: ClosedRange<Date>?
     private let displayedComponents: DatePickerComponents?
@@ -83,41 +90,29 @@ public struct FormDatePickerValidationView: FormValidationContent {
                 .animation(appearance.animation, value: showDatePicker)
                 .animation(appearance.animation, value: validationResult)
         }
+        .modifier(FormFieldContentModifier($value, model: model))
     }
 
     // MARK: - Initializer
 
+    /// Simple date picker that allows user to select date based on an optional range and displayed components.
+    /// - Parameters:
+    ///   - value: The selected date
+    ///   - header: The name of this form field.
+    ///   - imageName: An optional icon to display beside the date picker
+    ///   - range: The range from, to, or in between dates.
+    ///   - displayedComponents: The components to be displayed such as date or time or even both
     init(
-        value: Binding<Date>,
+        _ value: Binding<Date>,
+        header: LocalizedStringKey? = nil,
         imageName: String? = nil,
         in range: ClosedRange<Date>? = nil,
         displayedComponents: DatePickerComponents? = nil
     ) {
         self._value = value
+        self.model = .init(header: header)
         self.imageName = imageName
         self.range = range
         self.displayedComponents = displayedComponents
-    }
-}
-
-public extension FormValidationContent where Self == FormDatePickerValidationView {
-    /// Simple date picker that allows user to select date based on an optional range and displayed components.
-    /// - Parameters:
-    ///   - value: The selected date
-    ///   - imageName: An optional icon to display beside the date picker
-    ///   - range: The range from, to, or in between dates.
-    ///   - displayedComponents: The components to be displayed such as date or time or even both
-    static func datePicker(
-        value: Binding<Date>,
-        imageName: String? = nil,
-        in range: ClosedRange<Date>? = nil,
-        displayedComponents: DatePickerComponents? = [.date, .hourAndMinute]
-    ) -> FormDatePickerValidationView {
-        FormDatePickerValidationView(
-            value: value,
-            imageName: imageName,
-            in: range,
-            displayedComponents: displayedComponents
-        )
     }
 }

@@ -1,9 +1,9 @@
 ////
 ////  ImagePicker.swift
-////  Recomdy
+////  SwiftUIFormValidation
 ////
 ////  Created by Jc Briones on 9/3/22.
-////  Copyright © 2022 Recomdy, LLC. All rights reserved.
+////  Copyright © 2022 PetCollab, LLC. All rights reserved.
 ////
 //
 // import SwiftUI

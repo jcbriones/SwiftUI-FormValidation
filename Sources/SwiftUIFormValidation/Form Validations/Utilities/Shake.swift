@@ -3,6 +3,7 @@
 //  Mostly copied from https://www.objc.io/blog/2019/10/01/swiftui-shake-animation/
 //
 //  Created by Jc Briones on 4/26/23.
+//  Copyright © 2023 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI

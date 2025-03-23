@@ -1,31 +1,30 @@
 //
 //  MinMaxValidator.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 8/28/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
-import Combine
 import Foundation
 
-public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
+public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
 
     // MARK: - Initializer
 
-    convenience init(minWarning: Number, maxWarning: Number) {
+    init(minWarning: Number, maxWarning: Number) {
         guard minWarning <= maxWarning else {
             fatalError("MinMaxValidator setup incorrectly")
         }
         self.init(minWarning, maxWarning, nil, nil)
     }
-    convenience init(minError: Number, maxError: Number) {
+    init(minError: Number, maxError: Number) {
         guard minError <= maxError else {
             fatalError("MinMaxValidator setup incorrectly")
         }
         self.init(nil, nil, minError, maxError)
     }
-    convenience init(minWarning: Number, maxWarning: Number, minError: Number, maxError: Number) {
+    init(minWarning: Number, maxWarning: Number, minError: Number, maxError: Number) {
         guard minWarning >= minError && maxWarning <= maxError && minWarning <= maxWarning else {
             fatalError("MinMaxValidator setup incorrectly")
         }
@@ -54,10 +53,9 @@ public class MinMaxValidator<Number>: FormValidator where Number: Numeric & Comp
 
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> AnyPublisher<FormValidationResult, Never> {
-        guard let value = value as? Number else { return Just(.valid).eraseToAnyPublisher() }
-        return Just(validateWarningAndError(value) ?? validateWarning(value) ?? validateError(value) ?? .valid)
-            .eraseToAnyPublisher()
+    public func validate(_ value: any Equatable) -> FormValidationResult {
+        guard let value = value as? Number else { return .valid }
+        return validateWarningAndError(value) ?? validateWarning(value) ?? validateError(value) ?? .valid
     }
 
     private func validateWarningAndError(_ value: Number) -> FormValidationResult? {

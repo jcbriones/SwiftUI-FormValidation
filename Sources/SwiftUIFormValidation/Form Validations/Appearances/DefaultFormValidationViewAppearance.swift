@@ -1,9 +1,9 @@
 //
 //  DefaultFormValidationViewAppearance.swift
-//  Recomdy
+//  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 9/13/22.
-//  Copyright © 2022 Recomdy, LLC. All rights reserved.
+//  Copyright © 2022 PetCollab, LLC. All rights reserved.
 //
 
 import SwiftUI
@@ -101,6 +101,7 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
 
     public init() { }
 
+    @MainActor
     public func row<Item>(_ items: [Item]) -> AnyView where Item: AnyItem {
         let columns: [GridItem] = items.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
         [.init(.flexible(minimum: 10, maximum: 40)), .init(.flexible())] : [.init(.flexible())]
@@ -111,6 +112,7 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
         )
     }
 
+    @MainActor
     public func selectableRow<Item>(_ items: [Item], selected: Binding<[Item]>) -> AnyView
     where Item: AnySelectableItem {
         let columns: [GridItem] = items.contains { $0.systemImage != nil || $0.imageUrl != nil } ?
