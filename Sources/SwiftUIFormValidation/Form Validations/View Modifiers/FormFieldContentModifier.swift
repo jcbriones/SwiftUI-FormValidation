@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct FormFieldContentModifier<Value: Equatable>: ViewModifier {
+public struct FormFieldContentModifier<Value: Equatable & Sendable>: ViewModifier {
     // MARK: - View Binding Properties
 
     @Environment(\.externalValidationResult)

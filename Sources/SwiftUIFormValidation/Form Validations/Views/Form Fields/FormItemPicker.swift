@@ -86,7 +86,7 @@ public struct FormItemPicker<Item>: FormValidationContent where Item: AnyItem {
     ///   - header: The name of this form field.   
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   - collection: The set of items.
-    init(
+    public init(
         _ value: Binding<Item?>,
         header: LocalizedStringKey? = nil,
         placeholder: LocalizedStringKey,

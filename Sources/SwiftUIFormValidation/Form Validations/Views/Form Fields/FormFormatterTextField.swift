@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct FormFormatterTextField<F, V>: FormValidationContent where F: Formatter, V: Equatable {
+public struct FormFormatterTextField<F, V>: FormValidationContent where F: Formatter, V: Equatable & Sendable {
     @Environment(\.formAppearance)
     private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult)
@@ -88,7 +88,7 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
     ///   - formatter: The formatter to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    init(
+    public init(
         _ value: Binding<V?>,
         header: LocalizedStringKey? = nil,
         formatter: F,

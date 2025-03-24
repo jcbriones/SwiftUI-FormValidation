@@ -90,7 +90,7 @@ public struct FormTextEditor: FormValidationContent {
     ///   - header: The name of this form field.
     ///   - placeholder: Placeholder string if the value is `nil`
     ///   Set to `nil` to disable checking
-    init(
+    public init(
         _ value: Binding<String>,
         header: LocalizedStringKey? = nil,
         placeholder: LocalizedStringKey = ""

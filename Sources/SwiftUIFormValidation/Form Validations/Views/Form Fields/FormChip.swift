@@ -93,7 +93,7 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
     ///   - header: The name of this form field.
     ///   - collection: The collection of items
     ///   - pickerTitle: The title when picker option is shown
-    init(_ value: Binding<[Item]>, header: LocalizedStringKey? = nil, collection: [Item], pickerTitle: LocalizedStringKey) {
+    public init(_ value: Binding<[Item]>, header: LocalizedStringKey? = nil, collection: [Item], pickerTitle: LocalizedStringKey) {
         self._value = value
         self.model = .init(header: header)
         self.collection = collection

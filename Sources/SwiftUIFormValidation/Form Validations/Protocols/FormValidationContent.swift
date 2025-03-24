@@ -10,9 +10,9 @@ import SwiftUI
 
 public struct FormModel<Value: Equatable>: Identifiable {
     public var id: UUID = UUID()
-    var header: LocalizedStringKey?
-    var footer: LocalizedStringKey?
-    var validators: [any FormValidator] = []
+    public var header: LocalizedStringKey?
+    public var footer: LocalizedStringKey?
+    public var validators: [any FormValidator] = []
 }
 public protocol FormValidationContent: View {
     associatedtype Value: Equatable

@@ -15,7 +15,7 @@ public struct RequiredFieldValidator: FormValidator {
 
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable & Sendable) async throws -> FormValidationResult {
         if let value = value as? String?, (value ?? "").count == 0 {
             return .error(message: "xloc.validator.isRequired \(fieldName)")
         }

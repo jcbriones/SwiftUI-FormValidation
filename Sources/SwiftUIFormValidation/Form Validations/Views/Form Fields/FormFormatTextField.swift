@@ -9,7 +9,7 @@
 import SwiftUI
 
 public struct FormFormatTextField<F>: FormValidationContent
-where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable {
+where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatable & Sendable {
     @Environment(\.formAppearance)
     private var appearance: FormValidationViewAppearance
     @Environment(\.formValidationResult)
@@ -89,7 +89,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     ///   - format: The format to use to format the text.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    init(
+    public init(
         _ value: Binding<F.FormatInput?>,
         header: LocalizedStringKey? = nil,
         format: F,

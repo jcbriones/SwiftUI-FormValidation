@@ -11,7 +11,7 @@ import Foundation
 public struct EmailAddressValidator: FormValidator {
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable & Sendable) async throws -> FormValidationResult {
         guard let value = value as? String else { return .valid }
         let emailFormat = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
         "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +

@@ -123,7 +123,7 @@ public struct FormOptionalDatePicker: FormValidationContent {
     ///   - imageName: An optional icon to display beside the date picker
     ///   - range: The range from, to, or in between dates.
     ///   - displayedComponents: The components to be displayed such as date or time or even both
-    init(
+    public init(
         _ value: Binding<Date?>,
         header: LocalizedStringKey? = nil,
         imageName: String? = nil,

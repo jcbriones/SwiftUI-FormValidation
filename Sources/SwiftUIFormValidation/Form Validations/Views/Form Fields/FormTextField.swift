@@ -68,7 +68,7 @@ public struct FormTextField: FormValidationContent {
         ///   - imageName: Allows to add an image beginning of the text  inside the text field.
         ///   - systemName: Allows to add an image beginning of the text  inside the text field.
         ///   - placeholder: The text placeholder
-    init(
+    public init(
         _ value: Binding<String>,
         header: LocalizedStringKey? = nil,
         imageName: String? = nil,

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable {
+public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Comparable & Sendable {
 
     // MARK: - Initializer
 
@@ -53,7 +53,7 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
 
     // MARK: - FormValidator Protocol
 
-    public func validate(_ value: any Equatable) -> FormValidationResult {
+    public func validate(_ value: any Equatable & Sendable) async throws -> FormValidationResult {
         guard let value = value as? Number else { return .valid }
         return validateWarningAndError(value) ?? validateWarning(value) ?? validateError(value) ?? .valid
     }

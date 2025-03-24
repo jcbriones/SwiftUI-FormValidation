@@ -50,7 +50,7 @@ public struct FormBooleanSelector: FormValidationContent {
     ///   - header: The name of this form field.
     ///   - enabledText: The text to display on the button where the value is set to true.
     ///   - disabledText: The text to display on the button where the value is set to false.
-    init(
+    public init(
         _ value: Binding<Bool>,
         header: LocalizedStringKey? = nil,
         textForNo: LocalizedStringKey,

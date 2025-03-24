@@ -67,7 +67,7 @@ public struct FormSecureField: FormValidationContent {
     ///   - header: The name of this form field.
     ///   - imageName: Allows to add an image beginning of the text  inside the text field.
     ///   - placeholder: The text placeholder
-    init(
+    public init(
         value: Binding<String>,
         header: LocalizedStringKey? = nil,
         imageName: String? = nil,

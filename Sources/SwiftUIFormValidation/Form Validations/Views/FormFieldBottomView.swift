@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FormFieldBottomView<Value: Equatable>: View {
+struct FormFieldBottomView<Value: Equatable & Sendable>: View {
     @Environment(\.formAppearance)
     private var appearance
     @Environment(\.isFocused)
@@ -80,10 +80,14 @@ struct FormFieldBottomView<Value: Equatable>: View {
         }
         .padding(.bottom, 3)
         .onChange(of: value) { newValue in
-            result = validators.validate(newValue).first { $0 != .valid } ?? .valid
+            Task { @MainActor in
+                result = try await validators.validate(newValue).first { $0 != .valid } ?? .valid
+            }
         }
         .onReceive(externalValidator) {
-            result = validators.validate(value).first { $0 != .valid } ?? .valid
+            Task { @MainActor in
+                result = try await validators.validate(value).first { $0 != .valid } ?? .valid
+            }
         }
         .onAppear {
             externalFormValidationResult = .valid

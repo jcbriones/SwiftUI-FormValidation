@@ -59,9 +59,8 @@ public extension FormValidationContent {
     /// Adds a set of validators to the form field.
     /// - Parameters:
     ///   - validators: Validators to be applied on this field.
-    ///   - delay: A delay when to trigger validations.
     /// - Returns: A modified view with set of validators
-    func validators(_ validators: [any FormValidator], delay: RunLoop.SchedulerTimeType.Stride = .zero) -> Self {
+    func validators(_ validators: [any FormValidator]) -> Self {
         var copy = self
         copy.model.validators = validators
         return copy
