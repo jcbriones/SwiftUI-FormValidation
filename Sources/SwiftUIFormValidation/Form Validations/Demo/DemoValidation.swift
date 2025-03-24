@@ -147,7 +147,7 @@ struct DemoValidation: View {
             .validators([
                 .characterLimit(characterLimit: 10),
                 .minMaxValidator(minError: 1.0, maxError: 1000.0)
-            ], delay: .seconds(1))
+            ])
             .validationResult($viewModel.validationResults["formatTextFields4"])
             FormFormatTextField(
                 $viewModel.minMax2,
