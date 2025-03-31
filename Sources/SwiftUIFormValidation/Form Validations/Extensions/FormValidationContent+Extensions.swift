@@ -26,12 +26,12 @@ public extension FormValidationContent {
         return copy
     }
 
-    /// Makes the form field a required field
+    /// Makes the form field a required field. When set, is required is set to true unless says otherwise.
     /// - Returns: A modified view with setting the field as required.
     /// - Parameters:
     ///   - isRequired: If the validation field is required.
     ///   - customName: An optional value to change the name of the field in the error message when field is blank or empty.
-    func isRequired(_ isRequired: Bool, customName: String? = nil) -> Self {
+    func isRequired(_ isRequired: Bool = true, customName: String? = nil) -> Self {
         var copy = self
         if isRequired, let header = copy.model.header,
            !copy.model.validators.contains(where: { $0 is RequiredFieldValidator }) {

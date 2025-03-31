@@ -80,4 +80,27 @@ public struct FormSecureField: FormValidationContent {
         self.systemName = systemName
         self.placeholder = placeholder
     }
+
+    /// A secured text field input form. Commonly used on password, 2fa, and codes.
+    /// - Parameters:
+    ///   - value: The text to display in secured text
+    ///   - header: The name of this form field.
+    ///   - imageName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    public init(
+        value: Binding<String?>,
+        header: LocalizedStringKey? = nil,
+        imageName: String? = nil,
+        systemName: String? = nil,
+        placeholder: LocalizedStringKey = ""
+    ) {
+        self._value = Binding(
+            get: { value.wrappedValue ?? "" },
+            set: { newValue in value.wrappedValue = newValue.isEmpty ? nil : newValue }
+        )
+        self.model = .init(header: header)
+        self.imageName = imageName
+        self.systemName = systemName
+        self.placeholder = placeholder
+    }
 }
