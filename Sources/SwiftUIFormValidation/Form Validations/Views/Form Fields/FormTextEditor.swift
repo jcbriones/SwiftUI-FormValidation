@@ -99,4 +99,23 @@ public struct FormTextEditor: FormValidationContent {
         self.model = .init(header: header)
         self.placeholder = placeholder
     }
+
+    /// Text editor also known as text view in `UIKit`
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - header: The name of this form field.
+    ///   - placeholder: Placeholder string if the value is `nil`
+    ///   Set to `nil` to disable checking
+    public init(
+        _ value: Binding<String?>,
+        header: LocalizedStringKey? = nil,
+        placeholder: LocalizedStringKey = ""
+    ) {
+        self._value = Binding(
+            get: { value.wrappedValue ?? "" },
+            set: { newValue in value.wrappedValue = newValue.isEmpty ? nil : newValue }
+        )
+        self.model = .init(header: header)
+        self.placeholder = placeholder
+    }
 }

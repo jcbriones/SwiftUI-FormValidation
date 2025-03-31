@@ -93,8 +93,34 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
     ///   - header: The name of this form field.
     ///   - collection: The collection of items
     ///   - pickerTitle: The title when picker option is shown
-    public init(_ value: Binding<[Item]>, header: LocalizedStringKey? = nil, collection: [Item], pickerTitle: LocalizedStringKey) {
+    public init(
+        _ value: Binding<[Item]>,
+        header: LocalizedStringKey? = nil,
+        collection: [Item],
+        pickerTitle: LocalizedStringKey
+    ) {
         self._value = value
+        self.model = .init(header: header)
+        self.collection = collection
+        self.pickerTitle = pickerTitle
+    }
+
+    /// A chip container that displays a selected set of items as part of the collection using an option set.
+    /// - Parameters:
+    ///   - value: The option set of selected items from the collection
+    ///   - header: The name of this form field.
+    ///   - collection: An option set collection
+    ///   - pickerTitle: The title when picker option is shown
+    public init(
+        _ value: Binding<Item>,
+        header: LocalizedStringKey? = nil,
+        collection: [Item],
+        pickerTitle: LocalizedStringKey
+    ) where Item: AnySelectableItem & OptionSet & CaseIterable, Item == Item.Element, Item.RawValue: FixedWidthInteger {
+        self._value = Binding(
+            get: { value.wrappedValue.components },
+            set: { newValue in value.wrappedValue = Item(newValue) }
+        )
         self.model = .init(header: header)
         self.collection = collection
         self.pickerTitle = pickerTitle
