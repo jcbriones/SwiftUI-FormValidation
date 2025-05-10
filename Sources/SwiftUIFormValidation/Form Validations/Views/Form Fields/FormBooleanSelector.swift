@@ -37,8 +37,14 @@ public struct FormBooleanSelector: FormValidationContent {
             .buttonStyle(FormPickerCapsuleButtonStyle(isSelected: value))
             .animation(appearance.animation, value: value)
         }
-        .padding(.vertical, 5)
-        .padding(.horizontal, 10)
+        .padding(
+            .init(
+                top: appearance.topPadding,
+                leading: appearance.leadingPadding,
+                bottom: appearance.bottomPadding,
+                trailing: appearance.trailingPadding
+            )
+        )
         .modifier(FormFieldContentModifier($value, model: model))
     }
 

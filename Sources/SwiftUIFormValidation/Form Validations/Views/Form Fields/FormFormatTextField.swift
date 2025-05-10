@@ -33,39 +33,50 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     // MARK: - Body
 
     public var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                if let imageName = imageName {
-                    Image(imageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 27, height: 27)
-                        .foregroundColor(appearance.imageIconColor)
-                }
-                TextField(placeholder, value: $value, format: format)
-                    .font(appearance.textFieldFont)
-                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
-                    .multilineTextAlignment(.leading)
-                    .padding(5)
-                    .focused($focused)
-                    .disabled(!isEnabled)
+        HStack(spacing: 5) {
+            if let imageName = imageName {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
+            }
+            TextField(placeholder, value: $value, format: format)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                .multilineTextAlignment(.leading)
+                .focused($focused)
+                .disabled(!isEnabled)
 #if os(iOS)
-                    .keyboardType(keyboardTypeFromFormatInput)
+                .keyboardType(keyboardTypeFromFormatInput)
 #endif
-            }
-            if isEnabled {
-                Divider()
-                    .frame(height: focused ? 2 : 1.5)
-                    .background(
-                        appearance.formValidationBorderColor(
-                            focused: focused,
-                            validationResult: validationResult
-                        )
-                    )
-                    .animation(appearance.animation, value: focused)
-                    .animation(appearance.animation, value: validationResult)
-            }
         }
+        .padding(
+            .init(
+                top: appearance.topPadding,
+                leading: appearance.leadingPadding,
+                bottom: appearance.bottomPadding,
+                trailing: appearance.trailingPadding
+            )
+        )
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(
+                    appearance.formValidationBorderColor(
+                        focused: focused,
+                        validationResult: validationResult
+                    ),
+                    lineWidth: focused ? 2 : 1.5
+                )
+                .background(
+                    (
+                        isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
+                    )
+                    .cornerRadius(10)
+                )
+                .animation(appearance.animation, value: focused)
+                .animation(appearance.animation, value: validationResult)
+        )
         .modifier(FormFieldContentModifier($value, model: model))
     }
 

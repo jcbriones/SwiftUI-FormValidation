@@ -34,16 +34,24 @@ public struct FormTextEditor: FormValidationContent {
             .disabled(!isEnabled)
             .focused($focused)
             .cornerRadius(10)
-            .padding(1)
             .font(appearance.textFieldFont)
             .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
             .frame(minHeight: 140)
+            .padding(-9)
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)
 #if os(iOS)
             .keyboardType(.asciiCapable)
             .border(.clear, width: 0)
 #endif
+            .padding(
+                .init(
+                    top: appearance.topPadding,
+                    leading: appearance.leadingPadding,
+                    bottom: appearance.bottomPadding,
+                    trailing: appearance.trailingPadding
+                )
+            )
             .background(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(
@@ -67,8 +75,14 @@ public struct FormTextEditor: FormValidationContent {
                     Text(placeholder)
                         .font(appearance.textFieldFont)
                         .foregroundColor(appearance.placeholderTextColor)
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 10)
+                        .padding(
+                            .init(
+                                top: appearance.topPadding,
+                                leading: appearance.leadingPadding,
+                                bottom: appearance.bottomPadding,
+                                trailing: appearance.trailingPadding
+                            )
+                        )
                         .onTapGesture {
                             focused.toggle()
                         }

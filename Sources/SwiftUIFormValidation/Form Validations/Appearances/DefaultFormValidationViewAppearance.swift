@@ -99,6 +99,14 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
 
     public let validatedDescriptionFont: Font = .callout
 
+    public let topPadding: CGFloat = 20
+
+    public let bottomPadding: CGFloat = 20
+
+    public let leadingPadding: CGFloat = 10
+
+    public let trailingPadding: CGFloat = 10
+
     public init() { }
 
     @MainActor

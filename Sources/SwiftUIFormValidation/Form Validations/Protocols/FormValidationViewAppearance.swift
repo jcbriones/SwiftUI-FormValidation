@@ -12,17 +12,21 @@ import SwiftUI
 public protocol FormValidationViewAppearance: Sendable {
     // MARK: - Colors
 
+    // Background
     var accentBackgroundColor: Color { get }
     var enabledBackgroundColor: Color { get }
     var disabledBackgroundColor: Color { get }
+    // Title
     var activeTitleHeaderColor: Color { get }
     var inactiveTitleHeaderColor: Color { get }
+    // Border
     var activeBorderColor: Color { get }
     var inactiveBorderColor: Color { get }
     var disabledBorderColor: Color { get }
     var infoBorderColor: Color { get }
     var warningBorderColor: Color { get }
     var errorBorderColor: Color { get }
+    // Text
     var validDescriptionTextColor: Color { get }
     var infoDescriptionTextColor: Color { get }
     var warningDescriptionTextColor: Color { get }
@@ -32,6 +36,7 @@ public protocol FormValidationViewAppearance: Sendable {
     var disabledTextColor: Color { get }
     var placeholderTextColor: Color { get }
     var requiredFieldSymbolTextColor: Color { get }
+    // Extras
     var imageIconColor: Color { get }
     var animation: Animation { get }
 
@@ -40,6 +45,13 @@ public protocol FormValidationViewAppearance: Sendable {
     var titleHeaderFont: Font { get }
     var textFieldFont: Font { get }
     var validatedDescriptionFont: Font { get }
+
+    // MARK: - Paddings
+
+    var topPadding: CGFloat { get }
+    var bottomPadding: CGFloat { get }
+    var leadingPadding: CGFloat { get }
+    var trailingPadding: CGFloat { get }
 
     // MARK: - Views
     func row<Item>(_ items: [Item]) -> AnyView where Item: AnyItem

@@ -31,42 +31,52 @@ public struct FormItemPicker<Item>: FormValidationContent where Item: AnyItem {
     // MARK: - Body
 
     public var body: some View {
-
-        VStack(spacing: 0) {
-            Menu {
-                ForEach(collection, id: \.id) { item in
-                    Button {
-                        value = item
-                    } label: {
-                        Text(item.localizedString)
-                            .frame(maxWidth: .infinity)
-                            .font(appearance.textFieldFont)
-                            .multilineTextAlignment(.leading)
-                    }
+        Menu {
+            ForEach(collection, id: \.id) { item in
+                Button {
+                    value = item
+                } label: {
+                    Text(item.localizedString)
+                        .frame(maxWidth: .infinity)
+                        .font(appearance.textFieldFont)
+                        .multilineTextAlignment(.leading)
                 }
-            } label: {
-                Text(value?.localizedString ?? placeholder)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(appearance.textFieldFont)
-                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: value != nil))
-                    .multilineTextAlignment(.leading)
             }
-            .focused($focused)
-            .padding(10)
-            .disabled(!isEnabled)
-            if isEnabled {
-                Divider()
-                    .frame(height: focused ? 2 : 1.5)
-                    .background(
-                        appearance.formValidationBorderColor(
-                            focused: focused,
-                            validationResult: validationResult
-                        )
-                    )
-                    .animation(appearance.animation, value: focused)
-                    .animation(appearance.animation, value: validationResult)
-            }
+        } label: {
+            Text(value?.localizedString ?? placeholder)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: value != nil))
+                .multilineTextAlignment(.leading)
         }
+        .focused($focused)
+        .disabled(!isEnabled)
+        .padding(
+            .init(
+                top: appearance.topPadding,
+                leading: appearance.leadingPadding,
+                bottom: appearance.bottomPadding,
+                trailing: appearance.trailingPadding
+            )
+        )
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(
+                    appearance.formValidationBorderColor(
+                        focused: focused,
+                        validationResult: validationResult
+                    ),
+                    lineWidth: focused ? 2 : 1.5
+                )
+                .background(
+                    (
+                        isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
+                    )
+                    .cornerRadius(10)
+                )
+                .animation(appearance.animation, value: focused)
+                .animation(appearance.animation, value: validationResult)
+        )
         .overlay(alignment: .trailing) {
             if isEnabled {
                 Image(systemName: focused ? "chevron.up" : "chevron.down")

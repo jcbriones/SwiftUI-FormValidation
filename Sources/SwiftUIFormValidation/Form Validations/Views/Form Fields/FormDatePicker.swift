@@ -33,63 +33,79 @@ public struct FormDatePicker: FormValidationContent {
     // MARK: - Body
 
     public var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                if let imageName = imageName {
-                    Image(imageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 27, height: 27)
-                        .foregroundColor(appearance.imageIconColor)
-                }
-                Button {
-                    showDatePicker.toggle()
-                } label: {
-                    Text(
-                        value.formatted(
-                            date: .abbreviated,
-                            time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted
-                        )
-                    )
-                    .font(appearance.textFieldFont)
-                    .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
-                    .multilineTextAlignment(.leading)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(5)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .sheet(isPresented: $showDatePicker) {
-                    Group {
-                        if let range, let displayedComponents {
-                            DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)
-                        } else if let range {
-                            DatePicker("", selection: $value, in: range)
-                        } else if let displayedComponents {
-                            DatePicker("", selection: $value, displayedComponents: displayedComponents)
-                        } else {
-                            DatePicker("", selection: $value)
-                        }
-                    }
-                    .padding()
-                    .labelsHidden()
-                    .datePickerStyle(.graphical)
-                    .presentationDetents([.medium])
-                }
-                .focused($focused)
-                .disabled(!isEnabled)
-                .onChange(of: focused) { newValue in
-                    showDatePicker = newValue
-                }
+        HStack(spacing: 5) {
+            if let imageName = imageName {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
             }
-            Divider()
-                .frame(height: showDatePicker ? 2 : 1.5)
-                .background(
-                    appearance.formValidationBorderColor(focused: showDatePicker, validationResult: validationResult)
+            Button {
+                showDatePicker.toggle()
+            } label: {
+                Text(
+                    value.formatted(
+                        date: .abbreviated,
+                        time: displayedComponents?.contains(.hourAndMinute) == true ? .shortened : .omitted
+                    )
                 )
-                .animation(appearance.animation, value: showDatePicker)
-                .animation(appearance.animation, value: validationResult)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: showDatePicker, isEnabled: isEnabled))
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .sheet(isPresented: $showDatePicker) {
+                Group {
+                    if let range, let displayedComponents {
+                        DatePicker("", selection: $value, in: range, displayedComponents: displayedComponents)
+                    } else if let range {
+                        DatePicker("", selection: $value, in: range)
+                    } else if let displayedComponents {
+                        DatePicker("", selection: $value, displayedComponents: displayedComponents)
+                    } else {
+                        DatePicker("", selection: $value)
+                    }
+                }
+                .padding()
+                .labelsHidden()
+                .datePickerStyle(.graphical)
+                .presentationDetents([.medium])
+            }
+            .focused($focused)
+            .disabled(!isEnabled)
+            .onChange(of: focused) { newValue in
+                showDatePicker = newValue
+            }
         }
+        .padding(
+            .init(
+                top: appearance.topPadding,
+                leading: appearance.leadingPadding,
+                bottom: appearance.bottomPadding,
+                trailing: appearance.trailingPadding
+            )
+        )
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(
+                    appearance.formValidationBorderColor(
+                        focused: focused,
+                        validationResult: validationResult
+                    ),
+                    lineWidth: focused ? 2 : 1.5
+                )
+                .background(
+                    (
+                        isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
+                    )
+                    .cornerRadius(10)
+                )
+                .animation(appearance.animation, value: focused)
+                .animation(appearance.animation, value: validationResult)
+        )   
         .modifier(FormFieldContentModifier($value, model: model))
     }
 

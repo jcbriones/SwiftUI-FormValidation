@@ -32,30 +32,49 @@ public struct FormTextField: FormValidationContent {
     // MARK: - Body
 
     public var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                if let imageName {
-                    Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27)
-                        .foregroundColor(appearance.imageIconColor)
-                }
-                if let systemName {
-                    Image(systemName: systemName).resizable().scaledToFit().frame(width: 27, height: 27)
-                        .foregroundColor(appearance.imageIconColor)
-                }
-                TextField(placeholder, text: $value)
-                    .font(appearance.textFieldFont)
-                    .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
-                    .multilineTextAlignment(.leading)
-                    .padding(5)
-                    .focused($focused)
-                    .disabled(!isEnabled)
+        HStack(spacing: 0) {
+            if let imageName {
+                Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
             }
-            Divider()
-                .frame(height: focused ? 2 : 1.5)
-                .background(appearance.formValidationBorderColor(focused: focused, validationResult: validationResult))
+            if let systemName {
+                Image(systemName: systemName).resizable().scaledToFit().frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
+            }
+            TextField(placeholder, text: $value)
+                .font(appearance.textFieldFont)
+                .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
+                .multilineTextAlignment(.leading)
+                .padding(5)
+                .focused($focused)
+                .disabled(!isEnabled)
+        }
+        .padding(
+            .init(
+                top: appearance.topPadding,
+                leading: appearance.leadingPadding,
+                bottom: appearance.bottomPadding,
+                trailing: appearance.trailingPadding
+            )
+        )
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(
+                    appearance.formValidationBorderColor(
+                        focused: focused,
+                        validationResult: validationResult
+                    ),
+                    lineWidth: focused ? 2 : 1.5
+                )
+                .background(
+                    (
+                        isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
+                    )
+                    .cornerRadius(10)
+                )
                 .animation(appearance.animation, value: focused)
                 .animation(appearance.animation, value: validationResult)
-        }
+        )
         .modifier(FormFieldContentModifier($value, model: model))
     }
 
