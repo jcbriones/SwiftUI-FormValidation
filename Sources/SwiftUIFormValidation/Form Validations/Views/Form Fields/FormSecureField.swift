@@ -32,7 +32,7 @@ public struct FormSecureField: FormValidationContent {
     // MARK: - Body
 
     public var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 5) {
             if let imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27)
                     .foregroundColor(appearance.imageIconColor)

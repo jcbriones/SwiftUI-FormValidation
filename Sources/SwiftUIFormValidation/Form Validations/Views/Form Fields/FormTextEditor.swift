@@ -37,6 +37,7 @@ public struct FormTextEditor: FormValidationContent {
             .font(appearance.textFieldFont)
             .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
             .frame(minHeight: 140)
+            .scrollContentBackground(.hidden)
             .padding(-9)
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)

@@ -63,7 +63,7 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(5)
+        .padding(appearance.leadingPadding)
         .background(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(

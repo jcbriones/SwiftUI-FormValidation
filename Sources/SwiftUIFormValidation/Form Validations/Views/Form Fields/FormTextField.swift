@@ -32,7 +32,7 @@ public struct FormTextField: FormValidationContent {
     // MARK: - Body
 
     public var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 5) {
             if let imageName {
                 Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27)
                     .foregroundColor(appearance.imageIconColor)
@@ -45,7 +45,6 @@ public struct FormTextField: FormValidationContent {
                 .font(appearance.textFieldFont)
                 .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                 .multilineTextAlignment(.leading)
-                .padding(5)
                 .focused($focused)
                 .disabled(!isEnabled)
         }
