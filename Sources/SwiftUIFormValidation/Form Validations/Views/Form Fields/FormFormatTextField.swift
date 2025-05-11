@@ -132,7 +132,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
         _ value: Binding<F.FormatInput?>,
         header: LocalizedStringKey? = nil,
         format: F,
-        systemName: String? = nil,
+        systemName: String?,
         placeholder: LocalizedStringKey = ""
     ) {
         self._value = value

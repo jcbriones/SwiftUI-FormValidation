@@ -131,7 +131,7 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
         _ value: Binding<V?>,
         header: LocalizedStringKey? = nil,
         formatter: F,
-        systemName: String? = nil,
+        systemName: String?,
         placeholder: LocalizedStringKey = ""
     ) {
         self._value = value
