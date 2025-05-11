@@ -34,7 +34,7 @@ public struct FormOptionalDatePicker: FormValidationContent {
 
     public var body: some View {
         HStack(spacing: 5) {
-            if let imageName = imageName {
+            if let imageName {
                 Image(imageName)
                     .resizable()
                     .scaledToFit()

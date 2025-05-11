@@ -27,17 +27,23 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
 
     private let formatter: F
     private let imageName: String?
+    private let systemName: String?
     private let placeholder: LocalizedStringKey
 
     // MARK: - Body
 
     public var body: some View {
         HStack(spacing: 5) {
-            if let imageName = imageName {
+            if let imageName {
                 Image(imageName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
+            }
+            if let systemName {
+                Image(systemName: systemName)
+                    .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
             TextField(placeholder, value: $value, formatter: formatter)
@@ -110,6 +116,29 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
         self.model = .init(header: header)
         self.formatter = formatter
         self.imageName = imageName
+        self.systemName = nil
+        self.placeholder = placeholder
+    }
+
+    /// Allows to format the text of the text field after resigning from responder.
+    /// - Parameters:
+    ///   - value: The text to display.
+    ///   - header: The name of this form field.
+    ///   - formatter: The formatter to use to format the text.
+    ///   - systemName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    public init(
+        _ value: Binding<V?>,
+        header: LocalizedStringKey? = nil,
+        formatter: F,
+        systemName: String? = nil,
+        placeholder: LocalizedStringKey = ""
+    ) {
+        self._value = value
+        self.model = .init(header: header)
+        self.formatter = formatter
+        self.imageName = nil
+        self.systemName = systemName
         self.placeholder = placeholder
     }
 }

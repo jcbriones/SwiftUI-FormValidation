@@ -34,11 +34,15 @@ public struct FormTextField: FormValidationContent {
     public var body: some View {
         HStack(spacing: 5) {
             if let imageName {
-                Image(imageName).resizable().scaledToFit().frame(width: 27, height: 27)
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 27, height: 27)
                     .foregroundColor(appearance.imageIconColor)
             }
             if let systemName {
-                Image(systemName: systemName).resizable().scaledToFit().frame(width: 27, height: 27)
+                Image(systemName: systemName)
+                    .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
             TextField(placeholder, text: $value)

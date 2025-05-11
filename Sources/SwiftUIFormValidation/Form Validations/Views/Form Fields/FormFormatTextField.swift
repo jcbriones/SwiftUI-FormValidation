@@ -28,17 +28,23 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
 
     private let format: F
     private let imageName: String?
+    private let systemName: String?
     private let placeholder: LocalizedStringKey
 
     // MARK: - Body
 
     public var body: some View {
         HStack(spacing: 5) {
-            if let imageName = imageName {
+            if let imageName {
                 Image(imageName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 27, height: 27)
+                    .foregroundColor(appearance.imageIconColor)
+            }
+            if let systemName {
+                Image(systemName: systemName)
+                    .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
             TextField(placeholder, value: $value, format: format)
@@ -111,6 +117,29 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
         self.model = .init(header: header)
         self.format = format
         self.imageName = imageName
+        self.systemName = nil
+        self.placeholder = placeholder
+    }
+
+    /// Allows to format the text of the text field after resigning from responder.
+    /// - Parameters:
+    ///   - value: The text to display
+    ///   - header: The name of this form field.
+    ///   - format: The format to use to format the text.
+    ///   - systemName: Allows to add an image beginning of the text  inside the text field.
+    ///   - placeholder: The text placeholder
+    public init(
+        _ value: Binding<F.FormatInput?>,
+        header: LocalizedStringKey? = nil,
+        format: F,
+        systemName: String? = nil,
+        placeholder: LocalizedStringKey = ""
+    ) {
+        self._value = value
+        self.model = .init(header: header)
+        self.format = format
+        self.imageName = nil
+        self.systemName = systemName
         self.placeholder = placeholder
     }
 }
