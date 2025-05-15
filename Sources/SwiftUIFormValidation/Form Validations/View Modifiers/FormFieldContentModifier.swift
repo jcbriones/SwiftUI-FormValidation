@@ -53,6 +53,7 @@ public struct FormFieldContentModifier<Value: Equatable & Sendable>: ViewModifie
             )
         }
         .accessibilityElement(children: .contain)
+        .lineSpacing(0)
     }
 
     // MARK: - Initializer
