@@ -35,13 +35,22 @@ public struct FormFieldContentModifier<Value: Equatable & Sendable>: ViewModifie
 
     public func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            FormFieldTopView(value: $value, header: model.header)
+            FormFieldTopView(
+                value: $value,
+                header: model.header,
+                isRequired: model.validators.contains(where: { $0 is RequiredFieldValidator })
+            )
             content
                 .environment(\.formValidationResult, result)
                 .focused($focused)
                 .formAppearance(appearance)
                 .padding(.vertical, 3)
-            FormFieldBottomView(value: $value, result: $result, validators: model.validators, footerMessage: model.footer)
+            FormFieldBottomView(
+                value: $value,
+                result: $result,
+                validators: model.validators,
+                footerMessage: model.footer
+            )
         }
         .accessibilityElement(children: .contain)
     }

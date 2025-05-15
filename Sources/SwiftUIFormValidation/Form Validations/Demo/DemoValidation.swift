@@ -110,6 +110,14 @@ struct DemoValidation: View {
     }
     private var formatTextFields: some View {
         VStack(spacing: 8) {
+            FormTextField(
+                $viewModel.textView2,
+                header: "Regular Text Field",
+                placeholder: "Write a text in date format"
+            )
+            .validators([.requiredField(fieldName: "")])
+            .validationResult($viewModel.validationResults["formatTextFields1"])
+
             FormFormatTextField(
                 $viewModel.date2,
                 header: "Date Format Required",

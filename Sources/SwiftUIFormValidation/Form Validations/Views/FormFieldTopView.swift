@@ -18,11 +18,12 @@ struct FormFieldTopView<Value: Equatable>: View {
 
     @Binding var value: Value
     var header: LocalizedStringKey?
+    var isRequired: Bool
 
     var body: some View {
         if let header {
             HStack {
-                if true {// viewModel.validators.contains(where: { $0 is RequiredFieldValidator }) {
+                if isRequired {
                     (Text(header)
                         .font(appearance.titleHeaderFont)
                         .foregroundColor(
