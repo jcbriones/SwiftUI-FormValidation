@@ -107,6 +107,12 @@ public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance 
 
     public let trailingPadding: CGFloat = 10
 
+    public let borderWidthActive: CGFloat = 1.5
+
+    public let borderWidthInactive: CGFloat = 1
+
+    public let borderRadius: CGFloat = 10
+
     public init() { }
 
     @MainActor

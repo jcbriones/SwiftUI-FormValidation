@@ -65,19 +65,19 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
             )
         )
         .background(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
+            RoundedRectangle(cornerRadius: appearance.borderRadius, style: .continuous)
                 .stroke(
                     appearance.formValidationBorderColor(
                         focused: focused,
                         validationResult: validationResult
                     ),
-                    lineWidth: focused ? 2 : 1.5
+                    lineWidth: focused ? appearance.borderWidthActive : appearance.borderWidthInactive
                 )
                 .background(
                     (
                         isEnabled ? appearance.enabledBackgroundColor : appearance.disabledBackgroundColor
                     )
-                    .cornerRadius(10)
+                    .cornerRadius(appearance.borderRadius)
                 )
                 .animation(appearance.animation, value: focused)
                 .animation(appearance.animation, value: validationResult)

@@ -53,6 +53,12 @@ public protocol FormValidationViewAppearance: Sendable {
     var leadingPadding: CGFloat { get }
     var trailingPadding: CGFloat { get }
 
+    // MARK: - Border
+
+    var borderWidthActive: CGFloat { get }
+    var borderWidthInactive: CGFloat { get }
+    var borderRadius: CGFloat { get }
+
     // MARK: - Views
     func row<Item>(_ items: [Item]) -> AnyView where Item: AnyItem
     func selectableRow<Item>(_ items: [Item], selected: Binding<[Item]>) -> AnyView where Item: AnySelectableItem
