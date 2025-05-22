@@ -17,6 +17,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     @Environment(\.isEnabled)
     private var isEnabled: Bool
 
+    @State private var text: F.FormatInput?
     @FocusState private var focused: Bool
 
     // MARK: - FormValidationContent Properties
@@ -47,7 +48,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
                     .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
-            TextField(placeholder, value: $value, format: format)
+            TextField(placeholder, value: current, format: format)
                 .font(appearance.textFieldFont)
                 .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                 .multilineTextAlignment(.leading)
@@ -83,7 +84,18 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
                 .animation(appearance.animation, value: focused)
                 .animation(appearance.animation, value: validationResult)
         )
-        .modifier(FormFieldContentModifier($value, model: model))
+        .onChange(of: focused) { newValue in
+            if focused {
+                text = value
+            } else {
+                value = text
+            }
+        }
+        .modifier(FormFieldContentModifier(current, model: model))
+    }
+
+    var current: Binding<Value> {
+        focused ? $text : $value
     }
 
 #if os(iOS)

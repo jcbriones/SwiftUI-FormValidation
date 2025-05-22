@@ -16,6 +16,7 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
     @Environment(\.isEnabled)
     private var isEnabled: Bool
 
+    @State private var text: V?
     @FocusState private var focused: Bool
 
     // MARK: - FormValidationContent Properties
@@ -46,7 +47,7 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
                     .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
-            TextField(placeholder, value: $value, formatter: formatter)
+            TextField(placeholder, value: current, formatter: formatter)
                 .font(appearance.textFieldFont)
                 .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                 .multilineTextAlignment(.leading)
@@ -82,7 +83,18 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
                 .animation(appearance.animation, value: focused)
                 .animation(appearance.animation, value: validationResult)
         )
-        .modifier(FormFieldContentModifier($value, model: model))
+        .onChange(of: focused) { newValue in
+            if focused {
+                text = value
+            } else {
+                value = text
+            }
+        }
+        .modifier(FormFieldContentModifier(current, model: model))
+    }
+
+    var current: Binding<Value> {
+        focused ? $text : $value
     }
 
 #if os(iOS)

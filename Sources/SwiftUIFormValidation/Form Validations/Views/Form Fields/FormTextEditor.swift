@@ -16,6 +16,7 @@ public struct FormTextEditor: FormValidationContent {
     @Environment(\.isEnabled)
     private var isEnabled: Bool
 
+    @State private var text: Value = .init()
     @FocusState private var focused: Bool
 
     // MARK: - FormValidationContent Properties
@@ -30,7 +31,7 @@ public struct FormTextEditor: FormValidationContent {
     // MARK: - Body
 
     public var body: some View {
-        TextEditor(text: $value)
+        TextEditor(text: current)
             .disabled(!isEnabled)
             .focused($focused)
             .cornerRadius(appearance.borderRadius)
@@ -73,7 +74,7 @@ public struct FormTextEditor: FormValidationContent {
                     .animation(appearance.animation, value: validationResult)
             )
             .overlay(alignment: .topLeading) {
-                if value.isEmpty && !focused {
+                if current.wrappedValue.isEmpty && !focused {
                     Text(placeholder)
                         .font(appearance.textFieldFont)
                         .foregroundColor(appearance.placeholderTextColor)
@@ -95,7 +96,18 @@ public struct FormTextEditor: FormValidationContent {
                 UITextView.appearance().backgroundColor = .clear
 #endif
             }
-            .modifier(FormFieldContentModifier($value, model: model))
+            .onChange(of: focused) { newValue in
+                if focused {
+                    text = value
+                } else {
+                    value = text
+                }
+            }
+            .modifier(FormFieldContentModifier(current, model: model))
+    }
+
+    var current: Binding<Value> {
+        focused ? $text : $value
     }
 
     // MARK: - Initializer
