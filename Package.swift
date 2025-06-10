@@ -13,7 +13,7 @@ let package = Package(
             targets: ["SwiftUIFormValidation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/tevelee/SwiftUI-Flow.git", from: "2.0.0")
+        .package(url: "https://github.com/tevelee/SwiftUI-Flow.git", from: "3.0.2")
     ],
     targets: [
         .target(
