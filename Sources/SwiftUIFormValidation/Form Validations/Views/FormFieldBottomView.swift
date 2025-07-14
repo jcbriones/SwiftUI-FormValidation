@@ -33,8 +33,8 @@ struct FormFieldBottomView<Value: Equatable & Sendable>: View {
     var body: some View {
         HStack {
             switch result {
-            case .valid:
-                Text(footerMessage ?? " ")
+            case .valid where footerMessage != nil:
+                Text(footerMessage!)
                     .font(appearance.validatedDescriptionFont)
                     .foregroundColor(
                         appearance.formValidationDescriptionTextColor(
@@ -58,6 +58,8 @@ struct FormFieldBottomView<Value: Equatable & Sendable>: View {
                             shake.toggle()
                         }
                     }
+            default:
+                EmptyView()
             }
             Spacer()
             if !trailingFooter.isEmpty {
@@ -78,7 +80,6 @@ struct FormFieldBottomView<Value: Equatable & Sendable>: View {
                     )
             }
         }
-        .padding(.bottom, 3)
         .onChange(of: value) { newValue in
             Task { @MainActor in
                 result = try await validators.validate(newValue).first { $0 != .valid } ?? .valid
