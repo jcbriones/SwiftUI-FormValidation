@@ -27,7 +27,7 @@ public struct FormSecureField: FormValidationContent {
 
     private let imageName: String?
     private let systemName: String?
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
 
     // MARK: - Body
 
@@ -91,10 +91,10 @@ public struct FormSecureField: FormValidationContent {
     ///   - placeholder: The text placeholder
     public init(
         value: Binding<String>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         imageName: String? = nil,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -111,10 +111,10 @@ public struct FormSecureField: FormValidationContent {
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<String?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         imageName: String? = nil,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = Binding(
             get: { value.wrappedValue ?? "" },

@@ -17,14 +17,14 @@ public protocol AnyItem: Sendable, Identifiable, Equatable {
     /// Remote image
     var imageUrl: URL? { get }
     /// Primary item's localized string
-    var localizedString: LocalizedStringKey { get }
+    var localizedString: LocalizedStringResource { get }
     /// Secondary item's localized stirng
-    var secondaryLocalizedString: LocalizedStringKey? { get }
+    var secondaryLocalizedString: LocalizedStringResource? { get }
 }
 
 public extension AnyItem {
     var image: String? { nil }
     var systemImage: String? { nil }
     var imageUrl: URL? { nil }
-    var secondaryLocalizedString: LocalizedStringKey? { nil }
+    var secondaryLocalizedString: LocalizedStringResource? { nil }
 }

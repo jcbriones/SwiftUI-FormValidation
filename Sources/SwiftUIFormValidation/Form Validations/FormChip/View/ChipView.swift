@@ -19,7 +19,7 @@ public struct ChipView: View {
 
     let systemImage: String?
     let imageUrl: URL?
-    let titleKey: LocalizedStringKey
+    let titleKey: LocalizedStringResource
     var onRemove: () -> Void
 
     // MARK: - Body

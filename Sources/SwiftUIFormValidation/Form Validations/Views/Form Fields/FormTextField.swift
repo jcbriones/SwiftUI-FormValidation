@@ -27,7 +27,7 @@ public struct FormTextField: FormValidationContent {
 
     private let imageName: String?
     private let systemName: String?
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
 
     // MARK: - Body
 
@@ -45,7 +45,7 @@ public struct FormTextField: FormValidationContent {
                     .font(appearance.textFieldFont)
                     .foregroundColor(appearance.imageIconColor)
             }
-            TextField(placeholder, text: $value)
+            TextField(String(localized: placeholder), text: $value)
                 .font(appearance.textFieldFont)
                 .foregroundColor(appearance.formTextColor(focused: focused, isEnabled: isEnabled))
                 .multilineTextAlignment(.leading)
@@ -92,10 +92,10 @@ public struct FormTextField: FormValidationContent {
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<String>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         imageName: String? = nil,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -113,10 +113,10 @@ public struct FormTextField: FormValidationContent {
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<String?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         imageName: String? = nil,
         systemName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = Binding(
             get: { value.wrappedValue ?? "" },

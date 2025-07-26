@@ -29,7 +29,7 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     private let format: F
     private let imageName: String?
     private let systemName: String?
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
 
     // MARK: - Body
 
@@ -108,10 +108,10 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<F.FormatInput?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         format: F,
         imageName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -130,10 +130,10 @@ where F: ParseableFormatStyle, F.FormatOutput == String, F.FormatInput: Equatabl
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<F.FormatInput?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         format: F,
         systemName: String?,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)

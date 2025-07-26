@@ -2,13 +2,11 @@
 //  FormValidationViewAppearance.swift
 //  SwiftUIFormValidation
 //
-//  Created by Jc Briones on 9/13/22.
-//  Copyright © 2022 PetCollab, LLC. All rights reserved.
+//  Enhanced appearance system with better customization
 //
 
 import SwiftUI
 
-@MainActor
 public protocol FormValidationViewAppearance: Sendable {
     // MARK: - Colors
 

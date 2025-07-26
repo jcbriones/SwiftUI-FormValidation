@@ -10,11 +10,11 @@ import SwiftUI
 
 public struct FormModel<Value: Equatable>: Identifiable {
     public var id: UUID
-    var header: LocalizedStringKey?
-    var footer: LocalizedStringKey?
+    var header: LocalizedStringResource?
+    var footer: LocalizedStringResource?
     var validators: [any FormValidator]
 
-    public init(header: LocalizedStringKey? = nil) {
+    public init(header: LocalizedStringResource? = nil) {
         self.id = UUID()
         self.header = header
         self.footer = nil

@@ -19,8 +19,8 @@ public struct FormBooleanSelector: FormValidationContent {
 
     // MARK: - Form Field Properties
 
-    private let textForNo: LocalizedStringKey
-    private let textForYes: LocalizedStringKey
+    private let textForNo: LocalizedStringResource
+    private let textForYes: LocalizedStringResource
 
     // MARK: - Body
 
@@ -58,9 +58,9 @@ public struct FormBooleanSelector: FormValidationContent {
     ///   - disabledText: The text to display on the button where the value is set to false.
     public init(
         _ value: Binding<Bool>,
-        header: LocalizedStringKey? = nil,
-        textForNo: LocalizedStringKey,
-        textForYes: LocalizedStringKey
+        header: LocalizedStringResource? = nil,
+        textForNo: LocalizedStringResource,
+        textForYes: LocalizedStringResource
     ) {
         self._value = value
         self.model = .init(header: header)

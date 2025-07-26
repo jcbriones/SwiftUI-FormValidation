@@ -139,7 +139,7 @@ public struct FormOptionalDatePicker: FormValidationContent {
     ///   - displayedComponents: The components to be displayed such as date or time or even both
     public init(
         _ value: Binding<Date?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         imageName: String? = nil,
         in range: ClosedRange<Date>? = nil,
         displayedComponents: DatePickerComponents? = nil

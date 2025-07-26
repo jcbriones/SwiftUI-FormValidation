@@ -28,7 +28,7 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
     private let formatter: F
     private let imageName: String?
     private let systemName: String?
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
 
     // MARK: - Body
 
@@ -107,10 +107,10 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<V?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         formatter: F,
         imageName: String? = nil,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -129,10 +129,10 @@ public struct FormFormatterTextField<F, V>: FormValidationContent where F: Forma
     ///   - placeholder: The text placeholder
     public init(
         _ value: Binding<V?>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         formatter: F,
         systemName: String?,
-        placeholder: LocalizedStringKey = ""
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)

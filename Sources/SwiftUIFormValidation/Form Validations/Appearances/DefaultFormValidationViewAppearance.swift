@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct DefaultFormValidationViewAppearance: FormValidationViewAppearance {
+public struct DefaultFormValidationViewAppearance: @MainActor FormValidationViewAppearance {
     private struct Row<Item>: View where Item: AnyItem {
         @Environment(\.formAppearance) private var appearance: FormValidationViewAppearance
         let columns: [GridItem]

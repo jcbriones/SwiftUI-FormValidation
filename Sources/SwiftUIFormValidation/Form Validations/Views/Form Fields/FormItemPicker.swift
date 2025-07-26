@@ -25,7 +25,7 @@ public struct FormItemPicker<Item>: FormValidationContent where Item: AnyItem {
 
     // MARK: - Form Field Properties
 
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
     private let collection: [Item]
 
     // MARK: - Body
@@ -98,8 +98,8 @@ public struct FormItemPicker<Item>: FormValidationContent where Item: AnyItem {
     ///   - collection: The set of items.
     public init(
         _ value: Binding<Item?>,
-        header: LocalizedStringKey? = nil,
-        placeholder: LocalizedStringKey,
+        header: LocalizedStringResource? = nil,
+        placeholder: LocalizedStringResource,
         collection: [Item]
     ) {
         self._value = value

@@ -17,7 +17,7 @@ struct FormFieldTopView<Value: Equatable>: View {
     // MARK: - Properties
 
     @Binding var value: Value
-    var header: LocalizedStringKey?
+    var header: LocalizedStringResource?
     var isRequired: Bool
 
     var body: some View {

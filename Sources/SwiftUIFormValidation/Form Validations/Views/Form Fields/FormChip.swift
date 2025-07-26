@@ -29,7 +29,7 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
     @State private var showAddChipCollection: Bool = false
 
     private var collection: [Item]
-    private var pickerTitle: LocalizedStringKey
+    private var pickerTitle: LocalizedStringResource
 
     // MARK: - Body
 
@@ -95,9 +95,9 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
     ///   - pickerTitle: The title when picker option is shown
     public init(
         _ value: Binding<[Item]>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         collection: [Item],
-        pickerTitle: LocalizedStringKey
+        pickerTitle: LocalizedStringResource
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -113,9 +113,9 @@ public struct FormChip<Item>: FormValidationContent where Item: AnySelectableIte
     ///   - pickerTitle: The title when picker option is shown
     public init(
         _ value: Binding<Item>,
-        header: LocalizedStringKey? = nil,
+        header: LocalizedStringResource? = nil,
         collection: [Item],
-        pickerTitle: LocalizedStringKey
+        pickerTitle: LocalizedStringResource
     ) where Item: AnySelectableItem & OptionSet & CaseIterable, Item == Item.Element, Item.RawValue: FixedWidthInteger {
         self._value = Binding(
             get: { value.wrappedValue.components },
@@ -133,7 +133,7 @@ struct FormChipValidationSelectorView<Item>: View where Item: AnySelectableItem 
     @Environment(\.dismiss)
     private var dismiss
 
-    var pickerTitle: LocalizedStringKey
+    var pickerTitle: LocalizedStringResource
     @State var collection: [Item]
     @Binding var selected: [Item]
 
@@ -173,7 +173,7 @@ enum NumberChip: Int, CaseIterable, AnySelectableItem {
     var enabled: Bool {
         true
     }
-    var localizedString: LocalizedStringKey {
+    var localizedString: LocalizedStringResource {
         switch self {
         case .first:
             return "First"

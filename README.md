@@ -97,7 +97,7 @@ A picker component for selecting from a collection of items.
 ```swift
 struct Country: AnyItem {
     let id = UUID()
-    var localizedString: LocalizedStringKey { LocalizedStringKey(name) }
+    var localizedString: LocalizedStringResource { LocalizedStringResource(name) }
     let name: String
 }
 
@@ -226,7 +226,7 @@ public struct CustomFormField: FormValidationContent {
             .modifier(FormFieldContentModifier($value, model: model))
     }
     
-    public init(_ value: Binding<String>, header: LocalizedStringKey? = nil) {
+    public init(_ value: Binding<String>, header: LocalizedStringResource? = nil) {
         self._value = value
         self.model = .init(header: header)
     }
@@ -292,7 +292,7 @@ struct MyForm: View {
 
 ## Localization
 
-The library supports localization through `LocalizedStringKey`. Built-in validation messages use keys like:
+The library supports localization through `LocalizedStringResource`. Built-in validation messages use keys like:
 
 - `xloc.validator.characterLimitReached`
 - `xloc.validator.isNotAValidEmailAddress`
@@ -401,7 +401,7 @@ public protocol FormValidationContent: View {
 #### AnyItem
 ```swift
 public protocol AnyItem: Identifiable, Equatable {
-    var localizedString: LocalizedStringKey { get }
+    var localizedString: LocalizedStringResource { get }
 }
 ```
 

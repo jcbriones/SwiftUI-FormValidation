@@ -1,5 +1,5 @@
 //
-//  LocalizedStringKey+Extensions.swift
+//  LocalizedStringResource+Extensions.swift
 //  SwiftUIFormValidation
 //
 //  Created by Jc Briones on 3/5/23.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension LocalizedStringKey {
+extension LocalizedStringResource {
     var stringKey: String? {
         Mirror(reflecting: self)
             .children

@@ -11,7 +11,7 @@ public extension FormValidationContent {
     /// Adds a footer message below the form field view
     /// - Parameter footerMessage: An optional string which is displayed at the bottom of the form validation field.
     /// - Returns: A modified view with footer message added to it.
-    func footerMessage(_ footerMessage: LocalizedStringKey) -> Self {
+    func footerMessage(_ footerMessage: LocalizedStringResource) -> Self {
         var copy = self
         copy.model.footer = footerMessage
         return copy
@@ -22,7 +22,7 @@ public extension FormValidationContent {
     /// - Returns: A modified view with footer message added to it.
     func footerMessage(_ footerMessage: String) -> Self {
         var copy = self
-        copy.model.footer = .init(footerMessage)
+        copy.model.footer = .init(stringLiteral: footerMessage)
         return copy
     }
 

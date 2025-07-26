@@ -25,7 +25,7 @@ public struct FormTextEditor: FormValidationContent {
 
     // MARK: - Form Field Properties
 
-    private let placeholder: LocalizedStringKey
+    private let placeholder: LocalizedStringResource
 
     // MARK: - Body
 
@@ -108,8 +108,8 @@ public struct FormTextEditor: FormValidationContent {
     ///   Set to `nil` to disable checking
     public init(
         _ value: Binding<String>,
-        header: LocalizedStringKey? = nil,
-        placeholder: LocalizedStringKey = ""
+        header: LocalizedStringResource? = nil,
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = value
         self.model = .init(header: header)
@@ -124,8 +124,8 @@ public struct FormTextEditor: FormValidationContent {
     ///   Set to `nil` to disable checking
     public init(
         _ value: Binding<String?>,
-        header: LocalizedStringKey? = nil,
-        placeholder: LocalizedStringKey = ""
+        header: LocalizedStringResource? = nil,
+        placeholder: LocalizedStringResource = ""
     ) {
         self._value = Binding(
             get: { value.wrappedValue ?? "" },

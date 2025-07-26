@@ -29,5 +29,4 @@ public struct AddChipView: View {
                 Circle().stroke(appearance.inactiveBorderColor, lineWidth: 1)
             )
     }
-
 }

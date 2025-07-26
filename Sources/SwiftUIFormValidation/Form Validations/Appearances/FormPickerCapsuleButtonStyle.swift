@@ -45,7 +45,7 @@ struct FormPickerCapsuleButtonStyle: ButtonStyle {
                 .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                 .background(appearance.disabledBackgroundColor)
                 .font(appearance.titleHeaderFont)
-                .foregroundColor(appearance.disabledTextColor)
+                .foregroundColor(appearance.inactiveTextColor)
                 .clipShape(Capsule())
                 .contentShape(Capsule())
         }
