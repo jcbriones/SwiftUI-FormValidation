@@ -16,7 +16,7 @@ struct DemoValidation: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Text("xloc.demo.header", bundle: .module)
+                Text("Demonstration of different validation")
                     .font(.headline)
                     .padding(.vertical, 20)
                 Group {
@@ -29,7 +29,7 @@ struct DemoValidation: View {
                 .padding(.horizontal, 20)
             }
         }
-        .navigationTitle("xloc.demo.title")
+        .navigationTitle("Demo")
     }
 
     private var chip: some View {

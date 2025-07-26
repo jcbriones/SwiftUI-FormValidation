@@ -1,6 +1,0 @@
-"xloc.validator.isRequired %@" = "%@ es obligatorio.";
-"xloc.validator.isLessThan %@ %@" = "%@ es menor que %@.";
-"xloc.validator.isGreaterThan %@ %@" = "%@ es mayor que %@.";
-"xloc.validator.isNotAValidEmailAddress %@" = "%@ no es una dirección de correo electrónico válida.";
-"xloc.validator.characterLimit %@ %@" = "Límite de caracteres: %@ / %@.";
-"xloc.field.required" = "(Campo obligatorio)";

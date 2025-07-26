@@ -294,20 +294,12 @@ struct MyForm: View {
 
 The library supports localization through `LocalizedStringResource`. Built-in validation messages use keys like:
 
-- `xloc.validator.characterLimitReached`
-- `xloc.validator.isNotAValidEmailAddress`
-- `xloc.validator.isRequired`
-- `xloc.field.required`
+- `LocalizedStringResource.Validator.characterLimitReached`
+- `LocalizedStringResource.Validator.isNotAValidEmailAddress`
+- `LocalizedStringResource.Validator.isRequired`
+- `LocalizedStringResource.Validator.required`
 
-Create a `Localizable.strings` file in your app to customize these messages:
-
-```
-// English (Localizable.strings)
-"xloc.validator.characterLimitReached" = "Character limit reached";
-"xloc.validator.isNotAValidEmailAddress %@" = "%@ is not a valid email address";
-"xloc.validator.isRequired %@" = "%@ is required";
-"xloc.field.required" = "required";
-```
+Copy the existing `Validator.xcstrings` file in your app to customize these messages:
 
 ## Accessibility
 

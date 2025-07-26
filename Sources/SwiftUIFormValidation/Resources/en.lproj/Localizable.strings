@@ -1,7 +1,0 @@
-"xloc.validator.isRequired %@" = "%@ is required.";
-"xloc.validator.isLessThan %@ %@" = "%@ is less than %@.";
-"xloc.validator.isGreaterThan %@ %@" = "%@ is greater than %@.";
-"xloc.validator.isNotAValidEmailAddress %@" = "%@ is not a valid email address.";
-"xloc.validator.isNotAValidInput %@" = "%@ is not a valid input.";
-"xloc.validator.characterLimitReached" = "Character limit reached.";
-"xloc.field.required" = "(Field Required)";

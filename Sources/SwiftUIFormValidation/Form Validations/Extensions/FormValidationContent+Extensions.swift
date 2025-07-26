@@ -35,7 +35,7 @@ public extension FormValidationContent {
         var copy = self
         if isRequired, let header = copy.model.header,
            !copy.model.validators.contains(where: { $0 is RequiredFieldValidator }) {
-            copy.model.validators.append(RequiredFieldValidator(fieldName: customName ?? header.stringValue()))
+            copy.model.validators.append(RequiredFieldValidator(fieldName: customName ?? String(localized: header)))
         } else {
             copy.model.validators.removeAll(where: { $0 is RequiredFieldValidator })
         }

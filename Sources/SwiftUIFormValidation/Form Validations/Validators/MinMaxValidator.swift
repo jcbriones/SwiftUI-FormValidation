@@ -64,19 +64,19 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minError {
             return .error(
-                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minError))"
+                message: .Validator.isLessThan(formatString(value), formatString(minError))
             )
         } else if value > maxError {
             return .error(
-                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxError))"
+                message: .Validator.isGreaterThan(formatString(value), formatString(maxError))
             )
         } else if value < minWarning {
             return .warning(
-                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minWarning))"
+                message: .Validator.isLessThan(formatString(value), formatString(minWarning))
             )
         } else if value > maxWarning {
             return .warning(
-                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxWarning))"
+                message: .Validator.isGreaterThan(formatString(value), formatString(maxWarning))
             )
         }
         return .valid
@@ -88,11 +88,11 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minWarning {
             return .warning(
-                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minWarning))"
+                message: .Validator.isLessThan(formatString(value), formatString(minWarning))
             )
         } else if value > maxWarning {
             return .warning(
-                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxWarning))"
+                message: .Validator.isGreaterThan(formatString(value), formatString(maxWarning))
             )
         }
         return .valid
@@ -104,11 +104,11 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minError {
             return .error(
-                message: "xloc.validator.isLessThan \(formatString(value)) \(formatString(minError))"
+                message: .Validator.isLessThan(formatString(value), formatString(minError))
             )
         } else if value > maxError {
             return .error(
-                message: "xloc.validator.isGreaterThan \(formatString(value)) \(formatString(maxError))"
+                message: .Validator.isGreaterThan(formatString(value), formatString(maxError))
             )
         }
         return .valid

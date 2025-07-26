@@ -17,10 +17,10 @@ public struct RequiredFieldValidator: FormValidator {
 
     public func validate(_ value: any Equatable & Sendable) async throws -> FormValidationResult {
         if let value = value as? String?, (value ?? "").count == 0 {
-            return .error(message: "xloc.validator.isRequired \(fieldName)")
+            return .error(message: .Validator.isRequired(fieldName))
         }
         if let value = value as? [Any], value.count == 0 {
-            return .error(message: "xloc.validator.isRequired \(fieldName)")
+            return .error(message: .Validator.isRequired(fieldName))
         }
         return .valid
     }

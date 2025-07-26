@@ -10,6 +10,8 @@ import SwiftUI
 public protocol FormValidationViewAppearance: Sendable {
     // MARK: - Colors
 
+    // Config
+    var requiredSymbol: String { get }
     // Background
     var accentBackgroundColor: Color { get }
     var enabledBackgroundColor: Color { get }

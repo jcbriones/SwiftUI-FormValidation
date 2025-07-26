@@ -49,6 +49,8 @@ public struct DefaultFormValidationViewAppearance: @MainActor FormValidationView
         }
     }
 
+    public let requiredSymbol: String = " *"
+    
     public let accentBackgroundColor: Color = .accentColor
 
     public let enabledBackgroundColor: Color = .white

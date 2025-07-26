@@ -22,10 +22,10 @@ public struct EmailAddressValidator: FormValidator {
         "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
         // let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailFormat)
-        if emailPredicate.evaluate(with: value) {
+        if emailPredicate.evaluate(with: value) || value.isEmpty {
             return .valid
         } else {
-            return .error(message: "xloc.validator.isNotAValidEmailAddress \(value)")
+            return .error(message: .Validator.isNotAValidEmailAddress(value))
         }
     }
 }

@@ -30,13 +30,9 @@ struct FormFieldTopView<Value: Equatable>: View {
                             isFocused ? appearance.activeTitleHeaderColor : appearance.inactiveTitleHeaderColor
                         )
                      +
-                     Text(" *")
+                     Text(appearance.requiredSymbol)
                         .accessibilityLabel(
-                            NSLocalizedString(
-                                "xloc.field.required",
-                                bundle: .module,
-                                comment: "For the input field of the form that is required."
-                            )
+                            String(localized: .Validator.required)
                         )
                             .font(appearance.titleHeaderFont)
                             .foregroundColor(appearance.requiredFieldSymbolTextColor))
