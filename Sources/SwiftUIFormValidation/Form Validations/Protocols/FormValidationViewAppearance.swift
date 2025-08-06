@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public protocol FormValidationViewAppearance: Sendable {
+public protocol FormValidationViewAppearance {
     // MARK: - Colors
 
     // Config
