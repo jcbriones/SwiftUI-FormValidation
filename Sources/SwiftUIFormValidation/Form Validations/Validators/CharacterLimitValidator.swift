@@ -18,7 +18,7 @@ public struct CharacterLimitValidator: FormValidator {
     public func validate(_ value: any Equatable & Sendable) async throws -> FormValidationResult {
         guard let value = value as? String else { return .valid }
         if value.count > characterLimit {
-            return .error(message: .Validator.characterLimitReached)
+            return .error(message: FormValidationMessage.resource(for: FormValidationLocalizationKey.characterLimitReached))
         } else {
             return .valid
         }

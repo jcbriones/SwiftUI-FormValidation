@@ -292,14 +292,69 @@ struct MyForm: View {
 
 ## Localization
 
-The library supports localization through `LocalizedStringResource`. Built-in validation messages use keys like:
+Generated `.xcstrings` symbol accessors (for example `.Validator.*`) were removed from SDK internals because they are fragile in some SPM/CLI build contexts.
+The package now uses explicit localization keys with a configurable localizer.
 
-- `LocalizedStringResource.Validator.characterLimitReached`
-- `LocalizedStringResource.Validator.isNotAValidEmailAddress`
-- `LocalizedStringResource.Validator.isRequired`
-- `LocalizedStringResource.Validator.required`
+### Built-in keys
 
-Copy the existing `Validator.xcstrings` file in your app to customize these messages:
+- `required`
+- `isRequired %@`
+- `isNotAValidInput %@`
+- `characterLimitReached`
+- `isNotAValidEmailAddress %@`
+- `isLessThan %@ %@`
+- `isGreaterThan %@ %@`
+
+### Architecture
+
+- `FormValidationLocalizationKey`: central key namespace.
+- `FormValidationLocalizer`: protocol for resolving plain and formatted strings.
+- `DefaultFormValidationLocalizer`: uses `.module` and `Validator` table by default.
+- `FormValidationLocalization`: global, thread-safe configuration entry point used by SDK internals.
+
+### Override localization in host app
+
+```swift
+import SwiftUIFormValidation
+
+struct AppLocalizer: FormValidationLocalizer {
+    func string(for key: String) -> String {
+        NSLocalizedString(key, tableName: "Validator", bundle: .main, value: key, comment: "")
+    }
+
+    func string(for key: String, arguments: [CVarArg]) -> String {
+        let format = string(for: key)
+        return String(format: format, locale: Locale.current, arguments: arguments)
+    }
+}
+
+// Usually done once at app startup
+FormValidationLocalization.setLocalizer(AppLocalizer())
+```
+
+You can also restore package defaults at any time:
+
+```swift
+FormValidationLocalization.reset()
+```
+
+### Migration from old usage
+
+Before:
+
+```swift
+// Internal SDK pattern (removed)
+// .Validator.isRequired(fieldName)
+```
+
+After:
+
+```swift
+let message = FormValidationLocalization.current.string(
+    for: FormValidationLocalizationKey.isRequired,
+    "Email"
+)
+```
 
 ## Accessibility
 
@@ -411,9 +466,9 @@ This package depends on:
 
 ## Requirements
 
-- iOS 16.0+
-- macOS 13.0+
-- tvOS 16.0+
+- iOS 17.0+
+- macOS 14.0+
+- tvOS 17.0+
 - Swift 6.0+
 
 ## License

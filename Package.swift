@@ -5,7 +5,7 @@ let package = Package(
     name: "SwiftUIFormValidation",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v13), .iOS(.v16), .tvOS(.v16)
+        .macOS(.v14), .iOS(.v17), .tvOS(.v17)
     ],
     products: [
         .library(
@@ -20,6 +20,9 @@ let package = Package(
             name: "SwiftUIFormValidation",
             dependencies: [
                 .product(name: "Flow", package: "SwiftUI-Flow")
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

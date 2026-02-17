@@ -64,19 +64,19 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minError {
             return .error(
-                message: .Validator.isLessThan(formatString(value), formatString(minError))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isLessThan, formatString(value), formatString(minError))
             )
         } else if value > maxError {
             return .error(
-                message: .Validator.isGreaterThan(formatString(value), formatString(maxError))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isGreaterThan, formatString(value), formatString(maxError))
             )
         } else if value < minWarning {
             return .warning(
-                message: .Validator.isLessThan(formatString(value), formatString(minWarning))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isLessThan, formatString(value), formatString(minWarning))
             )
         } else if value > maxWarning {
             return .warning(
-                message: .Validator.isGreaterThan(formatString(value), formatString(maxWarning))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isGreaterThan, formatString(value), formatString(maxWarning))
             )
         }
         return .valid
@@ -88,11 +88,11 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minWarning {
             return .warning(
-                message: .Validator.isLessThan(formatString(value), formatString(minWarning))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isLessThan, formatString(value), formatString(minWarning))
             )
         } else if value > maxWarning {
             return .warning(
-                message: .Validator.isGreaterThan(formatString(value), formatString(maxWarning))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isGreaterThan, formatString(value), formatString(maxWarning))
             )
         }
         return .valid
@@ -104,11 +104,11 @@ public struct MinMaxValidator<Number>: FormValidator where Number: Numeric & Com
         }
         if value < minError {
             return .error(
-                message: .Validator.isLessThan(formatString(value), formatString(minError))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isLessThan, formatString(value), formatString(minError))
             )
         } else if value > maxError {
             return .error(
-                message: .Validator.isGreaterThan(formatString(value), formatString(maxError))
+                message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isGreaterThan, formatString(value), formatString(maxError))
             )
         }
         return .valid

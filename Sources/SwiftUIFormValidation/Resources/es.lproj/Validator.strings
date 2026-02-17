@@ -1,0 +1,7 @@
+"characterLimitReached" = "Límite de caracteres alcanzado.";
+"isGreaterThan %@ %@" = "%@ es mayor que %@.";
+"isLessThan %@ %@" = "%@ es menor que %@.";
+"isNotAValidEmailAddress %@" = "%@ no es una dirección de correo electrónico válida.";
+"isNotAValidInput %@" = "%@ no es una entrada válida.";
+"isRequired %@" = "%@ es obligatorio.";
+"required" = "(Campo obligatorio)";

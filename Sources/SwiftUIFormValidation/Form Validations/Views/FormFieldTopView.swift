@@ -32,7 +32,7 @@ struct FormFieldTopView<Value: Equatable>: View {
                      +
                      Text(appearance.requiredSymbol)
                         .accessibilityLabel(
-                            String(localized: .Validator.required)
+                            FormValidationLocalization.current.string(for: FormValidationLocalizationKey.required)
                         )
                             .font(appearance.titleHeaderFont)
                             .foregroundColor(appearance.requiredFieldSymbolTextColor))

@@ -20,7 +20,7 @@ public struct RegexMatchValidator: FormValidator {
         if value.range(of: regexString, options: .regularExpression) != nil || value.count == 0 {
             return .valid
         } else {
-            return .error(message: .Validator.isNotAValidInput(value))
+            return .error(message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isNotAValidInput, value))
         }
     }
 }

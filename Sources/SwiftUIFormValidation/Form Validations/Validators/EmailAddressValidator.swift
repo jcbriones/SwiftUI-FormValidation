@@ -25,7 +25,7 @@ public struct EmailAddressValidator: FormValidator {
         if emailPredicate.evaluate(with: value) || value.isEmpty {
             return .valid
         } else {
-            return .error(message: .Validator.isNotAValidEmailAddress(value))
+            return .error(message: FormValidationMessage.resource(for: FormValidationLocalizationKey.isNotAValidEmailAddress, value))
         }
     }
 }
