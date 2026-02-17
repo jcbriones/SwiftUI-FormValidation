@@ -13,7 +13,8 @@ let package = Package(
             targets: ["SwiftUIFormValidation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/tevelee/SwiftUI-Flow.git", from: "3.0.2")
+        .package(url: "https://github.com/tevelee/SwiftUI-Flow.git", from: "3.1.0"),
+        .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.10.3")
     ],
     targets: [
         .target(
@@ -27,7 +28,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftUIFormValidationTests",
-            dependencies: ["SwiftUIFormValidation"]
+            dependencies: [
+                "SwiftUIFormValidation",
+                .product(name: "ViewInspector", package: "ViewInspector")
+            ]
         )
     ]
 )
