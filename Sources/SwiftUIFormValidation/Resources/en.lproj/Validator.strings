@@ -1,7 +1,0 @@
-"characterLimitReached" = "Character limit reached.";
-"isGreaterThan %@ %@" = "%@ is greater than %@.";
-"isLessThan %@ %@" = "%@ is less than %@.";
-"isNotAValidEmailAddress %@" = "%@ is not a valid email address.";
-"isNotAValidInput %@" = "%@ is not a valid input.";
-"isRequired %@" = "%@ is required.";
-"required" = "(Field Required)";
